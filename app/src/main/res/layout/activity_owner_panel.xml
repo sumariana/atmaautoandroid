@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OwnerPanel">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Owner Panel"
+                android:background="@color/colorPrimary"
+                android:textStyle="bold|italic"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="15pt" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="--------------------------------------"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="15pt" />
+
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="420dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="490dp"
+                android:orientation="vertical"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/pegawai"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Pegawai" />
+                <Button
+                    android:id="@+id/servis"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Jasa Servis" />
+                <Button
+                    android:id="@+id/sparepart"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Sparepart" />
+                <Button
+                    android:id="@+id/motor"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Motor" />
+                <Button
+                    android:id="@+id/konsumen"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Konsumen" />
+                <Button
+                    android:id="@+id/supplier"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Supplier" />
+                <Button
+                    android:id="@+id/sales"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Sales" />
+                <Button
+                    android:id="@+id/cabang"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Cabang" />
+                <Button
+                    android:id="@+id/pengadaan"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:textColor="@android:color/white"
+                    android:layout_marginBottom="10dp"
+                    android:text="Pengadaan" />
+            </LinearLayout>
+        </ScrollView>
+        <Button
+            android:id="@+id/logoutOwner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@color/yellow"
+            android:text="LOGOUT"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="0dp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

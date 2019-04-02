@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="atmaauto.atmaauto.com.atmaauto">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".OwnerPanel" />
+        <activity android:name=".CSPanel" />
+        <activity android:name=".CashierPanel" />
+        <activity android:name=".MenuPembayaran" />
+        <activity android:name=".MenuSales" />
+        <activity android:name=".MenuPegawai" />
+        <activity android:name=".MenuServis" />
+        <activity android:name=".MenuSparepart" />
+        <activity android:name=".MenuKonsumen" />
+        <activity android:name=".MenuSupplier" />
+        <activity android:name=".MenuMotor" />
+        <activity android:name=".MenuCabang" />
+        <activity android:name=".MenuPengadaan"></activity>
+    </application>
+
+</manifest>
