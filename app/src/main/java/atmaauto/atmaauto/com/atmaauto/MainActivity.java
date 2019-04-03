@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    //baru pindah ke document
+
     Button login;
 
     @Override
