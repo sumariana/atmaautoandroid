@@ -31,8 +31,8 @@
             android:layout_width="234dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/editText"
-            android:layout_marginBottom="211dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="213dp"
             android:background="@color/yellow"
             android:text="LOGIN"
             android:textColor="@android:color/black"
@@ -50,7 +50,7 @@
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/txtusername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -61,7 +61,7 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/txtpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
