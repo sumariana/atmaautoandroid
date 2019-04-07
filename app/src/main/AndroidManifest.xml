@@ -8,10 +8,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -25,7 +25,6 @@
         <activity android:name=".CSPanel" />
         <activity android:name=".CashierPanel" />
         <activity android:name=".MenuPembayaran" />
-        <activity android:name=".MenuSales" />
         <activity android:name=".MenuPegawai" />
         <activity android:name=".MenuServis" />
         <activity android:name=".MenuSparepart" />
@@ -33,7 +32,9 @@
         <activity android:name=".MenuSupplier" />
         <activity android:name=".MenuMotor" />
         <activity android:name=".MenuCabang" />
-        <activity android:name=".MenuPengadaan"></activity>
+        <activity android:name=".MenuPengadaan" />
+        <activity android:name=".MenuPenjualan" />
+        <activity android:name=".DetilList.DetailSupplier"></activity>
     </application>
 
 </manifest>

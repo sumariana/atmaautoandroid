@@ -77,5 +77,14 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="90dp"
             android:text="*Form Login hanya untuk intern Bengkel Atma Auto" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/infologin"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignStart="@+id/txtusername"-->
+            <!--android:layout_marginBottom="57dp"-->
+            <!--android:text="TextView" />-->
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     Button login;
     EditText username,password;
+    TextView info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         login=(Button) findViewById(R.id.login);
         username=(EditText) findViewById(R.id.txtusername);
         password=(EditText) findViewById(R.id.txtpassword);
+//        info=(TextView) findViewById(R.id.infologin);
     }
 
     private void ClickLogin(){
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                     .setLenient()
                     .create();
             Retrofit.Builder builder=new Retrofit.
-                    Builder().baseUrl("----------------------").
+                    Builder().baseUrl("https://atmauto.jasonfw.com/api/pegawais/").
                     addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit=builder.build();
             ApiLogin apiLogin=retrofit.create(ApiLogin.class);
@@ -73,7 +76,11 @@ public class LoginActivity extends AppCompatActivity {
             pegawaiDAOCall.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-
+                    Log.d("TAG", response.toString());
+//                    Log.d("TAG",response.body().getData().getNamaPegawai());
+//                    info.setText(response.body().getData().getGajiPegawai().toString());
+                    Toast.makeText(LoginActivity.this,"berhasil",Toast.LENGTH_SHORT).show();
+                    sukseslogin();
                 }
 
                 @Override

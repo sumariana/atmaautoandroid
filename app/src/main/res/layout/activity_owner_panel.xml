@@ -92,13 +92,13 @@
                     android:layout_marginBottom="10dp"
                     android:text="Supplier" />
                 <Button
-                    android:id="@+id/sales"
+                    android:id="@+id/penjualan"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border"
                     android:textColor="@android:color/white"
                     android:layout_marginBottom="10dp"
-                    android:text="Sales" />
+                    android:text="Penjualan" />
                 <Button
                     android:id="@+id/cabang"
                     android:layout_width="250dp"

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetilList.DetailSupplier">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/grey"
+
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="Detail Supplier dan Sales"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp"
+                    android:gravity="center"/>
+        </RelativeLayout>
+
+<!--bagian supplier-->
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:layout_marginLeft="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID SUPPLIER"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAMA SUPPLIER"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="60dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="ALAMAT SUPPLIER"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="100dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TELEPON SUPPLIER"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="140dp"/>
+            <EditText
+                android:id="@+id/detilidsupplier"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"/>
+            <EditText
+                android:id="@+id/detilnamasupplier"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="45dp"/>
+            <EditText
+                android:id="@+id/detilalamatsupplier"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="90dp"/>
+            <EditText
+                android:id="@+id/detilteleponsupplier"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="135dp"/>
+        </RelativeLayout>
+
+<!--bagian sales        -->
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:layout_marginLeft="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAMA SALES"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TELEPON SALES"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="60dp"
+                android:textColor="@android:color/white"/>
+            <EditText
+                android:id="@+id/detilnamasales"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:backgroundTint="@android:color/white"
+                />
+            <EditText
+                android:id="@+id/detilteleponsales"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="45dp"
+                android:backgroundTint="@android:color/white"/>
+        </RelativeLayout>
+
+<!--bagian control        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="27dp"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryDark">
+            <LinearLayout
+                android:layout_width="193dp"
+                android:layout_height="150dp"
+                android:orientation="vertical"
+                android:gravity="center"
+
+                >
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="Edit Supplier"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/buttonback"/>
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="Tambah Sales"
+                    android:background="@drawable/buttonback"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="190dp"
+                android:layout_height="150dp"
+                android:orientation="vertical"
+                android:gravity="center">
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="Edit Sales"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/buttonback"/>
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="Hapus Sales"
+                    android:background="@drawable/buttonback"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

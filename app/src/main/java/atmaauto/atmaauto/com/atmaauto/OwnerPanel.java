@@ -8,16 +8,16 @@ import android.widget.Button;
 
 public class OwnerPanel extends AppCompatActivity {
 
-    Button logout,sales,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart;
+    Button logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_panel);
         logout=(Button)findViewById(R.id.logoutOwner);
-        sales=(Button)findViewById(R.id.sales);
         pegawai=(Button)findViewById(R.id.pegawai);
         supplier=(Button)findViewById(R.id.supplier);
+        penjualan=(Button) findViewById(R.id.penjualan);
         pengadaan=(Button)findViewById(R.id.pengadaan);
         cabang=(Button)findViewById(R.id.cabang);
         motor=(Button)findViewById(R.id.motor);
@@ -25,7 +25,7 @@ public class OwnerPanel extends AppCompatActivity {
         servis=(Button)findViewById(R.id.servis);
         sparepart=(Button)findViewById(R.id.sparepart);
         ClickLogout();
-        sales();
+        penjualan();
         pengadaan();
         cabang();
         pegawai();
@@ -117,11 +117,11 @@ public class OwnerPanel extends AppCompatActivity {
         });
     }
 
-    private void sales(){
-        sales.setOnClickListener(new View.OnClickListener() {
+    private void penjualan(){
+        penjualan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MenuSales.class);
+                Intent intent=new Intent(OwnerPanel.this,MenuPenjualan.class);
                 startActivity(intent);
             }
         });
