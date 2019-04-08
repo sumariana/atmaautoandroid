@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetilList.DetailSupplier">
+    tools:context=".TambahSupplier">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,16 +18,16 @@
             android:layout_height="70dp"
             android:background="@color/colorPrimaryDark"
             android:gravity="center">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:text="Detail Supplier dan Sales"
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"
-                    android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="Tambah Supplier dan Sales"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:gravity="center"/>
         </RelativeLayout>
 
-<!--bagian supplier-->
+        <!--bagian supplier-->
 
         <RelativeLayout
             android:layout_width="350dp"
@@ -36,27 +36,21 @@
             android:background="@drawable/border"
             android:layout_marginLeft="15dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID SUPPLIER"
-                android:textColor="@android:color/white"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="NAMA SUPPLIER"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="60dp"/>
+                android:layout_marginTop="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:text="ALAMAT SUPPLIER"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="60dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -64,37 +58,31 @@
                 android:text="TELEPON SUPPLIER"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="140dp"/>
+                android:layout_marginTop="100dp"/>
+
             <EditText
-                android:id="@+id/detilidsupplier"
+                android:id="@+id/tambahnamasupplier"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:layout_marginLeft="150dp"/>
             <EditText
-                android:id="@+id/detilnamasupplier"
+                android:id="@+id/tambahalamatsupplier"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="45dp"/>
             <EditText
-                android:id="@+id/detilalamatsupplier"
+                android:id="@+id/tambahteleponsupplier"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="90dp"/>
-            <EditText
-                android:id="@+id/detilteleponsupplier"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginLeft="150dp"
-                android:layout_marginTop="135dp"/>
         </RelativeLayout>
 
-<!--bagian sales        -->
+        <!--bagian sales        -->
         <RelativeLayout
             android:layout_width="350dp"
             android:layout_height="100dp"
@@ -116,14 +104,14 @@
                 android:layout_marginTop="60dp"
                 android:textColor="@android:color/white"/>
             <EditText
-                android:id="@+id/detilnamasales"
+                android:id="@+id/tambahnamasales"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="150dp"
                 android:backgroundTint="@android:color/white"
                 />
             <EditText
-                android:id="@+id/detilteleponsales"
+                android:id="@+id/tambahteleponsales"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="150dp"
@@ -131,57 +119,22 @@
                 android:backgroundTint="@android:color/white"/>
         </RelativeLayout>
 
-<!--bagian control        -->
+        <!--bagian control        -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="27dp"
-            android:orientation="horizontal"
+            android:layout_height="80dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            android:gravity="center"
             android:background="@color/colorPrimaryDark">
-            <LinearLayout
-                android:layout_width="193dp"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:gravity="center"
-
-                >
-                <Button
-                    android:id="@+id/btnupsupplier"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="Edit Supplier"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/buttonback"/>
-                <Button
-                    android:id="@+id/btnaddsales"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="Tambah Sales"
-                    android:background="@drawable/buttonback"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="190dp"
-                android:layout_height="150dp"
-                android:orientation="vertical"
-                android:gravity="center">
-                <Button
-                    android:id="@+id/btnupsales"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="Edit Sales"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/buttonback"/>
-                <Button
-                    android:id="@+id/btndeletesales"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:text="Hapus Sales"
-                    android:background="@drawable/buttonback"/>
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/btntambahsupplier"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Tambah"
+                android:textStyle="bold"
+                android:background="@drawable/buttonback"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

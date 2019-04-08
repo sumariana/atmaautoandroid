@@ -1,5 +1,6 @@
 package atmaauto.atmaauto.com.atmaauto;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,6 +37,7 @@ public class MenuSupplier extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
+    Button btnTambah;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,15 @@ public class MenuSupplier extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         showList();
+        btnTambah=(Button) findViewById(R.id.tambah_supplier);
+        btnTambah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tambahSupplier();
+            }
+        });
+
+
     }
     public void showList(){
         //Build Retroifit
@@ -55,7 +68,7 @@ public class MenuSupplier extends AppCompatActivity {
                 .setLenient()
                 .create();
         Retrofit.Builder builder=new Retrofit.
-                Builder().baseUrl("https://atmauto.jasonfw.com/api/").
+                Builder().baseUrl("https://atmauto.jasonfw.com/").
                 addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit=builder.build();
         ApiSupplierSales apiSupplierSales=retrofit.create(ApiSupplierSales.class);
@@ -80,5 +93,10 @@ public class MenuSupplier extends AppCompatActivity {
                 Toast.makeText(MenuSupplier.this, "network error!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void tambahSupplier(){
+        Intent intent = new Intent(MenuSupplier.this,TambahSupplier.class);
+        startActivity(intent);
     }
 }

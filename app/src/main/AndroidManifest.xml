@@ -34,7 +34,8 @@
         <activity android:name=".MenuCabang" />
         <activity android:name=".MenuPengadaan" />
         <activity android:name=".MenuPenjualan" />
-        <activity android:name=".DetilList.DetailSupplier"></activity>
+        <activity android:name=".DetilList.DetailSupplier" />
+        <activity android:name=".TambahSupplier"></activity>
     </application>
 
 </manifest>

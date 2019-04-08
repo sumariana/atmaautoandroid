@@ -53,6 +53,7 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.MyView
                 Intent intent= new Intent(context, DetailSupplier.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("idsup", supplier.getIdSupplier().toString());
+                intent.putExtra("tempid", supplier.getIdSupplier());
                 intent.putExtra("namasup", supplier.getNamaSupplier());
                 intent.putExtra("alamatsup", supplier.getAlamatSupplier());
                 intent.putExtra("telpsup", supplier.getTeleponSupplier());

@@ -23,6 +23,15 @@ public class Supplier {
     @Expose
     private String teleponSales;
 
+    public Supplier(String namaSupplier, String alamatSupplier, String teleponSupplier, String namaSales, String teleponSales){
+        super();
+        this.namaSupplier=namaSupplier;
+        this.alamatSupplier=alamatSupplier;
+        this.teleponSupplier=teleponSupplier;
+        this.namaSales=namaSales;
+        this.teleponSales=teleponSales;
+    }
+
     public Integer getIdSupplier() {
         return idSupplier;
     }
