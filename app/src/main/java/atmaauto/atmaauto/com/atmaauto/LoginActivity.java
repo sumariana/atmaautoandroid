@@ -77,10 +77,26 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     Log.d("TAG", response.toString());
-//                    Log.d("TAG",response.body().getData().getNamaPegawai());
+                    Log.d("TAG",response.body().getData().getIdRole().toString());
 //                    info.setText(response.body().getData().getGajiPegawai().toString());
-                    Toast.makeText(LoginActivity.this,"berhasil",Toast.LENGTH_SHORT).show();
-                    sukseslogin();
+                    if(response.code()==201){
+
+                        Toast.makeText(LoginActivity.this,"berhasil",Toast.LENGTH_SHORT).show();
+                        if(response.body().getData().getIdRole()==1)
+                        {
+                            suksesloginadmin();
+                        }else if(response.body().getData().getIdRole()==2)
+                        {
+                            sukseslogincs();
+                        }else if(response.body().getData().getIdRole()==3)
+                        {
+                            suksesloginkasir();
+                        }
+
+                    }else
+                    {
+                        Toast.makeText(LoginActivity.this,"username atau password salah",Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -93,8 +109,16 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void sukseslogin(){
+    private void suksesloginadmin(){
         Intent intent=new Intent(LoginActivity.this,OwnerPanel.class);
+        startActivity(intent);
+    }
+    private void sukseslogincs(){
+        Intent intent=new Intent(LoginActivity.this,CSPanel.class);
+        startActivity(intent);
+    }
+    private void suksesloginkasir(){
+        Intent intent=new Intent(LoginActivity.this,CashierPanel.class);
         startActivity(intent);
     }
 }

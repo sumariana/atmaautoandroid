@@ -4,6 +4,7 @@ import atmaauto.atmaauto.com.atmaauto.models.Supplier_data;
 import atmaauto.atmaauto.com.atmaauto.models.Supplier_response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -40,4 +41,7 @@ public interface ApiSupplierSales {
                                      @Field("Nama_Sales") String Nama_Sales,
                                      @Field("Telepon_Sales") String Telepon_Sales,
                                      @Path("id") Integer id);
+
+    @DELETE("api/suppliers/delete/{id}")
+    Call<ResponseBody>deleteSupplier(@Path("id") Integer id);
 }
