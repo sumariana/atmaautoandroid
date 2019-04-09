@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".OwnerPanel" />
+        <activity android:name=".OwnerPanel"/>
         <activity android:name=".CSPanel" />
         <activity android:name=".CashierPanel" />
         <activity android:name=".MenuPembayaran" />

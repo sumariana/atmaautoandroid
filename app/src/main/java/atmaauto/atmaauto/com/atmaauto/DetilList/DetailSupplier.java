@@ -123,6 +123,8 @@ public class DetailSupplier extends AppCompatActivity {
             supplier_dataCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    String kode = Integer.toString(response.code());
+                    Log.d("TAG", kode);
                     if(response.code()==200)
                     {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();

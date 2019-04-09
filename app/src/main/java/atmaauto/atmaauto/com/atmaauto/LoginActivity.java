@@ -77,11 +77,11 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     Log.d("TAG", response.toString());
-                    Log.d("TAG",response.body().getData().getIdRole().toString());
+//                    Log.d("TAG",response.body().getData().getIdRole().toString());
 //                    info.setText(response.body().getData().getGajiPegawai().toString());
                     if(response.code()==201){
 
-                        Toast.makeText(LoginActivity.this,"berhasil",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,"Success",Toast.LENGTH_SHORT).show();
                         if(response.body().getData().getIdRole()==1)
                         {
                             suksesloginadmin();
@@ -93,16 +93,16 @@ public class LoginActivity extends AppCompatActivity {
                             suksesloginkasir();
                         }
 
-                    }else
+                    }else if(response.code()==404)
                     {
-                        Toast.makeText(LoginActivity.this,"username atau password salah",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,"Account not Found",Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Log.d("TAG", t.toString());
-                    Toast.makeText(LoginActivity.this,"Jaringan bermasalah",Toast.LENGTH_SHORT).show();
+                    Log.d("TAG", t.getMessage().toString());
+                    Toast.makeText(LoginActivity.this,"Username or Password incorrect",Toast.LENGTH_SHORT).show();
                 }
             });
 
