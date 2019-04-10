@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                     .setLenient()
                     .create();
             Retrofit.Builder builder=new Retrofit.
-                    Builder().baseUrl("http://10.53.11.209:8000/api/pegawais/").
+                    Builder().baseUrl("http://10.53.11.209:8000/").
                     addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit=builder.build();
             ApiLogin apiLogin=retrofit.create(ApiLogin.class);

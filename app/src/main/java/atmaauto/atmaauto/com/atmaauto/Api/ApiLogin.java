@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiLogin {
-    @POST("mobileauthenticate")
+    @POST("api/pegawais/mobileauthenticate")
     @FormUrlEncoded
     Call<LoginResponse>loginPegawai(@Field ("Username") String username,
                                @Field ("Password") String password);

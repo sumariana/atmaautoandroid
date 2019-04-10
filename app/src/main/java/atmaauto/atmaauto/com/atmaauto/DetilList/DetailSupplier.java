@@ -15,7 +15,9 @@ import com.google.gson.GsonBuilder;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
 import atmaauto.atmaauto.com.atmaauto.LoginActivity;
+import atmaauto.atmaauto.com.atmaauto.MenuSupplier;
 import atmaauto.atmaauto.com.atmaauto.R;
+import atmaauto.atmaauto.com.atmaauto.TambahSupplier;
 import atmaauto.atmaauto.com.atmaauto.models.Supplier;
 import atmaauto.atmaauto.com.atmaauto.models.Supplier_data;
 import okhttp3.ResponseBody;
@@ -128,6 +130,8 @@ public class DetailSupplier extends AppCompatActivity {
                     if(response.code()==200)
                     {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
+                        startActivity(intent);
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }
@@ -166,6 +170,8 @@ public class DetailSupplier extends AppCompatActivity {
                     if(response.code()==200)
                     {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
+                        startActivity(intent);
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }
@@ -200,6 +206,8 @@ public class DetailSupplier extends AppCompatActivity {
                     if(response.code()==200)
                     {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
+                        startActivity(intent);
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }
@@ -233,6 +241,8 @@ public class DetailSupplier extends AppCompatActivity {
                 if(response.code()==200)
                 {
                     Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
+                    startActivity(intent);
                 }else
                     Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
             }
