@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/listSupplier"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginTop="2dp">
     <LinearLayout
+        android:id="@+id/kotak"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -16,18 +15,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/nama_supplier_adapter"
+                android:id="@+id/nama_konsumen_adapter"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
-                android:text="Nama Supplier"
+                android:text="Nama Konsumen"
                 android:textColor="@android:color/white" />
             <TextView
-                android:id="@+id/telepon_supplier_adapter"
+                android:id="@+id/telepon_konsumen_adapter"
                 android:layout_width="250dp"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
-                android:text="Telepon Supplier"
+                android:text="Telepon Konsumen"
                 android:textColor="@android:color/white"
 
                 />
@@ -41,5 +40,4 @@
             android:background="@drawable/buttonback"
             android:layout_marginLeft="20dp"/>
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

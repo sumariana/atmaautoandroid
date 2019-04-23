@@ -14,6 +14,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiSupplierSales {
+
+    String JSONURL = "https://atmauto.jasonfw.com/";
+
     @GET("api/suppliers")
     Call<Supplier_data>tampilSupplier();
 

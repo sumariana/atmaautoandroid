@@ -7,23 +7,157 @@
     tools:context=".MainActivity"
     android:background="@color/colorPrimaryDark">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/grey">
 
-        <Button
-            android:id="@+id/loginMain"
+        <!--top bar-->
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/yellow"
-            android:text="LOGIN"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="0dp" />
-    </RelativeLayout>
+            android:layout_height="80dp"
+            android:background="@color/colorPrimaryDark">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_settings_black_24dp"/>
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:text="Atma Auto"
+                android:fontFamily="serif"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="70dp"
+                android:textColor="@color/grey"
+                android:textStyle="bold"
+                android:textSize="30dp"/>
+            <TextView
+                android:id="@+id/loginMain"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="300dp"
+                android:text="LOGIN"
+                android:textAlignment="gravity"
+                android:textSize="15dp"
+                android:textStyle="italic"
+                android:textColor="@android:color/white"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+        <!--bagian halaman-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@drawable/logo"/>
+                <!--bagian profile-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:orientation="vertical"
+                    android:background="@android:color/white">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:textColor="@android:color/black"
+                        android:gravity="center"
+                        android:text="Selamat datang di Bengkel Atma Auto\nKami Merupakan Bengkel yang menyediakan berbagai macam layanan, untuk saat ini terdapat 3 total layanan yaitu"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/logoweb"/>
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/service"/>
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/logoweb"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:textColor="@android:color/black"
+                            android:layout_marginRight="10dp"
+                            android:text="Jasa Servis"/>
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:textColor="@android:color/black"
+                            android:layout_marginRight="10dp"
+                            android:text="Jual Sparepart"/>
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/black"
+                            android:text="Jasa Servis dan Sparepart"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/border_mainmenu"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="Urutkan"/>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp">
+
+                    </Spinner>
+                </LinearLayout>
+
+                <!--bagian list sparepart-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view_sparepart"
+                    android:layout_width="match_parent"
+                    android:layout_height="700dp"
+                    android:scrollbars="vertical">
+                </android.support.v7.widget.RecyclerView>
+
+                <!--bagian footer-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorPrimaryDark">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:text="Bengkel Atma Auto\nKantor Pusat : Jl. Babarsari no. 44\ntelp : 08160709048"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

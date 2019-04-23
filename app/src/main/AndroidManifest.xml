@@ -13,15 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".OwnerPanel"/>
+        <activity android:name=".OwnerPanel" />
         <activity android:name=".CSPanel" />
         <activity android:name=".CashierPanel" />
         <activity android:name=".MenuPembayaran" />
@@ -35,7 +37,12 @@
         <activity android:name=".MenuPengadaan" />
         <activity android:name=".MenuPenjualan" />
         <activity android:name=".DetilList.DetailSupplier" />
-        <activity android:name=".TambahSupplier"></activity>
+        <activity android:name=".TambahSupplier" />
+        <activity android:name=".TambahKonsumen" />
+        <activity android:name=".DetilList.DetailKonsumen" />
+        <activity android:name=".TambahKendaraanKonsumen" />
+        <activity android:name=".DetilList.DetailKatalog"/>
+
     </application>
 
 </manifest>

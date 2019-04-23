@@ -115,7 +115,7 @@ public class DetailSupplier extends AppCompatActivity {
                     .setLenient()
                     .create();
             Retrofit.Builder builder=new Retrofit.
-                    Builder().baseUrl("http://10.53.11.209:8000/").
+                    Builder().baseUrl(ApiSupplierSales.JSONURL).
                     addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit=builder.build();
             ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
@@ -157,7 +157,7 @@ public class DetailSupplier extends AppCompatActivity {
                     .setLenient()
                     .create();
             Retrofit.Builder builder=new Retrofit.
-                    Builder().baseUrl("http://10.53.11.209:8000/").
+                    Builder().baseUrl(ApiSupplierSales.JSONURL).
                     addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit=builder.build();
             ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
@@ -193,7 +193,7 @@ public class DetailSupplier extends AppCompatActivity {
                     .setLenient()
                     .create();
             Retrofit.Builder builder=new Retrofit.
-                    Builder().baseUrl("http://10.53.11.209:8000/").
+                    Builder().baseUrl(ApiSupplierSales.JSONURL).
                     addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit=builder.build();
             ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
@@ -228,7 +228,7 @@ public class DetailSupplier extends AppCompatActivity {
                 .setLenient()
                 .create();
         Retrofit.Builder builder=new Retrofit.
-                Builder().baseUrl("http://10.53.11.209:8000/").
+                Builder().baseUrl(ApiSupplierSales.JSONURL).
                 addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit=builder.build();
         ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
