@@ -15,16 +15,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
 
-            <TextView
+            <SearchView
+                android:id="@+id/searchbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Menu Supplier"
                 android:textColor="@android:color/white"
-                android:textSize="30dp" />
+                android:textSize="10dp" />
+
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_supplier"

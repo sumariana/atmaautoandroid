@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TambahMotorKonsumen">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/idkonsumen"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="ID Konsumen"/>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Tipe Motor"/>
+        <Spinner
+            android:id="@+id/spinnertipe"
+            android:layout_width="300dp"
+            android:layout_height="50dp"></Spinner>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Plat Motor"/>
+        <EditText
+            android:id="@+id/platmotor"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btntambahmotor"
+            android:layout_marginTop="20dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonback"
+            android:text="Tambah"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

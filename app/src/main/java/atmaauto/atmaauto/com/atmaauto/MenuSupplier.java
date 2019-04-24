@@ -7,9 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,6 +20,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiLogin;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
@@ -38,6 +42,7 @@ public class MenuSupplier extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     Button btnTambah;
+    SearchView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,24 @@ public class MenuSupplier extends AppCompatActivity {
             }
         });
 
+        search=(SearchView) findViewById(R.id.searchbar);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                supplierAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
 
     }
     public void showList(){
@@ -99,4 +122,6 @@ public class MenuSupplier extends AppCompatActivity {
         Intent intent = new Intent(MenuSupplier.this,TambahSupplier.class);
         startActivity(intent);
     }
+
+
 }

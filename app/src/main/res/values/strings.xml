@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Atma Auto</string>
+
+    <string-array name="Place">
+        <item>DPN</item>
+        <item>TGH</item>
+        <item>BLK</item>
+    </string-array>
+    <string-array name="Room">
+        <item>KACA</item>
+        <item>DUS</item>
+        <item>BAN</item>
+        <item>KAYU</item>
+    </string-array>
+    <string-array name="Sorting">
+        <item>Default</item>
+        <item>Harga Termurah</item>
+        <item>Harga Termahal</item>
+        <item>Jumlah Terbanyak</item>
+        <item>Jumlah Paling Sedikit</item>
+    </string-array>
 </resources>

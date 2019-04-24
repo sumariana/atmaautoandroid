@@ -7,7 +7,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     //baru pindah ke document
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     TextView login;
 
+    private Spinner sorting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +51,29 @@ public class MainActivity extends AppCompatActivity {
         login=(TextView) findViewById(R.id.loginMain);
         ClickLogin();
 
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_sparepart);
         sparepartAdapter=new SparepartAdapter(getApplication(),mListSparepart);
-
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         showList();
+
+        sorting = (Spinner) findViewById(R.id.sorting);
+        ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.Sorting,android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sorting.setAdapter(adapter1);
+        sorting.setOnItemSelectedListener(this);
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
     private void ClickLogin(){
         login.setOnClickListener(new View.OnClickListener() {

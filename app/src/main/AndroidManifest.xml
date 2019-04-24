@@ -16,11 +16,11 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".OwnerPanel" />
@@ -40,9 +40,10 @@
         <activity android:name=".TambahSupplier" />
         <activity android:name=".TambahKonsumen" />
         <activity android:name=".DetilList.DetailKonsumen" />
-        <activity android:name=".TambahKendaraanKonsumen" />
-        <activity android:name=".DetilList.DetailKatalog"/>
-
+        <activity android:name=".DetilList.DetailKatalog" />
+        <activity android:name=".TambahSparepart" />
+        <activity android:name=".DetilList.DetailSparepart" />
+        <activity android:name=".TambahMotorKonsumen"></activity>
     </application>
 
 </manifest>

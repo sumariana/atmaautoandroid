@@ -188,7 +188,52 @@ public class DetailSupplier extends AppCompatActivity {
     private void postSales(){
         if(namasal==null || telpsal==null)
         {
-            //Building retrofit
+           if(viewnamasal.getText().toString().isEmpty() || viewtelpsal.getText().toString().isEmpty())
+           {
+               Toast.makeText(DetailSupplier.this,"Field can't be empty",Toast.LENGTH_SHORT).show();
+           }else {
+               //Building retrofit
+               Gson gson = new GsonBuilder()
+                       .setLenient()
+                       .create();
+               Retrofit.Builder builder=new Retrofit.
+                       Builder().baseUrl(ApiSupplierSales.JSONURL).
+                       addConverterFactory(GsonConverterFactory.create(gson));
+               Retrofit retrofit=builder.build();
+               ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
+
+               //calling api
+               Call<ResponseBody> supplier_dataCall=apiSupplierSales.updateSales(viewnamasal.getText().toString(),viewtelpsal.getText().toString(),Integer.parseInt(idsup));
+               supplier_dataCall.enqueue(new Callback<ResponseBody>() {
+                   @Override
+                   public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                       if(response.code()==200)
+                       {
+                           Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
+                           Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
+                           startActivity(intent);
+                       }else
+                           Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
+                   }
+
+                   @Override
+                   public void onFailure(Call<ResponseBody> call, Throwable t) {
+                       Log.d("TAG", t.toString());
+                       Toast.makeText(DetailSupplier.this,"Jaringan bermasalah",Toast.LENGTH_SHORT).show();
+                   }
+               });
+           }
+        }else{
+            Toast.makeText(DetailSupplier.this,"Supplier sudah memiliki Sales",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateSupplier(){
+        if(viewnamasup.getText().toString().isEmpty() || viewalamatsup.getText().toString().isEmpty() || viewtelpsup.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailSupplier.this,"Field can't be empty",Toast.LENGTH_SHORT).show();
+        }else
+        {
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
@@ -199,7 +244,7 @@ public class DetailSupplier extends AppCompatActivity {
             ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
 
             //calling api
-            Call<ResponseBody> supplier_dataCall=apiSupplierSales.updateSales(viewnamasal.getText().toString(),viewtelpsal.getText().toString(),Integer.parseInt(idsup));
+            Call<ResponseBody> supplier_dataCall=apiSupplierSales.updateSupplier(viewnamasup.getText().toString(),viewalamatsup.getText().toString(),viewtelpsup.getText().toString(),viewnamasal.getText().toString(),viewtelpsal.getText().toString(),Integer.parseInt(idsup));
             supplier_dataCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -218,40 +263,6 @@ public class DetailSupplier extends AppCompatActivity {
                     Toast.makeText(DetailSupplier.this,"Jaringan bermasalah",Toast.LENGTH_SHORT).show();
                 }
             });
-        }else{
-            Toast.makeText(DetailSupplier.this,"Supplier sudah memiliki Sales",Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void updateSupplier(){
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Retrofit.Builder builder=new Retrofit.
-                Builder().baseUrl(ApiSupplierSales.JSONURL).
-                addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit=builder.build();
-        ApiSupplierSales apiSupplierSales = retrofit.create(ApiSupplierSales.class);
-
-        //calling api
-        Call<ResponseBody> supplier_dataCall=apiSupplierSales.updateSupplier(viewnamasup.getText().toString(),viewalamatsup.getText().toString(),viewtelpsup.getText().toString(),viewnamasal.getText().toString(),viewtelpsal.getText().toString(),Integer.parseInt(idsup));
-        supplier_dataCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code()==200)
-                {
-                    Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
-                    startActivity(intent);
-                }else
-                    Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("TAG", t.toString());
-                Toast.makeText(DetailSupplier.this,"Jaringan bermasalah",Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

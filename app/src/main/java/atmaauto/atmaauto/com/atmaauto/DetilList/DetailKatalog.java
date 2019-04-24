@@ -10,8 +10,6 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import atmaauto.atmaauto.com.atmaauto.R;
 
 public class DetailKatalog extends AppCompatActivity {

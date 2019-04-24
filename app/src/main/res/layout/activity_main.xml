@@ -130,6 +130,7 @@
                         android:layout_marginLeft="20dp"
                         android:text="Urutkan"/>
                     <Spinner
+                        android:id="@+id/sorting"
                         android:layout_width="match_parent"
                         android:layout_height="25dp">
 

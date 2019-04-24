@@ -17,6 +17,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailKatalog;
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailSparepart;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 
@@ -55,8 +56,11 @@ public class SparepartAdapter extends RecyclerView.Adapter<SparepartAdapter.MyVi
                 intent.putExtra("namasp", sparepart.getNamaSparepart());
                 intent.putExtra("tipesp", sparepart.getTipeBarang());
                 intent.putExtra("merksp", sparepart.getMerkSparepart());
+                intent.putExtra("raksp", sparepart.getRakSparepart());
                 intent.putExtra("jmlsp", sparepart.getJumlahSparepart());
+                intent.putExtra("jmlminsp", sparepart.getStokMinimumSparepart());
                 intent.putExtra("hargasp", sparepart.getHargaJual());
+                intent.putExtra("hargabelisp", sparepart.getHargaBeli());
                 intent.putExtra("gambarsp", sparepart.getGambar());
                 context.startActivity(intent);
             }

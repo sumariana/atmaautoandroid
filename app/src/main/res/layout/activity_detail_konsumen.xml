@@ -102,7 +102,7 @@
             android:background="@drawable/border_mainmenu"
             >
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_konsumen"
+                android:id="@+id/recycler_view_motorkonsumen"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"

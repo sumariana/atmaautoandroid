@@ -61,7 +61,7 @@ public class TambahSupplier extends AppCompatActivity {
                         .setLenient()
                         .create();
                 Retrofit.Builder builder=new Retrofit.
-                        Builder().baseUrl("http://10.53.12.16:8080").
+                        Builder().baseUrl(ApiSupplierSales.JSONURL).
                         addConverterFactory(GsonConverterFactory.create(gson));
                 Retrofit retrofit=builder.build();
                 ApiSupplierSales apiSupplierSales=retrofit.create(ApiSupplierSales.class);

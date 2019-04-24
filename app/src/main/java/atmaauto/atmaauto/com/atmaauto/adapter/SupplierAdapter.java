@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +38,12 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.MyView
 
     private Context context;
     private List<Supplier> mList;
+    private List<Supplier> mListfilter;
+
 
     public SupplierAdapter(Context context,List<Supplier> mList){
         this.context=context;
+        this.mListfilter=mList;
         this.mList=mList;
     }
 
@@ -51,9 +55,43 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mListfilter = mList;
+                } else {
+                    List<Supplier> filteredList = new ArrayList<>();
+                    for (Supplier obj : mList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (obj.getNamaSupplier().toLowerCase().contains(charString.toLowerCase()) || obj.getNamaSales().contains(charSequence)) {
+                            filteredList.add(obj);
+                        }
+                    }
+
+                    mListfilter = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListfilter;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mListfilter = (ArrayList<Supplier>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     @Override
     public void onBindViewHolder(@NonNull SupplierAdapter.MyViewHolder myViewHolder, int i) {
-        final Supplier supplier = mList.get(i);
+        final Supplier supplier = mListfilter.get(i);
         myViewHolder.mNamaSupplier.setText(supplier.getNamaSupplier());
         myViewHolder.mTeleponSupplier.setText(supplier.getTeleponSupplier());
         myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
@@ -138,6 +176,6 @@ public class SupplierAdapter extends RecyclerView.Adapter<SupplierAdapter.MyView
 
    @Override
     public int getItemCount(){
-        return mList.size();
+        return mListfilter.size();
    }
 }
