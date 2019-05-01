@@ -21,7 +21,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.Part;
 
 public interface ApiSparepart {
-    String JSONURL = "http://10.53.10.176:8000/";
+    String JSONURL = "https://atmauto.jasonfw.com/";
     @GET("api/spareparts")
     Call<Sparepart_data>tampilkatalog();
 

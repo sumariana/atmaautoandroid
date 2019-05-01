@@ -43,7 +43,8 @@
         <activity android:name=".DetilList.DetailKatalog" />
         <activity android:name=".TambahSparepart" />
         <activity android:name=".DetilList.DetailSparepart" />
-        <activity android:name=".TambahMotorKonsumen"></activity>
+        <activity android:name=".TambahMotorKonsumen" />
+        <activity android:name=".DetilList.DetailMotorKonsumen"></activity>
     </application>
 
 </manifest>

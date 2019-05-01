@@ -19,6 +19,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailMotorKonsumen;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen;
 import okhttp3.ResponseBody;
@@ -48,19 +49,19 @@ public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdap
         final MotorKonsumen motorKonsumen = mList.get(i);
         myViewHolder.namamotor.setText(motorKonsumen.getTipe());
         myViewHolder.platmotor.setText(motorKonsumen.getPlatKendaraan());
-//        myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                //Toast.makeText(v.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
-//                Intent intent= new Intent(context, DetailKonsumen.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("idkn", konsumen.getIdKonsumen().toString());
-//                intent.putExtra("namakn", konsumen.getNamaKonsumen());
-//                intent.putExtra("alamatkn", konsumen.getAlamatKonsumen());
-//                intent.putExtra("teleponkn", konsumen.getTeleponKonsumen());
-//                context.startActivity(intent);
-//            }
-//        });
+        myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //Toast.makeText(v.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
+                Intent intent= new Intent(context, DetailMotorKonsumen.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("idmkn", motorKonsumen.getIdMotorKonsumen().toString());
+                intent.putExtra("idkn", motorKonsumen.getIdKonsumen().toString());
+                intent.putExtra("idm", motorKonsumen.getIdMotor().toString());
+                intent.putExtra("plat", motorKonsumen.getPlatKendaraan());
+                context.startActivity(intent);
+            }
+        });
 
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override

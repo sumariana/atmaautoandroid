@@ -6,6 +6,8 @@
     android:layout_marginTop="2dp">
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_height="120dp"
         android:orientation="horizontal"
         android:background="@drawable/border_katalog">
@@ -13,12 +15,11 @@
             android:id="@+id/pic"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:background="@drawable/border_mainmenu"/>
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/nama_sparepart_adapter"
                 android:layout_width="match_parent"
@@ -27,17 +28,25 @@
                 android:layout_marginTop="10dp"
                 android:text="Nama Sparepart"
                 android:textColor="@android:color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/grey"></LinearLayout>
+
             <TextView
                 android:id="@+id/harga_sparepart_adapter"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Harga Sparepart"
                 android:textColor="@android:color/black"/>
             <TextView
                 android:id="@+id/jumlah_sparepart_adapter"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="jumlah Sparepart"
                 android:textColor="@android:color/black"/>

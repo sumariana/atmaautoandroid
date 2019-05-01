@@ -95,7 +95,7 @@ public class DetailKonsumen extends AppCompatActivity {
                     motorKonsumenAdapter = new MotorKonsumenAdapter(getApplicationContext(),response.body().getData());
                     recyclerView.setAdapter(motorKonsumenAdapter);
                 }catch(Exception e){
-                    Toast.makeText(DetailKonsumen.this, "Belum ada supplier!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailKonsumen.this, "Belum ada motor konsumen!", Toast.LENGTH_SHORT).show();
                 }
             }
 

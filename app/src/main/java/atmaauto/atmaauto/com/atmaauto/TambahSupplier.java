@@ -66,6 +66,8 @@ public class TambahSupplier extends AppCompatActivity {
                 Retrofit retrofit=builder.build();
                 ApiSupplierSales apiSupplierSales=retrofit.create(ApiSupplierSales.class);
 
+                Log.d( "Nilai: ",namasales.getText().toString());
+                Log.d( "Nilai: ",teleponsales.getText().toString());
                 //
                 Call<Supplier_response> supplier_responseCall=apiSupplierSales.tambahSupplier(namasupplier.getText().toString(),alamatsupplier.getText().toString(),teleponsupplier.getText().toString(),namasales.getText().toString(),teleponsales.getText().toString());
                 supplier_responseCall.enqueue(new Callback<Supplier_response>() {

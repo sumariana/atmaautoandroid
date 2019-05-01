@@ -20,6 +20,8 @@ import com.google.gson.GsonBuilder;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //baru pindah ke document
 
     private List<Sparepart> mListSparepart = new ArrayList<>();
+    private Sparepart sparepart;
     private SparepartAdapter sparepartAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -69,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
         Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
+//        if(text == "Harga Termurah"){
+//            Collections.sort(mListSparepart, new Comparator<Sparepart>() {
+//                @Override
+//                public int compare(Sparepart o1, Sparepart o2) {
+//                    return o1.getJumlahSparepart().compareTo(o2.getJumlahSparepart());
+//                }
+//            });
+//            sparepartAdapter.notifyDataSetChanged();
+//        }else {
+//            //
+//        }
     }
 
     @Override
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
                     recyclerView.setAdapter(sparepartAdapter);
                 }catch(Exception e){
-                    Toast.makeText(MainActivity.this, "Belum ada supplier!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
                 }
             }
 

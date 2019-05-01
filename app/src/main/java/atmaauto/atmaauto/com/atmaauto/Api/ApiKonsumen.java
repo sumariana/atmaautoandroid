@@ -11,12 +11,13 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiKonsumen {
-    String JSONURL = "http://10.53.10.176:8000/";
+    String JSONURL = "https://atmauto.jasonfw.com/";
 
     @GET("api/konsumens")
     Call<Konsumen_data>tampilkonsumen();
@@ -35,4 +36,10 @@ public interface ApiKonsumen {
     Call<MotorKonsumen_response>tambahMotorKonsumen(@Field("Id_Konsumen") Integer Id_Konsumen,
                                                @Field("Id_Motor") Integer Id_Motor,
                                                @Field("Plat_Kendaraan") String Plat_Kendaraan);
+
+    @PATCH("api/motor_konsumens/update/{id}")
+    @FormUrlEncoded
+    Call<ResponseBody> updatemotorkonsumen(@Path("id") Integer id,
+                                       @Field("Id_Motor") Integer Id_Motor,
+                                       @Field("Plat_Kendaraan") String Plat_Kendaraan);
 }
