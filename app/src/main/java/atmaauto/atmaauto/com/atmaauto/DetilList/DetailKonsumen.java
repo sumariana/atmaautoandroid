@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
@@ -45,6 +48,7 @@ public class DetailKonsumen extends AppCompatActivity {
     String idkn,namakn,alamatkn,teleponkn;
 
     Button tambahmotor,editkonsumen;
+    SearchView search;
 
     EditText vid,vnama,valamat,vtelepon;
     @Override
@@ -73,6 +77,23 @@ public class DetailKonsumen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                motorKonsumenAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
     }
 
     public void showList(){
@@ -86,7 +107,7 @@ public class DetailKonsumen extends AppCompatActivity {
         ApiKonsumen apiKonsumen=retrofit.create(ApiKonsumen.class);
 
         //Calling APi
-        Call<MotorKonsumen_data> listkonsumen = apiKonsumen.tampilmotorkonsumen();
+        Call<MotorKonsumen_data> listkonsumen = apiKonsumen.tampilmotorkonsumen(Integer.parseInt(idkn));
         listkonsumen.enqueue(new Callback<MotorKonsumen_data>() {
             @Override
             public void onResponse(Call<MotorKonsumen_data> call, Response<MotorKonsumen_data> response) {
@@ -123,6 +144,7 @@ public class DetailKonsumen extends AppCompatActivity {
         vtelepon=(EditText) findViewById(R.id.detilteleponkonsumen);
         tambahmotor=(Button) findViewById(R.id.btntambahmotor);
         editkonsumen=(Button) findViewById(R.id.btneditkonsumen);
+        search=(SearchView) findViewById(R.id.searchbar);
     }
 
     private void setText(){

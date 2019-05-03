@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
@@ -32,10 +34,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdapter.MyViewHolder>{
     private Context context;
     private List<MotorKonsumen> mList;
+    private List<MotorKonsumen> mListfilter;
 
     public MotorKonsumenAdapter(Context context, List<MotorKonsumen> mList){
         this.context=context;
         this.mList=mList;
+        this.mListfilter=mList;
     }
     @Override
     public MotorKonsumenAdapter.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
@@ -44,9 +48,43 @@ public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdap
                 .inflate(R.layout.motorkonsumen_adapter, viewGroup, false);
         return new MyViewHolder(itemView);
     }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mListfilter = mList;
+                } else {
+                    List<MotorKonsumen> filteredList = new ArrayList<>();
+                    for (MotorKonsumen obj : mList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (obj.getTipe().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(obj);
+                        }
+                    }
+
+                    mListfilter = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListfilter;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mListfilter = (ArrayList<MotorKonsumen>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
     @Override
     public void onBindViewHolder(@NonNull MotorKonsumenAdapter.MyViewHolder myViewHolder, int i) {
-        final MotorKonsumen motorKonsumen = mList.get(i);
+        final MotorKonsumen motorKonsumen = mListfilter.get(i);
         myViewHolder.namamotor.setText(motorKonsumen.getTipe());
         myViewHolder.platmotor.setText(motorKonsumen.getPlatKendaraan());
         myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
@@ -124,6 +162,6 @@ public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdap
 
     @Override
     public int getItemCount(){
-        return mList.size();
+        return mListfilter.size();
     }
 }

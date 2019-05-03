@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,12 +17,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailSparepart;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
+import atmaauto.atmaauto.com.atmaauto.models.Supplier;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,10 +36,12 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
 
     private Context context;
     private List<Sparepart> mList;
+    private List<Sparepart> mListfilter;
 
     public SparepartAdminAdapter(Context context,List<Sparepart> mList){
         this.context=context;
         this.mList=mList;
+        this.mListfilter=mList;
     }
 
     @Override
@@ -47,9 +52,43 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
         return new SparepartAdminAdapter.MyViewHolder(itemView);
     }
 
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mListfilter = mList;
+                } else {
+                    List<Sparepart> filteredList = new ArrayList<>();
+                    for (Sparepart obj : mList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (obj.getNamaSparepart().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(obj);
+                        }
+                    }
+
+                    mListfilter = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListfilter;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mListfilter = (ArrayList<Sparepart>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     @Override
     public void onBindViewHolder(@NonNull SparepartAdminAdapter.MyViewHolder myViewHolder, int i) {
-        final Sparepart sparepart = mList.get(i);
+        final Sparepart sparepart = mListfilter.get(i);
         myViewHolder.namasparepart.setText(sparepart.getNamaSparepart());
         myViewHolder.jumlahsparepart.setText("Sisa Stok : "+sparepart.getJumlahSparepart());
         myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
@@ -135,7 +174,7 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
 
     @Override
     public int getItemCount(){
-        return mList.size();
+        return mListfilter.size();
     }
 
 

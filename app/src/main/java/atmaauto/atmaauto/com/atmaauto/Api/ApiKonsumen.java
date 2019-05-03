@@ -22,8 +22,8 @@ public interface ApiKonsumen {
     @GET("api/konsumens")
     Call<Konsumen_data>tampilkonsumen();
 
-    @GET("api/motor_konsumens")
-    Call<MotorKonsumen_data>tampilmotorkonsumen();
+    @GET("api/motor_konsumens/show/{id}")
+    Call<MotorKonsumen_data>tampilmotorkonsumen(@Path("id") Integer id);
 
     @GET("api/motors")
     Call<Motor_data>getlistmotor();

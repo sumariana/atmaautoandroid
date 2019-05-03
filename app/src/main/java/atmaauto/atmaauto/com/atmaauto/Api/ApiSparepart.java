@@ -25,6 +25,27 @@ public interface ApiSparepart {
     @GET("api/spareparts")
     Call<Sparepart_data>tampilkatalog();
 
+    @GET("api/spareparts/sorthargaasc")
+    Call<Sparepart_data>tampilkatalogtermurah();
+
+    @GET("api/spareparts/sorthargadesc")
+    Call<Sparepart_data>tampilkatalogtermahal();
+
+    @GET("api/spareparts/sortjumlahasc")
+    Call<Sparepart_data>tampilkatalogtersedikit();
+
+    @GET("api/spareparts/sortjumlahdesc")
+    Call<Sparepart_data>tampilkatalogterbanyak();
+
+    @GET("api/spareparts/sorthargaascjumlahasc")
+    Call<Sparepart_data>sorthargaascjumlahasc();
+    @GET("api/spareparts/sorthargaascjumlahdesc")
+    Call<Sparepart_data>sorthargaascjumlahdesc();
+    @GET("api/spareparts/sorthargadescjumlahasc")
+    Call<Sparepart_data>sorthargadescjumlahasc();
+    @GET("api/spareparts/sorthargadescjumlahdesc")
+    Call<Sparepart_data>sorthargadescjumlahdesc();
+
     @Multipart
     @POST("api/spareparts/storemobile")
     Call<ResponseBody> addSparepart(
@@ -38,6 +59,13 @@ public interface ApiSparepart {
             @Part("Harga_Beli") RequestBody Harga_Beli,
             @Part("Harga_Jual") RequestBody Harga_Jual,
             @Part("Rak_Sparepart") RequestBody Rak_Sparepart
+    );
+
+    @Multipart
+    @POST("api/spareparts/updatepicmobile")
+    Call<ResponseBody> patchpicSparepart(
+            @Part MultipartBody.Part Gambar,
+            @Part("Kode_Sparepart") RequestBody Kode_Sparepart
     );
 
     @PATCH("api/spareparts/updatemobile/{Kode_Sparepart}")

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        showList();
+        //showList();
 
         sorting = (Spinner) findViewById(R.id.sorting);
         ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.Sorting,android.R.layout.simple_spinner_item);
@@ -71,19 +71,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
 
-//        if(text == "Harga Termurah"){
-//            Collections.sort(mListSparepart, new Comparator<Sparepart>() {
-//                @Override
-//                public int compare(Sparepart o1, Sparepart o2) {
-//                    return o1.getJumlahSparepart().compareTo(o2.getJumlahSparepart());
-//                }
-//            });
-//            sparepartAdapter.notifyDataSetChanged();
-//        }else {
-//            //
-//        }
+        if(text.equalsIgnoreCase("Harga Termurah"))
+        {
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermurah();
+        }else if(text.equalsIgnoreCase("Harga Termahal")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermahal();
+        }else if(text.equalsIgnoreCase("Jumlah Terbanyak")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListterbanyak();
+        }else if(text.equalsIgnoreCase("Jumlah Paling Sedikit")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtersedikit();
+        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Terbanyak")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermurahterbanyak();
+        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Paling Sedikit")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermurahtersedikit();
+        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Terbanyak")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermahalterbanyak();
+        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Paling Sedikit")){
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            //showListtermahaltersed();
+        }else {
+            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+            showList();
+        }
     }
 
     @Override
@@ -100,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+
     public void showList(){
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -112,6 +131,253 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Calling APi
         Call<Sparepart_data> listsp = apiSparepart.tampilkatalog();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermurah(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.tampilkatalogtermurah();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermahal(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.tampilkatalogtermahal();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void showListtersedikit(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.tampilkatalogtersedikit();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListterbanyak(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.tampilkatalogterbanyak();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermurahterbanyak(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.sorthargaascjumlahdesc();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermurahtersedikit(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.sorthargaascjumlahasc();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermahalterbanyak(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.sorthargadescjumlahdesc();
+        listsp.enqueue(new Callback<Sparepart_data>() {
+            @Override
+            public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {
+                try{
+                    sparepartAdapter.notifyDataSetChanged();
+                    sparepartAdapter = new SparepartAdapter(getApplicationContext(),response.body().getData());
+                    recyclerView.setAdapter(sparepartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(MainActivity.this, "Belum ada sparepart!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sparepart_data> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListtermahaltersedikit(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiSparepart apiSparepart=retrofit.create(ApiSparepart.class);
+
+        //Calling APi
+        Call<Sparepart_data> listsp = apiSparepart.sorthargadescjumlahasc();
         listsp.enqueue(new Callback<Sparepart_data>() {
             @Override
             public void onResponse(Call<Sparepart_data> call, Response<Sparepart_data> response) {

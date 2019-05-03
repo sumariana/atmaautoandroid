@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -15,6 +17,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.adapter.SparepartAdapter;
@@ -31,6 +34,7 @@ public class MenuSparepart extends AppCompatActivity {
 
 
     Button tambah;
+    SearchView search;
     private List<Sparepart> mListSparepart = new ArrayList<>();
     private SparepartAdminAdapter sparepartAdminAdapter;
     private RecyclerView recyclerView;
@@ -58,6 +62,25 @@ public class MenuSparepart extends AppCompatActivity {
         });
 
         showList();
+
+        search=(SearchView) findViewById(R.id.searchbar);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                sparepartAdminAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
     }
 
     public void showList(){

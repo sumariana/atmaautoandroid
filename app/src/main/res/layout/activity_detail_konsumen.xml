@@ -30,11 +30,12 @@
         <!--bagian konsumen-->
 
         <RelativeLayout
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/border"
-            android:layout_marginLeft="15dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
 
             <TextView
@@ -68,6 +69,7 @@
                 android:layout_marginTop="140dp"/>
 
             <EditText
+                android:editable="false"
                 android:id="@+id/detilidkonsumen"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
@@ -95,12 +97,18 @@
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="135dp"/>
         </RelativeLayout>
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/border_mainmenu"
+            android:orientation="vertical"
+            android:background="@color/grey"
             >
+            <SearchView
+                android:id="@+id/searchbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"></SearchView>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_motorkonsumen"
                 android:layout_width="match_parent"
@@ -108,7 +116,7 @@
                 android:layout_margin="6dp"
                 android:scrollbars="vertical">
             </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
+        </LinearLayout>
 
         <!--bagian control        -->
         <LinearLayout

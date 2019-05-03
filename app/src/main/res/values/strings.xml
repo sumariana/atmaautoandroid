@@ -18,5 +18,9 @@
         <item>Harga Termahal</item>
         <item>Jumlah Terbanyak</item>
         <item>Jumlah Paling Sedikit</item>
+        <item>Harga Termurah dan Jumlah Terbanyak</item>
+        <item>Harga Termurah dan Jumlah Paling Sedikit</item>
+        <item>Harga Termahal dan Jumlah Terbanyak</item>
+        <item>Harga Termahal dan Jumlah Paling Sedikit</item>
     </string-array>
 </resources>
