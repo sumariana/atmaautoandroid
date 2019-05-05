@@ -87,7 +87,7 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SparepartAdminAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull SparepartAdminAdapter.MyViewHolder myViewHolder, final int i) {
         final Sparepart sparepart = mListfilter.get(i);
         myViewHolder.namasparepart.setText(sparepart.getNamaSparepart());
         myViewHolder.jumlahsparepart.setText("Sisa Stok : "+sparepart.getJumlahSparepart());
@@ -132,7 +132,7 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
                         if(response.code()==200)
                         {
                             Toast.makeText(context,"berhasil",Toast.LENGTH_SHORT).show();
-
+                            notifyDataSetChanged();
                         }else
                             Toast.makeText(context,"gagal",Toast.LENGTH_SHORT).show();
                     }

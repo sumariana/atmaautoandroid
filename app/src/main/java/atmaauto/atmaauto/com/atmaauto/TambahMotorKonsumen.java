@@ -21,6 +21,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.adapter.MotorKonsumenAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.Motor;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen_response;
 import atmaauto.atmaauto.com.atmaauto.models.Motor_data;
@@ -36,6 +37,7 @@ public class TambahMotorKonsumen extends AppCompatActivity {
     TextView idkonsumen;
     Button postmotor;
     EditText platmotor;
+    MotorKonsumenAdapter motorKonsumenAdapter;
 
     Spinner spinnermotor;
     String selectedId;
@@ -79,7 +81,9 @@ public class TambahMotorKonsumen extends AppCompatActivity {
                 motorKonsumen_responseCall.enqueue(new Callback<MotorKonsumen_response>() {
                     @Override
                     public void onResponse(Call<MotorKonsumen_response> call, Response<MotorKonsumen_response> response) {
-
+                        Toast.makeText(TambahMotorKonsumen.this, "berhasil!", Toast.LENGTH_SHORT).show();
+                        motorKonsumenAdapter.notifyDataSetChanged();
+                        finish();
                     }
 
                     @Override

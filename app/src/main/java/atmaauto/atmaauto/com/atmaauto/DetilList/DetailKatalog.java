@@ -56,6 +56,6 @@ public class DetailKatalog extends AppCompatActivity {
         merk.setText("Brand Barang : "+merksp);
         tipe.setText("Tipe Barang : "+tipesp);
         jumlah.setText("Jumlah Stok : "+jmlsp+" *jumlah stok dapat berubah sewaktu-waktu");
-        Picasso.get().load("https://atmauto.jasonfw.com/images/"+gambar).memoryPolicy(MemoryPolicy.NO_CACHE) .networkPolicy(NetworkPolicy.NO_CACHE).into(pic);
+        Picasso.get().load("http://10.53.4.85:8000/images/"+gambar).networkPolicy(NetworkPolicy.NO_CACHE).into(pic);
     }
 }

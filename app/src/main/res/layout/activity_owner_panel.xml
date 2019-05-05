@@ -9,12 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,109 +22,108 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="15pt" />
-
-            <TextView
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="--------------------------------------"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="15pt" />
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="490dp"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/pegawai"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Pegawai" />
+                    <Button
+                        android:id="@+id/servis"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Jasa Servis" />
+                    <Button
+                        android:id="@+id/sparepart"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Sparepart" />
+                    <Button
+                        android:id="@+id/motor"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Motor" />
+                    <Button
+                        android:id="@+id/konsumen"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Konsumen" />
+                    <Button
+                        android:id="@+id/supplier"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Supplier" />
+                    <Button
+                        android:id="@+id/penjualan"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Penjualan" />
+                    <Button
+                        android:id="@+id/cabang"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Cabang" />
+                    <Button
+                        android:id="@+id/pengadaan"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="Pengadaan" />
+                </LinearLayout>
+            </ScrollView>
 
         </LinearLayout>
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="420dp">
-            <LinearLayout
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/logoutOwner"
                 android:layout_width="match_parent"
-                android:layout_height="490dp"
-                android:orientation="vertical"
-                android:gravity="center">
-                <Button
-                    android:id="@+id/pegawai"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Pegawai" />
-                <Button
-                    android:id="@+id/servis"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Jasa Servis" />
-                <Button
-                    android:id="@+id/sparepart"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Sparepart" />
-                <Button
-                    android:id="@+id/motor"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Motor" />
-                <Button
-                    android:id="@+id/konsumen"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Konsumen" />
-                <Button
-                    android:id="@+id/supplier"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Supplier" />
-                <Button
-                    android:id="@+id/penjualan"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Penjualan" />
-                <Button
-                    android:id="@+id/cabang"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Cabang" />
-                <Button
-                    android:id="@+id/pengadaan"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border"
-                    android:textColor="@android:color/white"
-                    android:layout_marginBottom="10dp"
-                    android:text="Pengadaan" />
-            </LinearLayout>
-        </ScrollView>
-        <Button
-            android:id="@+id/logoutOwner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:background="@color/yellow"
-            android:text="LOGOUT"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="0dp" />
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="@color/yellow"
+                android:text="LOGOUT"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

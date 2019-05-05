@@ -76,28 +76,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(text.equalsIgnoreCase("Harga Termurah"))
         {
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermurah();
+            showListtermurah();
         }else if(text.equalsIgnoreCase("Harga Termahal")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermahal();
+            showListtermahal();
         }else if(text.equalsIgnoreCase("Jumlah Terbanyak")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListterbanyak();
+            showListterbanyak();
         }else if(text.equalsIgnoreCase("Jumlah Paling Sedikit")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtersedikit();
+            showListtersedikit();
         }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Terbanyak")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermurahterbanyak();
+            showListtermurahterbanyak();
         }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Paling Sedikit")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermurahtersedikit();
+            showListtermurahtersedikit();
         }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Terbanyak")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermahalterbanyak();
+            showListtermahalterbanyak();
         }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Paling Sedikit")){
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-            //showListtermahaltersed();
+            showListtermahaltersedikit();
         }else {
             Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
             showList();

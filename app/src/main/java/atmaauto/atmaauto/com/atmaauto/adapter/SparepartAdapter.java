@@ -45,7 +45,7 @@ public class SparepartAdapter extends RecyclerView.Adapter<SparepartAdapter.MyVi
         myViewHolder.namasparepart.setText(sparepart.getNamaSparepart());
         myViewHolder.hargasparepart.setText("Rp "+sparepart.getHargaJual()+",00");
         myViewHolder.jumlahsparepart.setText("Stok : "+sparepart.getJumlahSparepart());
-        Picasso.get().load("https://atmauto.jasonfw.com/images/"+sparepart.getGambar()).memoryPolicy(MemoryPolicy.NO_CACHE) .networkPolicy(NetworkPolicy.NO_CACHE).into(myViewHolder.picSparepart);
+        Picasso.get().load("http://10.53.4.85:8000/images/"+sparepart.getGambar()).networkPolicy(NetworkPolicy.NO_CACHE).into(myViewHolder.picSparepart);
         myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

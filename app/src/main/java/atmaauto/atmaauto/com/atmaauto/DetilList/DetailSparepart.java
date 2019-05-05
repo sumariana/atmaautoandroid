@@ -32,6 +32,7 @@ import atmaauto.atmaauto.com.atmaauto.MenuSparepart;
 import atmaauto.atmaauto.com.atmaauto.MenuSupplier;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.TambahSparepart;
+import atmaauto.atmaauto.com.atmaauto.adapter.SparepartAdapter;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -48,6 +49,7 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
 
     Button selectimage,patchsparepart;
     public Bitmap ImageBitmap;
+    SparepartAdapter sparepartAdapter;
 
     int Image_Request_Code = 1;
     Uri FilePathUri,FilePathUri2;
@@ -164,6 +166,8 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
 
 //                    try{
                         Toast.makeText(DetailSparepart.this, "Berhasil!", Toast.LENGTH_SHORT).show();
+                        sparepartAdapter.notifyDataSetChanged();
+                        finish();
 //                    }catch(Exception e){
 //                        Toast.makeText(TambahSparepart.this, "gagal!", Toast.LENGTH_SHORT).show();
 //                    }
@@ -233,8 +237,8 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
                             updategambar();
                         }
                         Toast.makeText(DetailSparepart.this,"berhasil",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(DetailSparepart.this,MenuSparepart.class);
-                        startActivity(intent);
+                        sparepartAdapter.notifyDataSetChanged();
+                        finish();
 
                     }else
                         Toast.makeText(DetailSparepart.this,"gagal",Toast.LENGTH_SHORT).show();
@@ -260,7 +264,7 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
         tipebarang.setText(tipesp);
         rakv.setText(raksp);
 
-        Picasso.get().load("https://atmauto.jasonfw.com/images/"+gambar).into(pic);
+        Picasso.get().load("http://10.53.4.85:8000/images/"+gambar).into(pic);
     }
 
     @Override

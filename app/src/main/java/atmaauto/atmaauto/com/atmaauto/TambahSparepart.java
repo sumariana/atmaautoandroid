@@ -157,10 +157,10 @@ public class TambahSparepart extends AppCompatActivity implements AdapterView.On
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                        Log.d("on respon : ",String.valueOf(response.code()));
+                        //Log.d("on respon : ",String.valueOf(response.code()));
 
 //                    try{
-//                        Toast.makeText(TambahSparepart.this, "Berhasil!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TambahSparepart.this, "Berhasil!", Toast.LENGTH_SHORT).show();
 //                    }catch(Exception e){
 //                        Toast.makeText(TambahSparepart.this, "gagal!", Toast.LENGTH_SHORT).show();
 //                    }

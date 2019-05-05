@@ -40,6 +40,7 @@ public class DetailMotorKonsumen extends AppCompatActivity {
     Spinner spinnermotor;
     String selectedId;
     Button patchmotorkonsumen;
+    MotorKonsumenAdapter motorKonsumenAdapter;
     private List<String> listNameType = new ArrayList<String>();
     private List<String> listIdType = new ArrayList<String>();
 
@@ -90,6 +91,7 @@ public class DetailMotorKonsumen extends AppCompatActivity {
                 if(response.code()!=500)
                 {
                     Toast.makeText(DetailMotorKonsumen.this, "berhasil update!", Toast.LENGTH_SHORT).show();
+                    motorKonsumenAdapter.notifyDataSetChanged();
                     finish();
                 }else {
                     Toast.makeText(DetailMotorKonsumen.this, "error!", Toast.LENGTH_SHORT).show();

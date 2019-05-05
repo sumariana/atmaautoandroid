@@ -13,7 +13,7 @@
         <item>KAYU</item>
     </string-array>
     <string-array name="Sorting">
-        <item>Default</item>
+        <item>Reset</item>
         <item>Harga Termurah</item>
         <item>Harga Termahal</item>
         <item>Jumlah Terbanyak</item>
