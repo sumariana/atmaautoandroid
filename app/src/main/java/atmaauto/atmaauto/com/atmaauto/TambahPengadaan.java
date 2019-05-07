@@ -1,6 +1,7 @@
 package atmaauto.atmaauto.com.atmaauto;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -28,6 +33,7 @@ import java.util.List;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
+import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
 import atmaauto.atmaauto.com.atmaauto.adapter.SparepartCartAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan;
 import atmaauto.atmaauto.com.atmaauto.models.Motor;
@@ -36,6 +42,7 @@ import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
 import atmaauto.atmaauto.com.atmaauto.models.Supplier;
 import atmaauto.atmaauto.com.atmaauto.models.Supplier_data;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,7 +57,7 @@ public class TambahPengadaan extends AppCompatActivity {
     EditText vtotalharga;
     Integer totalharga=0;
     Integer nilai=0;
-    Button addtocart;
+    Button addtocart,postpengadaan;
     Spinner spinnersales,spinnersparepart;
     String selectedIdSales,selectedIdSparepart,selectedHargaSparepart;
     private List<String> listNameSales = new ArrayList<String>();
@@ -70,6 +77,7 @@ public class TambahPengadaan extends AppCompatActivity {
         setContentView(R.layout.activity_tambah_pengadaan);
         spinnersales=(Spinner) findViewById(R.id.spinnersales);
         spinnersparepart=(Spinner) findViewById(R.id.spinnersparepart);
+        postpengadaan=(Button) findViewById(R.id.postpengadaan);
         jumlahsparepart=(EditText) findViewById(R.id.jumlahsparepart);
         vtotalharga=(EditText) findViewById(R.id.totalharga);
 
@@ -82,7 +90,12 @@ public class TambahPengadaan extends AppCompatActivity {
                 addtoCart();
             }
         });
-
+        postpengadaan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postpengadaan();
+            }
+        });
 
 
         rview = findViewById(R.id.recycler_view_pengadaan);
@@ -116,7 +129,7 @@ public class TambahPengadaan extends AppCompatActivity {
                 month = month + 1;
                 //Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
 
-                String date = month + "/" + day + "/" + year;
+                String date = year + "-" + month + "-" +day ;
                 mDisplayDate.setText(date);
             }
         };
@@ -152,15 +165,82 @@ public class TambahPengadaan extends AppCompatActivity {
 
     public void addtoCart(){
         details.add(new DetailPengadaan(selectedIdSparepart,
-                Integer.parseInt(selectedHargaSparepart),
+                Double.parseDouble(selectedHargaSparepart),
                 Integer.parseInt(jumlahsparepart.getText().toString()),
-                Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlahsparepart.getText().toString())));
+                Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
+
         nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlahsparepart.getText().toString());
         adapter = new SparepartCartAdapter(details);
         rview.setAdapter(adapter);
         totalharga=totalharga+nilai;
         vtotalharga.setText(totalharga.toString());
         jumlahsparepart.setText("");
+    }
+
+    public void postpengadaan(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.addpengadaan(Integer.parseInt(selectedIdSales),mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()),1);
+        Log.d( "tanggal: ",mDisplayDate.getText().toString());
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    JSONObject jsonRes = new JSONObject(response.body().string());
+                    String idPengadaan =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
+                    for(int x=0;x<details.size();x++)
+                    {
+                        Gson gson = new GsonBuilder()
+                                .setLenient()
+                                .create();
+                        Retrofit.Builder builder=new Retrofit.
+                                Builder().baseUrl(ApiSparepart.JSONURL).
+                                addConverterFactory(GsonConverterFactory.create(gson));
+                        Retrofit retrofit=builder.build();
+                        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.adddetailpengadaan(Integer.parseInt(idPengadaan),details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
+                        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                try {
+                                    JSONObject jsonRes = new JSONObject(response.body().string());
+                                    String iddetailprocurement =  jsonRes.getJSONObject("data").getString("Id_Detail_Pengadaan");
+                                    Log.d("Id_Detail_Pengadaan : ", iddetailprocurement);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                    final Intent intent= new Intent(TambahPengadaan.this,MenuPengadaan.class);
+                    startActivity(intent);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     public void setDropdownsales(){

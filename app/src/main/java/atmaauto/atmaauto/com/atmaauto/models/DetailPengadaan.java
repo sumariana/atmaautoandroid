@@ -17,15 +17,15 @@ public class DetailPengadaan {
     private String kodeSparepart;
     @SerializedName("Harga_Satuan")
     @Expose
-    private Integer hargaSatuan;
+    private Double hargaSatuan;
     @SerializedName("Jumlah")
     @Expose
     private Integer jumlah;
     @SerializedName("Subtotal_Pengadaan")
     @Expose
-    private Integer subtotalPengadaan;
+    private Double subtotalPengadaan;
 
-    public DetailPengadaan(Integer idDetailPengadaan, Integer idPengadaan, String kodeSparepart, Integer hargaSatuan, Integer jumlah, Integer subtotalPengadaan) {
+    public DetailPengadaan(Integer idDetailPengadaan, Integer idPengadaan, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
         super();
         this.idDetailPengadaan = idDetailPengadaan;
         this.idPengadaan = idPengadaan;
@@ -35,7 +35,7 @@ public class DetailPengadaan {
         this.subtotalPengadaan = subtotalPengadaan;
     }
 
-    public DetailPengadaan(String kodeSparepart, Integer hargaSatuan, Integer jumlah, Integer subtotalPengadaan) {
+    public DetailPengadaan(String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
         super();
         this.kodeSparepart = kodeSparepart;
         this.hargaSatuan = hargaSatuan;
@@ -68,11 +68,11 @@ public class DetailPengadaan {
         this.kodeSparepart = kodeSparepart;
     }
 
-    public Integer getHargaSatuan() {
+    public Double getHargaSatuan() {
         return hargaSatuan;
     }
 
-    public void setHargaSatuan(Integer hargaSatuan) {
+    public void setHargaSatuan(Double hargaSatuan) {
         this.hargaSatuan = hargaSatuan;
     }
 
@@ -84,11 +84,11 @@ public class DetailPengadaan {
         this.jumlah = jumlah;
     }
 
-    public Integer getSubtotalPengadaan() {
+    public Double getSubtotalPengadaan() {
         return subtotalPengadaan;
     }
 
-    public void setSubtotalPengadaan(Integer subtotalPengadaan) {
+    public void setSubtotalPengadaan(Double subtotalPengadaan) {
         this.subtotalPengadaan = subtotalPengadaan;
     }
 

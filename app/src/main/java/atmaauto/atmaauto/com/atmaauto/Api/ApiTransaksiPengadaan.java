@@ -1,5 +1,7 @@
 package atmaauto.atmaauto.com.atmaauto.Api;
 
+import java.util.Date;
+
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPengadaan_data;
 import okhttp3.ResponseBody;
@@ -15,10 +17,18 @@ public interface ApiTransaksiPengadaan {
     @GET("api/transaksi_pengadaans")
     Call<TransaksiPengadaan_data> tampiltransaksipengadaan();
 
-    @POST("procurements")
+    @POST("api/transaksi_pengadaans/store")
     @FormUrlEncoded
     Call<ResponseBody> addpengadaan(@Field("Id_Supplier") Integer Id_Supplier,
                                     @Field("Tanggal_Pengadaan") String Tanggal_Pengadaan,
                                     @Field("Total_Harga") Double Total_Harga,
                                     @Field("Status_Pengadaan") Integer Status_Pengadaan);
+
+    @POST("api/transaksi_pengadaans/storeDetail")
+    @FormUrlEncoded
+    Call<ResponseBody> adddetailpengadaan(@Field("Id_Pengadaan") Integer Id_Pengadaan,
+                                    @Field("Kode_Sparepart") String Kode_Sparepart,
+                                    @Field("Harga_Satuan") Double Harga_Satuan,
+                                    @Field("Jumlah") Integer Jumlah,
+                                    @Field("Subtotal_Pengadaan") Double Subtotal_Pengadaan);
 }
