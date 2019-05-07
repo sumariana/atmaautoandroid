@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tanggal"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
@@ -33,12 +34,14 @@
 
             </LinearLayout>
             <TextView
+                android:id="@+id/salespengadaan"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nama Sales"/>
             <TextView
+                android:id="@+id/telpsalespengadaan"
                 android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,9 +51,11 @@
         <!--status-->
 
         <LinearLayout
+            android:id="@+id/detailpengadaan"
             android:layout_width="100dp"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/statuspengadaan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="STATUS"
@@ -68,10 +73,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/picedit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@mipmap/edit"/>
             <ImageView
+                android:id="@+id/picdel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@mipmap/hapus"/>

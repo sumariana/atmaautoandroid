@@ -9,8 +9,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiLogin {
-    String JSONURL = "http://10.53.4.85:8000/";
-
+    String JSONURL = "https://atmauto.jasonfw.com/";
+    //https://atmauto.jasonfw.com/
     @POST("api/pegawais/mobileauthenticate")
     @FormUrlEncoded
     Call<LoginResponse>loginPegawai(@Field ("Username") String username,

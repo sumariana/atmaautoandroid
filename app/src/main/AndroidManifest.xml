@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +42,8 @@
         <activity android:name=".TambahSparepart" />
         <activity android:name=".DetilList.DetailSparepart" />
         <activity android:name=".TambahMotorKonsumen" />
-        <activity android:name=".DetilList.DetailMotorKonsumen"></activity>
+        <activity android:name=".DetilList.DetailMotorKonsumen" />
+        <activity android:name=".TambahPengadaan"></activity>
     </application>
 
 </manifest>

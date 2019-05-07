@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border_mainmenu">
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nama_sparepartcart_adapter"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="Nama Sparepart"
+                android:textColor="@android:color/white" />
+            <TextView
+                android:id="@+id/jumlah_sparepartcart_adapter"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="jumlah Sparepart"
+                android:textColor="@android:color/white"
+
+                />
+        </LinearLayout>
+        <Button
+            android:id="@+id/deletebuttonadapter"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="Delete"
+            android:layout_gravity="center"
+            android:background="@drawable/buttonback"
+            android:layout_marginLeft="20dp"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

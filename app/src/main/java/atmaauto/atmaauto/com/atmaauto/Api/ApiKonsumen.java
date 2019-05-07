@@ -17,7 +17,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiKonsumen {
-    String JSONURL = "http://10.53.4.85:8000/";
+    String JSONURL = "https://atmauto.jasonfw.com/";
 
     @GET("api/konsumens")
     Call<Konsumen_data>tampilkonsumen();

@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    Log.d("TAG",response.body().getData().getIdRole().toString());
 //                    info.setText(response.body().getData().getGajiPegawai().toString());
                     if(response.code()==201){
-
+                        Log.d("TAG", response.body().getData().getIdRole().toString());
                         Toast.makeText(LoginActivity.this,"Success",Toast.LENGTH_SHORT).show();
                         if(response.body().getData().getIdRole()==1)
                         {
