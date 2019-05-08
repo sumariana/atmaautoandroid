@@ -82,7 +82,6 @@ public class TambahMotorKonsumen extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MotorKonsumen_response> call, Response<MotorKonsumen_response> response) {
                         Toast.makeText(TambahMotorKonsumen.this, "berhasil!", Toast.LENGTH_SHORT).show();
-                        motorKonsumenAdapter.notifyDataSetChanged();
                         finish();
                     }
 

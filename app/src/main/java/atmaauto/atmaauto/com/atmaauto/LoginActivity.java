@@ -18,6 +18,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailKatalog;
+import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.models.LoginResponse;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiLogin;
 import atmaauto.atmaauto.com.atmaauto.models.Pegawai;
@@ -32,11 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     EditText username,password;
     TextView info;
 
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        session = new SessionManager(LoginActivity.this);
         inisialisasi();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,11 +82,15 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     Log.d("TAG", response.toString());
-//                    Log.d("TAG",response.body().getData().getIdRole().toString());
-//                    info.setText(response.body().getData().getGajiPegawai().toString());
                     if(response.code()==201){
-                        Log.d("TAG", response.body().getData().getIdRole().toString());
                         Toast.makeText(LoginActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                        String idrole=response.body().getData().getIdRole().toString();
+                        String username=response.body().getData().getUsername();
+                        String idpegawai=response.body().getData().getId().toString();
+                        Log.d("id rol: ",idrole);
+                        Log.d("id rol: ",username);
+                        Log.d("id rol: ",idpegawai);
+                        //session.createLoginSessions(idrole,username,idpegawai);
                         if(response.body().getData().getIdRole()==1)
                         {
                             suksesloginadmin();

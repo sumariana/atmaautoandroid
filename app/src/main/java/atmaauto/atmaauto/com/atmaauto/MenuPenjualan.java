@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MenuPenjualan extends AppCompatActivity {
 
+    Button tambah_penjualan;
     private List<TransaksiPenjualan> mListPenjualan = new ArrayList<>();
     private PenjualanAdapter penjualanAdapter;
     private RecyclerView recyclerView;
@@ -45,13 +48,21 @@ public class MenuPenjualan extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_penjualan);
         penjualanAdapter=new PenjualanAdapter(getApplication(),mListPenjualan);
 
+        tambah_penjualan=(Button) findViewById(R.id.tambah_penjualan);
+        tambah_penjualan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                penjualan();
+            }
+        });
+
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         showList();
     }
     private void penjualan(){
-        Intent intent=new Intent(MenuPenjualan.this,TambahPengadaan.class);
+        Intent intent=new Intent(MenuPenjualan.this,TambahTransaksiSparepart.class);
         startActivity(intent);
 
     }

@@ -21,13 +21,13 @@ public class DetailSparepart {
     private String kodeSparepart;
     @SerializedName("Harga_Satuan")
     @Expose
-    private Integer hargaSatuan;
+    private Double hargaSatuan;
     @SerializedName("Jumlah")
     @Expose
     private Integer jumlah;
     @SerializedName("Subtotal_Detail_Sparepart")
     @Expose
-    private Integer subtotalDetailSparepart;
+    private Double subtotalDetailSparepart;
 
     public Integer getIdDetailSparepart() {
         return idDetailSparepart;
@@ -35,6 +35,25 @@ public class DetailSparepart {
 
     public void setIdDetailSparepart(Integer idDetailSparepart) {
         this.idDetailSparepart = idDetailSparepart;
+    }
+
+    public DetailSparepart(Integer idDetailSparepart, Integer idTransaksi, Integer idJasaMontir, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalDetailSparepart) {
+        this.idDetailSparepart = idDetailSparepart;
+        this.idTransaksi = idTransaksi;
+        this.idJasaMontir = idJasaMontir;
+        this.kodeSparepart = kodeSparepart;
+        this.hargaSatuan = hargaSatuan;
+        this.jumlah = jumlah;
+        this.subtotalDetailSparepart = subtotalDetailSparepart;
+    }
+
+    public DetailSparepart(Integer idJasaMontir, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalDetailSparepart) {
+        super();
+        this.idJasaMontir = idJasaMontir;
+        this.kodeSparepart = kodeSparepart;
+        this.hargaSatuan = hargaSatuan;
+        this.jumlah = jumlah;
+        this.subtotalDetailSparepart = subtotalDetailSparepart;
     }
 
     public Integer getIdTransaksi() {
@@ -61,11 +80,11 @@ public class DetailSparepart {
         this.kodeSparepart = kodeSparepart;
     }
 
-    public Integer getHargaSatuan() {
+    public Double getHargaSatuan() {
         return hargaSatuan;
     }
 
-    public void setHargaSatuan(Integer hargaSatuan) {
+    public void setHargaSatuan(Double hargaSatuan) {
         this.hargaSatuan = hargaSatuan;
     }
 
@@ -77,11 +96,11 @@ public class DetailSparepart {
         this.jumlah = jumlah;
     }
 
-    public Integer getSubtotalDetailSparepart() {
+    public Double getSubtotalDetailSparepart() {
         return subtotalDetailSparepart;
     }
 
-    public void setSubtotalDetailSparepart(Integer subtotalDetailSparepart) {
+    public void setSubtotalDetailSparepart(Double subtotalDetailSparepart) {
         this.subtotalDetailSparepart = subtotalDetailSparepart;
     }
 }

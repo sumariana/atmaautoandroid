@@ -43,7 +43,8 @@
         <activity android:name=".DetilList.DetailSparepart" />
         <activity android:name=".TambahMotorKonsumen" />
         <activity android:name=".DetilList.DetailMotorKonsumen" />
-        <activity android:name=".TambahPengadaan"></activity>
+        <activity android:name=".TambahPengadaan" />
+        <activity android:name=".TambahTransaksiSparepart"></activity>
     </application>
 
 </manifest>

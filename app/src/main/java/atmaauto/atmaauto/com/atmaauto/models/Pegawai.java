@@ -11,9 +11,9 @@ public class Pegawai {
     @SerializedName("Id_Cabang")
     @Expose
     private Integer idCabang;
-    @SerializedName("id")
+    @SerializedName("Id_Pegawai")
     @Expose
-    private Integer id;
+    private Integer idPegawai;
     @SerializedName("Nama_Pegawai")
     @Expose
     private String namaPegawai;
@@ -50,11 +50,11 @@ public class Pegawai {
     }
 
     public Integer getId() {
-        return id;
+        return idPegawai;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idPegawai = id;
     }
 
     public String getNamaPegawai() {
