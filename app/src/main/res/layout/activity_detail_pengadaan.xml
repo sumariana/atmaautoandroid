@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetilList.DetailPengadaanController">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+
+            <TextView
+                android:id="@+id/datepicker"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:text="Pilih Tanggal Pengadaan" />
+
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="70dp"
+                android:layout_marginStart="32dp"
+                android:text="Pilih Sales"
+                tools:ignore="UnknownId" />
+            <TextView
+                android:id="@+id/namasales"
+                android:layout_width="200dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginLeft="200dp"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="124dp"
+                android:layout_marginLeft="32dp"
+                android:text="Pilih Sparepart"/>
+            <Spinner
+                android:id="@+id/spinnersparepart"
+                android:layout_width="200dp"
+                android:layout_marginTop="124dp"
+                android:layout_marginLeft="200dp"
+                android:layout_height="wrap_content">
+            </Spinner>
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="178dp"
+                android:layout_marginLeft="32dp"
+                android:text="Jumlah"/>
+
+            <EditText
+                android:id="@+id/jumlahsparepart"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="165dp"
+                android:layout_marginLeft="200dp"/>
+
+            <Button
+                android:id="@+id/addtocart"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/buttonback"
+                android:text="Tambah Sparepart" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_pengadaan"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="5dp"
+            android:scrollbars="vertical">
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Total Harga"/>
+        <EditText
+            android:id="@+id/totalharga"
+            android:layout_width="200dp"
+            android:layout_height="40dp" />
+        <Button
+            android:id="@+id/postpengadaan"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Proses"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/buttonback"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

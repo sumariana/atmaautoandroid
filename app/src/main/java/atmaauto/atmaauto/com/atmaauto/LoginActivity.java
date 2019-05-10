@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("id rol: ",idrole);
                         Log.d("id rol: ",username);
                         Log.d("id rol: ",idpegawai);
-                        //session.createLoginSessions(idrole,username,idpegawai);
+                        session.createLoginSessions(idrole,username,idpegawai);
                         if(response.body().getData().getIdRole()==1)
                         {
                             suksesloginadmin();

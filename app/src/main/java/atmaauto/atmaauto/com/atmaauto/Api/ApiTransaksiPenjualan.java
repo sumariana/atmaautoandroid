@@ -1,6 +1,7 @@
 package atmaauto.atmaauto.com.atmaauto.Api;
 
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
+import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPenjualan_data;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -8,12 +9,16 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiTransaksiPenjualan {
     String JSONURL = "https://atmauto.jasonfw.com/";
 
     @GET("api/transaksi_penjualans")
     Call<TransaksiPenjualan_data> tampilTransaksiPenjualan();
+
+    @GET("api/transaksi_penjualans/showByIdMotorKonsumen/{id}")
+    Call<Sparepart_data> tampilsparepartmotor(@Path("Id_Motor_Konsumen") Integer Id_Motor_Konsumen);
 
     @POST("api/transaksi_penjualans/store")
     @FormUrlEncoded
@@ -22,10 +27,11 @@ public interface ApiTransaksiPenjualan {
                                     @Field("Jenis_Transaksi") String Jenis_Transaksi,
                                     @Field("Subtotal") Double Subtotal,
                                     @Field("Diskon") Integer Diskon,
-                                    @Field("Total") Double Total,
-                                    @Field("Status") Integer Status);
+                                    @Field("Id_Montir") Integer Id_Montir,
+                                    @Field("Id_Motor_Konsumen") Integer Id_Motor_Konsumen,
+                                    @Field("Id_Pegawai") Integer Id_Pegawai);
 
-    @POST("api/transaksi_penjualans/storeDetail")
+    @POST("api/transaksi_penjualans/storeSparepart")
     @FormUrlEncoded
     Call<ResponseBody> adddetailpenjualansparepart(@Field("Id_Transaksi") Integer Id_Transaksi,
                                           @Field("Id_Jasa_Montir") Integer Id_Jasa_Montir,
@@ -34,9 +40,9 @@ public interface ApiTransaksiPenjualan {
                                           @Field("Jumlah") Integer Jumlah,
                                           @Field("Subtotal_Detail_Sparepart") Double Subtotal_Detail_Sparepart);
 
-    @POST("api/montirs/store")
-    @FormUrlEncoded
-    Call<ResponseBody> addmontir(@Field("Id_Pegawai") Integer Id_Pegawai,
-                                                   @Field("Id_Motor_Konsumen") Integer Id_Motor_Konsumen);
+//    @POST("api/montirs/store")
+//    @FormUrlEncoded
+//    Call<ResponseBody> addmontir(@Field("Id_Pegawai") Integer Id_Pegawai,
+//                                                   @Field("Id_Motor_Konsumen") Integer Id_Motor_Konsumen);
 
 }

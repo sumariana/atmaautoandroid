@@ -83,7 +83,7 @@ public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdap
         };
     }
     @Override
-    public void onBindViewHolder(@NonNull MotorKonsumenAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MotorKonsumenAdapter.MyViewHolder myViewHolder, final int i) {
         final MotorKonsumen motorKonsumen = mListfilter.get(i);
         myViewHolder.namamotor.setText(motorKonsumen.getTipe());
         myViewHolder.platmotor.setText(motorKonsumen.getPlatKendaraan());
@@ -119,6 +119,9 @@ public class MotorKonsumenAdapter extends RecyclerView.Adapter<MotorKonsumenAdap
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.code()==200)
                         {
+                            mListfilter.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i,getItemCount());
                             Toast.makeText(context,"berhasil",Toast.LENGTH_SHORT).show();
 
                         }else

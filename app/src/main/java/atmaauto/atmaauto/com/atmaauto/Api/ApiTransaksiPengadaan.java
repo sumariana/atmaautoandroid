@@ -2,6 +2,7 @@ package atmaauto.atmaauto.com.atmaauto.Api;
 
 import java.util.Date;
 
+import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan_data;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPengadaan_data;
 import okhttp3.ResponseBody;
@@ -10,12 +11,16 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiTransaksiPengadaan {
     String JSONURL = "https://atmauto.jasonfw.com/";
 
     @GET("api/transaksi_pengadaans")
     Call<TransaksiPengadaan_data> tampiltransaksipengadaan();
+
+    @GET("api/detail_pengadaans/showByIdPengadaan/{id}")
+    Call<DetailPengadaan_data> tampildetilpengadaan(@Path("Id_Pengadaan") Integer Id_Pengadaan);
 
     @POST("api/transaksi_pengadaans/store")
     @FormUrlEncoded

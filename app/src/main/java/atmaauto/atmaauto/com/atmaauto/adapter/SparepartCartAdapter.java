@@ -22,6 +22,7 @@ import java.util.List;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailSparepart;
 import atmaauto.atmaauto.com.atmaauto.R;
+import atmaauto.atmaauto.com.atmaauto.TambahPengadaan;
 import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPengadaan;
@@ -39,7 +40,8 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
     private List<DetailPengadaan> mListfilter;
 
 
-    public SparepartCartAdapter(List<DetailPengadaan> mList){
+    public SparepartCartAdapter(Context context,List<DetailPengadaan> mList){
+        this.context=context;
         this.mList=mList;
         this.mListfilter=mList;
     }
@@ -87,33 +89,17 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SparepartCartAdapter.MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final SparepartCartAdapter.MyViewHolder myViewHolder, final int i) {
         final DetailPengadaan detailPengadaan = mListfilter.get(i);
         myViewHolder.namasparepart.setText(detailPengadaan.getKodeSparepart());
         myViewHolder.jumlahsparepart.setText("Jumlah  : "+detailPengadaan.getJumlah());
-//        myViewHolder.kotak.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                //Toast.makeText(v.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
-//                Intent intent= new Intent(context, DetailSparepart.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("kodesp", sparepart.getKodeSparepart());
-//                intent.putExtra("namasp", sparepart.getNamaSparepart());
-//                intent.putExtra("tipesp", sparepart.getTipeBarang());
-//                intent.putExtra("merksp", sparepart.getMerkSparepart());
-//                intent.putExtra("raksp", sparepart.getRakSparepart());
-//                intent.putExtra("jmlsp", sparepart.getJumlahSparepart());
-//                intent.putExtra("jmlminsp", sparepart.getStokMinimumSparepart());
-//                intent.putExtra("hargasp", sparepart.getHargaJual());
-//                intent.putExtra("hargabelisp", sparepart.getHargaBeli());
-//                intent.putExtra("gambarsp", sparepart.getGambar());
-//                context.startActivity(intent);
-//            }
-//        });
 
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListfilter.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i,getItemCount());
 
             }
         });

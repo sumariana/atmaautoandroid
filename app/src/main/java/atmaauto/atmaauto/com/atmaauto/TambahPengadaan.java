@@ -57,6 +57,7 @@ public class TambahPengadaan extends AppCompatActivity {
     EditText vtotalharga;
     Integer totalharga=0;
     Integer nilai=0;
+
     Button addtocart,postpengadaan;
     Spinner spinnersales,spinnersparepart;
     String selectedIdSales,selectedIdSparepart,selectedHargaSparepart;
@@ -96,6 +97,7 @@ public class TambahPengadaan extends AppCompatActivity {
                 postpengadaan();
             }
         });
+
 
 
         rview = findViewById(R.id.recycler_view_pengadaan);
@@ -168,13 +170,31 @@ public class TambahPengadaan extends AppCompatActivity {
                 Double.parseDouble(selectedHargaSparepart),
                 Integer.parseInt(jumlahsparepart.getText().toString()),
                 Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
-
-        nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlahsparepart.getText().toString());
-        adapter = new SparepartCartAdapter(details);
+        adapter = new SparepartCartAdapter(getApplication(),details);
         rview.setAdapter(adapter);
-        totalharga=totalharga+nilai;
-        vtotalharga.setText(totalharga.toString());
+
+        hitungtotal();
+
         jumlahsparepart.setText("");
+    }
+    public void hitungtotal(){
+       //totalhargamasih bug saat salah 1 detail dihapus
+//        nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlahsparepart.getText().toString());
+//        totalharga=totalharga+nilai;
+
+        Integer totalharga=0;
+        Integer value;
+        for(int x=0;x<details.size();x++)
+        {
+            Log.d( "kode sparepart  ",details.get(x).getKodeSparepart());
+            Log.d( "harga sparepart  ",details.get(x).getSubtotalPengadaan().toString());
+            Double total=details.get(x).getSubtotalPengadaan();
+            value=total.intValue();
+            totalharga+=value;
+            Log.d( "total  ",totalharga.toString());
+        }
+
+        vtotalharga.setText(totalharga.toString());
     }
 
     public void postpengadaan(){
@@ -187,7 +207,7 @@ public class TambahPengadaan extends AppCompatActivity {
         Retrofit retrofit=builder.build();
         ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.addpengadaan(Integer.parseInt(selectedIdSales),mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()),1);
+        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.addpengadaan(Integer.parseInt(selectedIdSales),mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()),0);
         Log.d( "tanggal: ",mDisplayDate.getText().toString());
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -195,6 +215,7 @@ public class TambahPengadaan extends AppCompatActivity {
                 try {
                     JSONObject jsonRes = new JSONObject(response.body().string());
                     String idPengadaan =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
+
                     for(int x=0;x<details.size();x++)
                     {
                         Gson gson = new GsonBuilder()
