@@ -11,13 +11,25 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailPengadaanController;
+import atmaauto.atmaauto.com.atmaauto.MenuKonsumen;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPengadaan;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 //test
 
@@ -31,6 +43,7 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
         this.mList=mList;
         this.mListfilter=mList;
     }
+
     @Override
     public PengadaanAdapter.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i)
     {
@@ -40,7 +53,7 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PengadaanAdapter.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull PengadaanAdapter.MyViewHolder myViewHolder, final int i) {
         final TransaksiPengadaan transaksiPengadaan = mListfilter.get(i);
         myViewHolder.tanggal.setText(transaksiPengadaan.getTanggalPengadaan());
         myViewHolder.namasales.setText(transaksiPengadaan.getNamaSales());
@@ -65,8 +78,46 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
                 intent.putExtra("idpengadaan", transaksiPengadaan.getIdPengadaan());
                 intent.putExtra("tanggal", transaksiPengadaan.getTanggalPengadaan());
                 intent.putExtra("namasales", transaksiPengadaan.getNamaSales());
+                intent.putExtra("idsales", transaksiPengadaan.getIdSupplier());
                 intent.putExtra("totalharga", transaksiPengadaan.getTotalHarga().toString());
                 context.startActivity(intent);
+            }
+        });
+        myViewHolder.deletepengadaan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(transaksiPengadaan.getStatusPengadaan()==0)
+                {
+                    Gson gson = new GsonBuilder()
+                            .setLenient()
+                            .create();
+                    Retrofit.Builder builder=new Retrofit.
+                            Builder().baseUrl(ApiTransaksiPengadaan.JSONURL).
+                            addConverterFactory(GsonConverterFactory.create(gson));
+                    Retrofit retrofit=builder.build();
+                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletetransaksipengadaan(transaksiPengadaan.getIdPengadaan());
+                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                            mListfilter.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i,getItemCount());
+                            Toast.makeText(context, "berhasil!", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(context, "network error!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else
+                {
+                    Toast.makeText(context, "Pengadaan sedang di proses!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

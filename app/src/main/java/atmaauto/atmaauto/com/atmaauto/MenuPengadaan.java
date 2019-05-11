@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -16,6 +18,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
@@ -31,6 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MenuPengadaan extends AppCompatActivity {
     Button tambahPengadaan;
+    SearchView search;
     private List<TransaksiPengadaan> mListPengadaan = new ArrayList<>();
     private PengadaanAdapter pengadaanAdapter;
     private RecyclerView recyclerView;
@@ -44,6 +48,24 @@ public class MenuPengadaan extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_pengadaan);
         pengadaanAdapter=new PengadaanAdapter(getApplication(),mListPengadaan);
+
+        search=(SearchView) findViewById(R.id.searchbar);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                pengadaanAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
 
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

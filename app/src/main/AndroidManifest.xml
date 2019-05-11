@@ -45,7 +45,8 @@
         <activity android:name=".DetilList.DetailMotorKonsumen" />
         <activity android:name=".TambahPengadaan" />
         <activity android:name=".TambahTransaksiSparepart" />
-        <activity android:name=".DetilList.DetailPengadaanController"></activity>
+        <activity android:name=".DetilList.DetailPengadaanController" />
+        <activity android:name=".MenuHistory"></activity>
     </application>
 
 </manifest>

@@ -39,6 +39,9 @@ public interface ApiSparepart {
     @GET("api/spareparts/sortjumlahdesc")
     Call<Sparepart_data>tampilkatalogterbanyak();
 
+    @GET("api/spareparts/showBelowMinimumStock")
+    Call<Sparepart_data>tampilstokmin();
+
     @GET("api/spareparts/sorthargaascjumlahasc")
     Call<Sparepart_data>sorthargaascjumlahasc();
     @GET("api/spareparts/sorthargaascjumlahdesc")

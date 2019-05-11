@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailSparepart;
+import atmaauto.atmaauto.com.atmaauto.MainActivity;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.TambahPengadaan;
 import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan;
@@ -97,9 +99,39 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListfilter.remove(i);
-                notifyItemRemoved(i);
-                notifyItemRangeChanged(i,getItemCount());
+                if(detailPengadaan.getIdDetailPengadaan()==null)
+                {
+                    mListfilter.remove(i);
+                    notifyItemRemoved(i);
+                    notifyItemRangeChanged(i,getItemCount());
+                }else {
+                    Gson gson = new GsonBuilder()
+                            .setLenient()
+                            .create();
+                    Retrofit.Builder builder=new Retrofit.
+                            Builder().baseUrl(ApiSparepart.JSONURL).
+                            addConverterFactory(GsonConverterFactory.create(gson));
+                    Retrofit retrofit=builder.build();
+                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletedetailpengadaan(detailPengadaan.getIdDetailPengadaan());
+                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                                Toast.makeText(context, "berhasil!", Toast.LENGTH_SHORT).show();
+                            mListfilter.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i,getItemCount());
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(context, "network error!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
 
             }
         });

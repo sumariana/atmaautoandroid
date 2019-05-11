@@ -17,8 +17,8 @@ public interface ApiTransaksiPenjualan {
     @GET("api/transaksi_penjualans")
     Call<TransaksiPenjualan_data> tampilTransaksiPenjualan();
 
-    @GET("api/transaksi_penjualans/showByIdMotorKonsumen/{id}")
-    Call<Sparepart_data> tampilsparepartmotor(@Path("Id_Motor_Konsumen") Integer Id_Motor_Konsumen);
+    @GET("api/transaksi_penjualans/showByIdMotorKonsumen/{Id_Motor}")
+    Call<Sparepart_data> tampilsparepartmotor(@Path("Id_Motor") Integer Id_Motor);
 
     @POST("api/transaksi_penjualans/store")
     @FormUrlEncoded

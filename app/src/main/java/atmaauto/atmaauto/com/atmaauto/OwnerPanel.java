@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class OwnerPanel extends AppCompatActivity {
 
-    Button logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart;
+    Button logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart,history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,8 @@ public class OwnerPanel extends AppCompatActivity {
         konsumen=(Button)findViewById(R.id.konsumen);
         servis=(Button)findViewById(R.id.servis);
         sparepart=(Button)findViewById(R.id.sparepart);
+        history=(Button) findViewById(R.id.histori);
+        history();
         ClickLogout();
         penjualan();
         pengadaan();
@@ -36,6 +38,15 @@ public class OwnerPanel extends AppCompatActivity {
         sparepart();
     }
     private void ClickLogout(){
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OwnerPanel.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+    private void history(){
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

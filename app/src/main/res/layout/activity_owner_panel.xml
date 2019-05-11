@@ -107,6 +107,14 @@
                         android:textColor="@android:color/white"
                         android:layout_marginBottom="10dp"
                         android:text="Pengadaan" />
+                    <Button
+                        android:id="@+id/histori"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="10dp"
+                        android:text="History Barang" />
                 </LinearLayout>
             </ScrollView>
 

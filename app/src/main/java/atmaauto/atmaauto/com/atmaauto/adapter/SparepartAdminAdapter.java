@@ -132,7 +132,9 @@ public class SparepartAdminAdapter extends RecyclerView.Adapter<SparepartAdminAd
                         if(response.code()==200)
                         {
                             Toast.makeText(context,"berhasil",Toast.LENGTH_SHORT).show();
-                            notifyDataSetChanged();
+                            mListfilter.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i,getItemCount());
                         }else
                             Toast.makeText(context,"gagal",Toast.LENGTH_SHORT).show();
                     }

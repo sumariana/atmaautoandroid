@@ -11,7 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -21,6 +23,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -35,6 +41,7 @@ import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan;
 import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan_data;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,8 +54,9 @@ public class DetailPengadaanController extends AppCompatActivity {
     TextView vnamasales,mDisplayDate;
     EditText vtotalharga;
     EditText jumlahsparepart;
-    String namasales,totalharga,date;
+    String namasales,totalharga,date,idsales;
     Integer idpengadaan;
+    Button addtocart,patchpengadaan;
 
     private List<DetailPengadaan> mListDetailPengadaan = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -70,7 +78,7 @@ public class DetailPengadaanController extends AppCompatActivity {
         setContentView(R.layout.activity_detail_pengadaan);
         getintent();
         init();
-        Log.d( "onCreate: ",idpengadaan.toString());
+        Log.d( "id Pengadaan: ",idpengadaan.toString());
         setDropdownsparepart();
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +107,134 @@ public class DetailPengadaanController extends AppCompatActivity {
                 mDisplayDate.setText(date);
             }
         };
+
+        addtocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addtoCart();
+            }
+        });
+
+        patchpengadaan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                patchpengadaan();
+            }
+        });
+
+        spinnersparepart.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Listener dropdown tipe sparepart saat dipilih
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedIdSparepart = listKodeSparepart.get(position); //Mendapatkan id dari dropdown yang dipilih
+                selectedHargaSparepart = listHargaSparepart.get(position);
+                Log.d("ID Sparepart : ",selectedIdSparepart);
+                Log.d("Harga Sparepart : ",selectedHargaSparepart);
+                //Double total = Double.parseDouble(selectedHargaSparepart)*nilai;
+                //Log.d("total  : ",total.toString());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+
+    public void addtoCart(){
+        Log.d( "jumlah sparepart: ",jumlahsparepart.getText().toString());
+        details.add(new DetailPengadaan(selectedIdSparepart,
+                Double.parseDouble(selectedHargaSparepart),
+                Integer.parseInt(jumlahsparepart.getText().toString()),
+                Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
+        sparepartCartAdapter.notifyDataSetChanged();
+        //sparepartCartAdapter = new SparepartCartAdapter(getApplication(),details);
+        recyclerView.setAdapter(sparepartCartAdapter);
+
+        hitungtotal();
+
+        jumlahsparepart.setText("");
+    }
+
+    public void patchpengadaan(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.updatetransaksipengadaan(idpengadaan,mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()));
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.code()==201)
+                {
+                    for(int x=0;x<details.size();x++)
+                    {
+                        if(details.get(x).getIdPengadaan()==null)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.adddetailpengadaan(idpengadaan,details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    try {
+                                        JSONObject jsonRes = new JSONObject(response.body().string());
+                                        String iddetailprocurement =  jsonRes.getJSONObject("data").getString("Id_Detail_Pengadaan");
+                                        Log.d("Id_Detail_Pengadaan : ", iddetailprocurement);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+                }else{
+                    Toast.makeText(DetailPengadaanController.this, "error!", Toast.LENGTH_SHORT).show();}
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void hitungtotal(){
+        //totalhargamasih bug saat salah 1 detail dihapus
+//        nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlahsparepart.getText().toString());
+//        totalharga=totalharga+nilai;
+
+        Integer totalharga=0;
+        Integer value;
+        for(int x=0;x<details.size();x++)
+        {
+            Log.d( "kode sparepart  ",details.get(x).getKodeSparepart());
+            Log.d( "harga sparepart  ",details.get(x).getSubtotalPengadaan().toString());
+            Double total=details.get(x).getSubtotalPengadaan();
+            value=total.intValue();
+            totalharga+=value;
+            Log.d( "total  ",totalharga.toString());
+        }
+
+        vtotalharga.setText(totalharga.toString());
     }
 
     public void init(){
@@ -107,9 +243,10 @@ public class DetailPengadaanController extends AppCompatActivity {
         mDisplayDate = (TextView) findViewById(R.id.datepicker);
         spinnersparepart=(Spinner) findViewById(R.id.spinnersparepart);
         jumlahsparepart=(EditText) findViewById(R.id.jumlahsparepart);
-
+        addtocart = (Button) findViewById(R.id.addtocart);
+        patchpengadaan=(Button) findViewById(R.id.patchpengadaan);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_pengadaan);
-        sparepartCartAdapter=new SparepartCartAdapter(getApplication(),mListDetailPengadaan);
+        sparepartCartAdapter=new SparepartCartAdapter(getApplication(),details);
 
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -126,6 +263,7 @@ public class DetailPengadaanController extends AppCompatActivity {
         Intent i=getIntent();
 
         namasales=i.getStringExtra("namasales");
+        idsales=i.getStringExtra("idsales");
         totalharga=i.getStringExtra("totalharga");
         date=i.getStringExtra("tanggal");
         idpengadaan=i.getIntExtra("idpengadaan",0);
@@ -188,10 +326,11 @@ public class DetailPengadaanController extends AppCompatActivity {
             public void onResponse(Call<DetailPengadaan_data> call, Response<DetailPengadaan_data> response) {
                 try{
                     sparepartCartAdapter.notifyDataSetChanged();
-                    sparepartCartAdapter = new SparepartCartAdapter(getApplicationContext(),response.body().getData());
+                    details=response.body().getData();
+                    sparepartCartAdapter = new SparepartCartAdapter(getApplicationContext(),details);
                     recyclerView.setAdapter(sparepartCartAdapter);
                 }catch(Exception e){
-                    Toast.makeText(DetailPengadaanController.this, "Belum ada motor konsumen!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailPengadaanController.this, "Belum ada detail!", Toast.LENGTH_SHORT).show();
                 }
             }
 

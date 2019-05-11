@@ -25,13 +25,19 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/white"
                 android:textSize="10dp" />
-
         </LinearLayout>
+        <Spinner
+
+            android:id="@+id/sorting"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp">
+        </Spinner>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_sparepartadmin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="90dp"
             android:scrollbars="vertical">
         </android.support.v7.widget.RecyclerView>
         <Button
