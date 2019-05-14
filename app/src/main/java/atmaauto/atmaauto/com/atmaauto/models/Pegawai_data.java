@@ -5,18 +5,16 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DetailJasa_data {
-
-
+public class Pegawai_data {
     @SerializedName("data")
     @Expose
-    private List<DetailJasa> data = null;
+    private List<Pegawai> data = null;
 
-    public List<DetailJasa> getData() {
+    public List<Pegawai> getData() {
         return data;
     }
 
-    public void setData(List<DetailJasa> data) {
+    public void setData(List<Pegawai> data) {
         this.data = data;
     }
 }

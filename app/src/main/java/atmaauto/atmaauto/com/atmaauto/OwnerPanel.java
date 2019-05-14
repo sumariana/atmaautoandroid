@@ -1,6 +1,9 @@
 package atmaauto.atmaauto.com.atmaauto;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +28,7 @@ public class OwnerPanel extends AppCompatActivity {
         servis=(Button)findViewById(R.id.servis);
         sparepart=(Button)findViewById(R.id.sparepart);
         history=(Button) findViewById(R.id.histori);
+        init();
         history();
         ClickLogout();
         penjualan();
@@ -37,6 +41,27 @@ public class OwnerPanel extends AppCompatActivity {
         servis();
         sparepart();
     }
+
+    private void init(){
+
+        Intent intent = new Intent(this, MenuSparepart.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.gear)
+                .setContentTitle("My notification")
+                .setContentText("Hello World!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, builder.build());
+    }
+
     private void ClickLogout(){
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,10 +72,10 @@ public class OwnerPanel extends AppCompatActivity {
         });
     }
     private void history(){
-        logout.setOnClickListener(new View.OnClickListener() {
+        history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MainActivity.class);
+                Intent intent=new Intent(OwnerPanel.this,MenuHistory.class);
                 startActivity(intent);
             }
         });

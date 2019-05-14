@@ -16,6 +16,18 @@
         <item>Semua Sparepart</item>
         <item>Sparepart Mencapai Stok Minimal</item>
     </string-array>
+    <string-array name="History">
+        <item>History Transaksi Barang Masuk</item>
+        <item>History Transaksi Barang Keluar</item>
+    </string-array>
+
+    <string-array name="JenisTransaksi">
+        <item>Penjualan Sparepart</item>
+        <item>Penjualan Jasa</item>
+        <item>Penjualan Jasa dan Sparepart</item>
+    </string-array>
+
+
     <string-array name="Sorting">
         <item>Reset</item>
         <item>Harga Termurah</item>

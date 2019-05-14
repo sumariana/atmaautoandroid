@@ -1,6 +1,10 @@
 package atmaauto.atmaauto.com.atmaauto.Api;
 
+import android.content.Intent;
+
+import atmaauto.atmaauto.com.atmaauto.models.DetailJasa_data;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
+import atmaauto.atmaauto.com.atmaauto.models.Pegawai_data;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPenjualan_data;
 import okhttp3.ResponseBody;
@@ -16,6 +20,18 @@ public interface ApiTransaksiPenjualan {
 
     @GET("api/transaksi_penjualans")
     Call<TransaksiPenjualan_data> tampilTransaksiPenjualan();
+
+    @GET("api/pegawais")
+    Call<Pegawai_data> tampilmontir();
+
+    @GET("api/detail_jasas")
+    Call<DetailJasa_data> tampilservis();
+
+    @GET("api/transaksi_penjualans/transaksikeluar")
+    Call<TransaksiPenjualan_data> transaksikeluar();
+
+    @GET("api/transaksi_penjualans/delete/{id}")
+    Call<ResponseBody> deletetransaksi(@Path("id") Integer id);
 
     @GET("api/transaksi_penjualans/showByIdMotorKonsumen/{Id_Motor}")
     Call<Sparepart_data> tampilsparepartmotor(@Path("Id_Motor") Integer Id_Motor);
@@ -39,6 +55,13 @@ public interface ApiTransaksiPenjualan {
                                           @Field("Harga_Satuan") Double Harga_Satuan,
                                           @Field("Jumlah") Integer Jumlah,
                                           @Field("Subtotal_Detail_Sparepart") Double Subtotal_Detail_Sparepart);
+
+    @POST("api/transaksi_penjualans/storeJasa")
+    @FormUrlEncoded
+    Call<ResponseBody> adddetailpenjualanjasa(@Field("Id_Transaksi") Integer Id_Transaksi,
+                                                   @Field("Id_Jasa") Integer Id_Jasa,
+                                                   @Field("Id_Jasa_Montir") Integer Id_Jasa_Montir,
+                                                   @Field("Subtotal_Detail_Jasa") Double Subtotal_Detail_Jasa);
 
 //    @POST("api/montirs/store")
 //    @FormUrlEncoded

@@ -1,9 +1,13 @@
 package atmaauto.atmaauto.com.atmaauto;
 
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -83,6 +87,10 @@ public class TambahPengadaan extends AppCompatActivity {
         vtotalharga=(EditText) findViewById(R.id.totalharga);
 
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-message"));
+
+        //kurangharga();
 
         addtocart=(Button) findViewById(R.id.addtocart);
         addtocart.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +174,7 @@ public class TambahPengadaan extends AppCompatActivity {
     }
 
     public void addtoCart(){
-        details.add(new DetailPengadaan(selectedIdSparepart,
+        details.add(new DetailPengadaan(0,selectedIdSparepart,
                 Double.parseDouble(selectedHargaSparepart),
                 Integer.parseInt(jumlahsparepart.getText().toString()),
                 Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
@@ -191,11 +199,23 @@ public class TambahPengadaan extends AppCompatActivity {
             Double total=details.get(x).getSubtotalPengadaan();
             value=total.intValue();
             totalharga+=value;
-            Log.d( "total  ",totalharga.toString());
+            //Log.d( "total  ",totalharga.toString());
         }
 
         vtotalharga.setText(totalharga.toString());
     }
+
+    public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            Integer value1;
+            hitungtotal();
+            Double harga = intent.getDoubleExtra("harga",0);
+            value1=harga.intValue();
+            Log.d( "subtotal  ",totalharga.toString());
+        }
+    };
 
     public void postpengadaan(){
         Gson gson = new GsonBuilder()

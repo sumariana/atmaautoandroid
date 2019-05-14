@@ -48,13 +48,14 @@ public class MenuPenjualan extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_penjualan);
         penjualanAdapter=new PenjualanAdapter(getApplication(),mListPenjualan);
 
-        tambah_penjualan=(Button) findViewById(R.id.tambah_penjualan);
+        tambah_penjualan=(Button) findViewById(R.id.tambahpenjualansparepart);
         tambah_penjualan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 penjualan();
             }
         });
+
 
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

@@ -21,8 +21,19 @@ public interface ApiTransaksiPengadaan {
     @GET("api/transaksi_pengadaans")
     Call<TransaksiPengadaan_data> tampiltransaksipengadaan();
 
+    @GET("api/transaksi_pengadaans/transaksimasuk")
+    Call<TransaksiPengadaan_data> transaksimasuk();
+
     @GET("api/detail_pengadaans/showByIdPengadaan/{id}")
     Call<DetailPengadaan_data> tampildetilpengadaan(@Path("id") Integer id);
+
+    @PATCH("api/transaksi_pengadaans/verify/{id}")
+    Call<ResponseBody> verifypengadaan(@Path("id") Integer id);
+
+    @PATCH("api/detail_pengadaans/update/{id}")
+    @FormUrlEncoded
+    Call<ResponseBody> updatejumlahpengadaan(@Path("id") Integer id,
+                                                @Field("Jumlah") Integer Jumlah);
 
     @POST("api/transaksi_pengadaans/store")
     @FormUrlEncoded

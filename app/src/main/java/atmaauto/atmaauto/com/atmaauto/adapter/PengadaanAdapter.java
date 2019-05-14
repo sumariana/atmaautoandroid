@@ -21,6 +21,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
 import atmaauto.atmaauto.com.atmaauto.DetilList.DetailPengadaanController;
+import atmaauto.atmaauto.com.atmaauto.DetilList.StatusForm;
 import atmaauto.atmaauto.com.atmaauto.MenuKonsumen;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPengadaan;
@@ -70,19 +71,57 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
             myViewHolder.status.setBackgroundColor(Color.parseColor("#81c784"));
         }
 
+        if(transaksiPengadaan.getStatusPengadaan()==2)
+        {
+            myViewHolder.editpengadaan.setVisibility(View.GONE);
+            myViewHolder.deletepengadaan.setVisibility(View.GONE);
+        }
+
         myViewHolder.editpengadaan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(context, DetailPengadaanController.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("idpengadaan", transaksiPengadaan.getIdPengadaan());
-                intent.putExtra("tanggal", transaksiPengadaan.getTanggalPengadaan());
-                intent.putExtra("namasales", transaksiPengadaan.getNamaSales());
-                intent.putExtra("idsales", transaksiPengadaan.getIdSupplier());
-                intent.putExtra("totalharga", transaksiPengadaan.getTotalHarga().toString());
-                context.startActivity(intent);
+                if(transaksiPengadaan.getStatusPengadaan()==0)
+                {
+                    Intent intent= new Intent(context, DetailPengadaanController.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("idpengadaan", transaksiPengadaan.getIdPengadaan());
+                    intent.putExtra("tanggal", transaksiPengadaan.getTanggalPengadaan());
+                    intent.putExtra("namasales", transaksiPengadaan.getNamaSales());
+                    intent.putExtra("idsales", transaksiPengadaan.getIdSupplier());
+                    intent.putExtra("totalharga", transaksiPengadaan.getTotalHarga());
+                    context.startActivity(intent);
+                }else
+                {
+                    Toast.makeText(context, "restricted !", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
+        myViewHolder.status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(transaksiPengadaan.getStatusPengadaan()==1)
+                {
+                    Intent intent= new Intent(context, StatusForm.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("idpengadaan", transaksiPengadaan.getIdPengadaan());
+                    intent.putExtra("tanggal", transaksiPengadaan.getTanggalPengadaan());
+                    intent.putExtra("status", transaksiPengadaan.getStatusPengadaan());
+                    intent.putExtra("namasales", transaksiPengadaan.getNamaSales());
+                    intent.putExtra("idsales", transaksiPengadaan.getIdSupplier());
+                    intent.putExtra("totalharga", transaksiPengadaan.getTotalHarga());
+                    context.startActivity(intent);
+                }else if(transaksiPengadaan.getStatusPengadaan()==0)
+                {
+                    Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    Toast.makeText(context, "procurement already done !", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         myViewHolder.deletepengadaan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +155,7 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
                     });
                 }else
                 {
-                    Toast.makeText(context, "Pengadaan sedang di proses!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Procurement is on process!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -140,7 +179,7 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (obj.getNamaSales().toLowerCase().contains(charString.toLowerCase())) {
+                        if (obj.getNamaSales().toLowerCase().contains(charString.toLowerCase()) || obj.getTanggalPengadaan().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(obj);
                         }
                     }

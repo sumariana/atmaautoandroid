@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border_mainmenu">
+        <TextView
+            android:id="@+id/namastatus"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:text="kodesparepart"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/white"/>
+        <EditText
+            android:id="@+id/jumlahstatus"
+            android:layout_width="60dp"
+            android:backgroundTint="@android:color/white"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/updatebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Update"
+            android:background="@drawable/buttonback"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
