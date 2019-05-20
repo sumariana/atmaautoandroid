@@ -12,6 +12,14 @@
         <item>BAN</item>
         <item>KAYU</item>
     </string-array>
+
+    <string-array name="filterpenjualan">
+        <item>All Transaction</item>
+        <item>Unprocess Transaction</item>
+        <item>Processed Transaction</item>
+        <item>Finished Transaction</item>
+    </string-array>
+
     <string-array name="Sparepart">
         <item>Semua Sparepart</item>
         <item>Sparepart Mencapai Stok Minimal</item>

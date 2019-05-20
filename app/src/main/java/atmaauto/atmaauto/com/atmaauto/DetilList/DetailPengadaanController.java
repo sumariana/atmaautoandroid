@@ -347,6 +347,7 @@ public class DetailPengadaanController extends AppCompatActivity {
         detailPengadaan_dataCall.enqueue(new Callback<DetailPengadaan_data>() {
             @Override
             public void onResponse(Call<DetailPengadaan_data> call, Response<DetailPengadaan_data> response) {
+                Log.d( "onResponse: ",response.body().getData().toString());
                 try{
                     sparepartCartAdapter.notifyDataSetChanged();
                     details=response.body().getData();

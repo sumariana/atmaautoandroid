@@ -215,7 +215,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/postpenjualan"
+                android:id="@+id/patchpenjualan"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

@@ -7,7 +7,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MenuPenjualan extends AppCompatActivity {
 
     Button tambah_penjualan;
+    Spinner spinnerpenjualan;
     private List<TransaksiPenjualan> mListPenjualan = new ArrayList<>();
     private PenjualanAdapter penjualanAdapter;
     private RecyclerView recyclerView;
@@ -48,6 +52,36 @@ public class MenuPenjualan extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_penjualan);
         penjualanAdapter=new PenjualanAdapter(getApplication(),mListPenjualan);
 
+        layoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        spinnerpenjualan=(Spinner) findViewById(R.id.spinnerpenjualan);
+        ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.filterpenjualan,android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerpenjualan.setAdapter(adapter1);
+        spinnerpenjualan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String text = parent.getItemAtPosition(position).toString();
+                if(text.equalsIgnoreCase("All Transaction"))
+                {
+                    showList();
+                }else if(text.equalsIgnoreCase("Unprocess Transaction")){
+                    showListunprocessed();
+                }else if(text.equalsIgnoreCase("Processed Transaction")){
+                    showListprocessed();
+                }else if(text.equalsIgnoreCase("Finished Transaction")){
+                    showListfinished();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         tambah_penjualan=(Button) findViewById(R.id.tambahpenjualansparepart);
         tambah_penjualan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,12 +89,6 @@ public class MenuPenjualan extends AppCompatActivity {
                 penjualan();
             }
         });
-
-
-        layoutManager=new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        showList();
     }
     private void penjualan(){
         Intent intent=new Intent(MenuPenjualan.this,TambahTransaksiSparepart.class);
@@ -81,6 +109,105 @@ public class MenuPenjualan extends AppCompatActivity {
 
         //Calling APi
         Call<TransaksiPenjualan_data> transaksiPenjualan_dataCall = apiTransaksiPenjualan.tampilTransaksiPenjualan();
+
+        transaksiPenjualan_dataCall.enqueue(new Callback<TransaksiPenjualan_data>() {
+            @Override
+            public void onResponse(Call<TransaksiPenjualan_data> call, Response<TransaksiPenjualan_data> response) {
+                try {
+                    penjualanAdapter.notifyDataSetChanged();
+                    penjualanAdapter = new PenjualanAdapter(getApplicationContext(), response.body().getData());
+                    recyclerView.setAdapter(penjualanAdapter);
+                } catch (Exception e) {
+                    Toast.makeText(MenuPenjualan.this, "Belum ada Pengadaan!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiPenjualan_data> call, Throwable t) {
+                Toast.makeText(MenuPenjualan.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListunprocessed() {
+        //Build Retroifit
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder = new Retrofit.
+                Builder().baseUrl(ApiSupplierSales.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit = builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan = retrofit.create(ApiTransaksiPenjualan.class);
+
+        //Calling APi
+        Call<TransaksiPenjualan_data> transaksiPenjualan_dataCall = apiTransaksiPenjualan.transaksiunprocessed();
+
+        transaksiPenjualan_dataCall.enqueue(new Callback<TransaksiPenjualan_data>() {
+            @Override
+            public void onResponse(Call<TransaksiPenjualan_data> call, Response<TransaksiPenjualan_data> response) {
+                try {
+                    penjualanAdapter.notifyDataSetChanged();
+                    penjualanAdapter = new PenjualanAdapter(getApplicationContext(), response.body().getData());
+                    recyclerView.setAdapter(penjualanAdapter);
+                } catch (Exception e) {
+                    Toast.makeText(MenuPenjualan.this, "Belum ada Pengadaan!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiPenjualan_data> call, Throwable t) {
+                Toast.makeText(MenuPenjualan.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListprocessed() {
+        //Build Retroifit
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder = new Retrofit.
+                Builder().baseUrl(ApiSupplierSales.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit = builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan = retrofit.create(ApiTransaksiPenjualan.class);
+
+        //Calling APi
+        Call<TransaksiPenjualan_data> transaksiPenjualan_dataCall = apiTransaksiPenjualan.transaksiprocessed();
+
+        transaksiPenjualan_dataCall.enqueue(new Callback<TransaksiPenjualan_data>() {
+            @Override
+            public void onResponse(Call<TransaksiPenjualan_data> call, Response<TransaksiPenjualan_data> response) {
+                try {
+                    penjualanAdapter.notifyDataSetChanged();
+                    penjualanAdapter = new PenjualanAdapter(getApplicationContext(), response.body().getData());
+                    recyclerView.setAdapter(penjualanAdapter);
+                } catch (Exception e) {
+                    Toast.makeText(MenuPenjualan.this, "Belum ada Pengadaan!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiPenjualan_data> call, Throwable t) {
+                Toast.makeText(MenuPenjualan.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showListfinished() {
+        //Build Retroifit
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder = new Retrofit.
+                Builder().baseUrl(ApiSupplierSales.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit = builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan = retrofit.create(ApiTransaksiPenjualan.class);
+
+        //Calling APi
+        Call<TransaksiPenjualan_data> transaksiPenjualan_dataCall = apiTransaksiPenjualan.transaksifinished();
 
         transaksiPenjualan_dataCall.enqueue(new Callback<TransaksiPenjualan_data>() {
             @Override

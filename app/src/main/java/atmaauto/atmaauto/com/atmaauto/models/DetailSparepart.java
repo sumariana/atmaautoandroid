@@ -16,6 +16,9 @@ public class DetailSparepart {
     @SerializedName("Id_Jasa_Montir")
     @Expose
     private Integer idJasaMontir;
+    @SerializedName("Nama_Sparepart")
+    @Expose
+    private String namaSparepart;
     @SerializedName("Kode_Sparepart")
     @Expose
     private String kodeSparepart;
@@ -45,6 +48,14 @@ public class DetailSparepart {
         this.hargaSatuan = hargaSatuan;
         this.jumlah = jumlah;
         this.subtotalDetailSparepart = subtotalDetailSparepart;
+    }
+
+    public String getNamaSparepart() {
+        return namaSparepart;
+    }
+
+    public void setNamaSparepart(String namaSparepart) {
+        this.namaSparepart = namaSparepart;
     }
 
     public DetailSparepart(Integer idJasaMontir, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalDetailSparepart) {

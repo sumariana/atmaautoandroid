@@ -22,8 +22,6 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".OwnerPanel" />
-        <activity android:name=".CSPanel" />
-        <activity android:name=".CashierPanel" />
         <activity android:name=".MenuPembayaran" />
         <activity android:name=".MenuPegawai" />
         <activity android:name=".MenuServis" />
@@ -48,7 +46,9 @@
         <activity android:name=".MenuHistory" />
         <activity android:name=".DetilList.StatusForm" />
         <activity android:name=".TambahTransaksiSparepart" />
-        <activity android:name=".DetilList.DetailPenjualanController"></activity>
+        <activity android:name=".DetilList.DetailPenjualanController" />
+        <activity android:name=".DetilList.DetailStatusPenjualanController" />
+        <activity android:name=".CSPanel"></activity>
     </application>
 
 </manifest>

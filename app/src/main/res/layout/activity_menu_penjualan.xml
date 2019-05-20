@@ -29,11 +29,20 @@
                 android:textSize="10dp" />
 
         </LinearLayout>
+        <Spinner
+            android:id="@+id/spinnerpenjualan"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+        </Spinner>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_penjualan"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="match_parent"
             android:layout_below="@+id/layertop"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
             android:scrollbars="vertical">
         </android.support.v7.widget.RecyclerView>
         <Button

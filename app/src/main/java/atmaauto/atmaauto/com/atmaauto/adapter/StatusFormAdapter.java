@@ -76,7 +76,7 @@ public class StatusFormAdapter extends RecyclerView.Adapter<StatusFormAdapter.My
     @Override
     public void onBindViewHolder(@NonNull final StatusFormAdapter.MyViewHolder myViewHolder, final int i) {
         final DetailPengadaan detailPengadaan = mListfilter.get(i);
-        myViewHolder.namastatus.setText(detailPengadaan.getNamaSparepart());
+        myViewHolder.namastatus.setText(detailPengadaan.getKodeSparepart());
         myViewHolder.jumlahstatus.setText(detailPengadaan.getJumlah().toString());
         myViewHolder.update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +95,7 @@ public class StatusFormAdapter extends RecyclerView.Adapter<StatusFormAdapter.My
                 responseBodyCall.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.code()==201)
+                        if(response.code()==200)
                         {
                             Toast.makeText(context, "berhasil Update!", Toast.LENGTH_SHORT).show();
                         }else

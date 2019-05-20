@@ -22,6 +22,7 @@ public class SessionManager {
     public static final String KEY_ID = "id";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_ROLE = "role";
+    public static final String KEY_Cabang = "cabang";
 
     public SessionManager(Context context)
     {
@@ -30,12 +31,13 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSessions(String role, String username, String id)
+    public void createLoginSessions(String role, String username, String id,String idcabang)
     {
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_USERNAME, username);
         editor.putString(KEY_ID, id);
+        editor.putString(KEY_Cabang, idcabang);
         editor.commit();
     }
 
@@ -46,6 +48,7 @@ public class SessionManager {
         user.put(KEY_USERNAME, pref.getString(KEY_USERNAME, null));
         user.put(KEY_ROLE, pref.getString(KEY_ROLE, null));
         user.put(KEY_ID, pref.getString(KEY_ID, null));
+        user.put(KEY_Cabang, pref.getString(KEY_Cabang, null));
 
         return user;
     }
@@ -68,6 +71,13 @@ public class SessionManager {
     public String getKeyId()
     {
         return pref.getString(KEY_ID,"id");
+    }
+    public String getIdCabang()
+    {
+        return pref.getString(KEY_Cabang,"cabang");
+    }
+    public String getIdRole(){
+        return pref.getString(KEY_ROLE,"role");
     }
 
     public void logoutUser(){

@@ -14,6 +14,9 @@ public class TransaksiPenjualan {
     @SerializedName("Tanggal_Transaksi")
     @Expose
     private String tanggalTransaksi;
+    @SerializedName("Nama_Konsumen")
+    @Expose
+    private String namaKonsumen;
     @SerializedName("Jenis_Transaksi")
     @Expose
     private String jenisTransaksi;
@@ -58,6 +61,14 @@ public class TransaksiPenjualan {
 
     public void setTanggalTransaksi(String tanggalTransaksi) {
         this.tanggalTransaksi = tanggalTransaksi;
+    }
+
+    public String getNamaKonsumen() {
+        return namaKonsumen;
+    }
+
+    public void setNamaKonsumen(String namaKonsumen) {
+        this.namaKonsumen = namaKonsumen;
     }
 
     public String getJenisTransaksi() {

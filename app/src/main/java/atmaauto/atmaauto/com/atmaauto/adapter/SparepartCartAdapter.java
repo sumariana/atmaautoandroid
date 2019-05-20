@@ -88,7 +88,7 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
     @Override
     public void onBindViewHolder(@NonNull final SparepartCartAdapter.MyViewHolder myViewHolder, final int i) {
         final DetailPengadaan detailPengadaan = mListfilter.get(i);
-        myViewHolder.namasparepart.setText(detailPengadaan.getKodeSparepart());
+        myViewHolder.namasparepart.setText(detailPengadaan.getNamaSparepart()+" : "+detailPengadaan.getKodeSparepart());
         myViewHolder.jumlahsparepart.setText("Jumlah  : "+detailPengadaan.getJumlah());
 
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {

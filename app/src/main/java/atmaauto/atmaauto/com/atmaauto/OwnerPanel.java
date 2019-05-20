@@ -20,7 +20,7 @@ public class OwnerPanel extends AppCompatActivity {
         logout=(Button)findViewById(R.id.logoutOwner);
         pegawai=(Button)findViewById(R.id.pegawai);
         supplier=(Button)findViewById(R.id.supplier);
-        penjualan=(Button) findViewById(R.id.penjualan);
+
         pengadaan=(Button)findViewById(R.id.pengadaan);
         cabang=(Button)findViewById(R.id.cabang);
         motor=(Button)findViewById(R.id.motor);
@@ -31,7 +31,7 @@ public class OwnerPanel extends AppCompatActivity {
         init();
         history();
         ClickLogout();
-        penjualan();
+
         pengadaan();
         cabang();
         pegawai();
@@ -50,8 +50,8 @@ public class OwnerPanel extends AppCompatActivity {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CHANNEL_ID")
                 .setSmallIcon(R.drawable.gear)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
+                .setContentTitle("Sparepart Menipis !")
+                .setContentText("Hai Admin sparepart berikut mencapai stok minimum !")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
@@ -148,16 +148,6 @@ public class OwnerPanel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(OwnerPanel.this,MenuCabang.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void penjualan(){
-        penjualan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MenuPenjualan.class);
                 startActivity(intent);
             }
         });

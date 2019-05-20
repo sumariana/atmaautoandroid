@@ -37,12 +37,15 @@ import java.util.List;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPenjualan;
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailPenjualanController;
 import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.adapter.JasaCartAdapter;
 import atmaauto.atmaauto.com.atmaauto.adapter.PenjualanSparepartAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.DetailJasa;
 import atmaauto.atmaauto.com.atmaauto.models.DetailJasa_data;
 import atmaauto.atmaauto.com.atmaauto.models.DetailSparepart;
+import atmaauto.atmaauto.com.atmaauto.models.Jasa;
+import atmaauto.atmaauto.com.atmaauto.models.Jasa_data;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen;
@@ -334,13 +337,13 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
         Retrofit retrofit=builder.build();
         ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-        Call<DetailJasa_data> pegawai_dataCall = apiTransaksiPenjualan.tampilservis();
-        pegawai_dataCall.enqueue(new Callback<DetailJasa_data>() {
+        Call<Jasa_data> pegawai_dataCall = apiTransaksiPenjualan.tampilservis();
+        pegawai_dataCall.enqueue(new Callback<Jasa_data>() {
             @Override
-            public void onResponse(Call<DetailJasa_data> call, Response<DetailJasa_data> response) {
+            public void onResponse(Call<Jasa_data> call, Response<Jasa_data> response) {
                 if(response.code()==201)
                 {
-                    List<DetailJasa> spinnerArrayList = response.body().getData();
+                    List<Jasa> spinnerArrayList = response.body().getData();
                     for (int i = 0; i < spinnerArrayList.size(); i++) {
                             String namaservis = spinnerArrayList.get(i).getNamaJasa();
                             String idservis = spinnerArrayList.get(i).getIdJasa().toString();
@@ -352,7 +355,6 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                                     android.R.layout.simple_spinner_dropdown_item
                                     , listnamaservis);
                             spinnerjasaservis.setAdapter(adapter);
-
                     }
                 }else{
                     Toast.makeText(TambahTransaksiSparepart.this, "error!", Toast.LENGTH_SHORT).show();
@@ -360,7 +362,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DetailJasa_data> call, Throwable t) {
+            public void onFailure(Call<Jasa_data> call, Throwable t) {
 
             }
         });
@@ -376,12 +378,12 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                 addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit=builder.build();
         ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
-        Log.d("idkonsumen: ",selectedidkonsumen);
-        Log.d("date: ",mDisplayDate.getText().toString());
-        Log.d("total: ",total.getText().toString());
-        Log.d("diskon: ",diskon.getText().toString());
-        Log.d("idmotorkonsumen: ",selectedidmotorkonsumen);
-        Log.d("session: ",session.getKeyId());
+//        Log.d("idkonsumen: ",selectedidkonsumen);
+//        Log.d("date: ",mDisplayDate.getText().toString());
+//        Log.d("total: ",total.getText().toString());
+//        Log.d("diskon: ",diskon.getText().toString());
+//        Log.d("idmotorkonsumen: ",selectedidmotorkonsumen);
+//        Log.d("session: ",session.getKeyId());
         Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.addPenjualansparepart(Integer.parseInt(selectedidkonsumen),mDisplayDate.getText().toString(),jenistrk,Double.parseDouble(total.getText().toString()),Integer.parseInt(diskon.getText().toString()),Integer.parseInt(selectedidmontir),Integer.parseInt(selectedidmotorkonsumen),Integer.parseInt(session.getKeyId()));
 
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
@@ -440,13 +442,19 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                             Retrofit retrofit=builder.build();
                             ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getIdJasaMontir(),detailJasas.get(x).getSubtotalDetailJasa());
+                            Log.d("onResponse: ",idTransaksi);
+                            Log.d("onResponse: ",detailJasas.get(x).getIdJasa().toString());
+                            Log.d("onResponse: ",detailJasas.get(x).getIdJasaMontir().toString());
+                            Log.d("onResponse: ",detailJasas.get(x).getSubtotalDetailJasa().toString());
+
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
                             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     try {
                                         JSONObject jsonRes = new JSONObject(response.body().string());
-                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasas");
+                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasa");
                                         Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -505,7 +513,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                             Retrofit retrofit=builder.build();
                             ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getIdJasaMontir(),detailJasas.get(x).getSubtotalDetailJasa());
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
                             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -533,6 +541,9 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                 }catch (IOException e) {
                     e.printStackTrace();
                 }
+                Intent i= new Intent(TambahTransaksiSparepart.this, MenuPenjualan.class);
+                startActivity(i);
+                finish();
             }
 
             @Override
@@ -541,6 +552,8 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void hitungtotal(){
         Integer totalharga=0;
@@ -602,7 +615,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
     };
 
     public void addtoCart(){
-        Log.d( "add to cart",selectedIdSparepart);
+        //Log.d( "add to cart",selectedIdSparepart);
         if(jenistrk.equalsIgnoreCase("SP"))
         {
             if(jumlah.getText().toString().isEmpty())
@@ -610,7 +623,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
                 Toast.makeText(TambahTransaksiSparepart.this, "Tambah Jumlah Bos!", Toast.LENGTH_SHORT).show();
             }else{
                 detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(jumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlah.getText().toString())));
-                adapter = new PenjualanSparepartAdapter(detailssparepart);
+                adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
                 nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlah.getText().toString());
                 totalharga=totalharga+nilai;
                 total.setText(totalharga.toString());
@@ -618,13 +631,13 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
             }
         }else if(jenistrk.equalsIgnoreCase("SV")){
             detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
-            jasaCartAdapter = new JasaCartAdapter(detailJasas);
+            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
             recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
         }else{
             detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(jumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlah.getText().toString())));
             detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
-            adapter = new PenjualanSparepartAdapter(detailssparepart);
-            jasaCartAdapter = new JasaCartAdapter(detailJasas);
+            adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
             rview.setAdapter(adapter);
             recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
 
@@ -732,7 +745,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
         Retrofit retrofit=builder.build();
         ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-        Call<Pegawai_data> pegawai_dataCall = apiTransaksiPenjualan.tampilmontir();
+        Call<Pegawai_data> pegawai_dataCall = apiTransaksiPenjualan.tampilmontircabang(Integer.parseInt(session.getIdCabang()));
         pegawai_dataCall.enqueue(new Callback<Pegawai_data>() {
             @Override
             public void onResponse(Call<Pegawai_data> call, Response<Pegawai_data> response) {

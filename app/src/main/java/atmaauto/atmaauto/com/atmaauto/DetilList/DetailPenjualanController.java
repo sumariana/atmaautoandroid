@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,21 +27,32 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPenjualan;
+import atmaauto.atmaauto.com.atmaauto.MenuPenjualan;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.TambahTransaksiSparepart;
 import atmaauto.atmaauto.com.atmaauto.adapter.JasaCartAdapter;
 import atmaauto.atmaauto.com.atmaauto.adapter.PenjualanSparepartAdapter;
+import atmaauto.atmaauto.com.atmaauto.adapter.SparepartCartAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.DetailJasa;
 import atmaauto.atmaauto.com.atmaauto.models.DetailJasa_data;
+import atmaauto.atmaauto.com.atmaauto.models.DetailPengadaan_data;
 import atmaauto.atmaauto.com.atmaauto.models.DetailSparepart;
+import atmaauto.atmaauto.com.atmaauto.models.DetailSparepart_data;
+import atmaauto.atmaauto.com.atmaauto.models.Jasa;
+import atmaauto.atmaauto.com.atmaauto.models.Jasa_data;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen;
@@ -49,6 +61,7 @@ import atmaauto.atmaauto.com.atmaauto.models.Pegawai;
 import atmaauto.atmaauto.com.atmaauto.models.Pegawai_data;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -62,11 +75,10 @@ public class DetailPenjualanController extends AppCompatActivity {
     TextView mDisplayDate,labelsparepart,labelservis;
     EditText vtotal,vdiskon,vjumlah;
 
-    Double total;
-    Integer diskon;
+    Integer diskon,idtransaksi;
     private Integer isi=0;
 
-    Button addtocart,postpenjualansparepart;
+    Button addtocart,patchpenjualansparepart;
 
     private List<String> listNameSparepart = new ArrayList<String>();
     private List<String> listKodeSparepart = new ArrayList<String>();
@@ -140,7 +152,7 @@ public class DetailPenjualanController extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiverjasa,
                 new IntentFilter("custom-message-jasa"));
 
-        Intent i=getIntent();
+
 
         labelsparepart=(TextView)findViewById(R.id.labelsparepart);
         labelservis=(TextView) findViewById(R.id.labelservis);
@@ -152,19 +164,25 @@ public class DetailPenjualanController extends AppCompatActivity {
         layoutjasa = new LinearLayoutManager(getApplicationContext());
         rview.setLayoutManager(layout);
         recycler_view_detailtransaksijasa.setLayoutManager(layoutjasa);
+        adapter= new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+        jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
         addtocart=(Button) findViewById(R.id.addcart);
+        addtocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addtoCart();
+            }
+        });
         vjumlah=(EditText) findViewById(R.id.jumlah);
         vdiskon=(EditText) findViewById(R.id.diskon);
         vtotal=(EditText) findViewById(R.id.total);
-        postpenjualansparepart = (Button) findViewById(R.id.postpenjualan);
+        patchpenjualansparepart = (Button) findViewById(R.id.patchpenjualan);
         spinnersparepart=(Spinner) findViewById(R.id.spinnersparepart);
         spinnerkonsumen=(Spinner) findViewById(R.id.spinnerkonsumen);
         spinnermontir=(Spinner) findViewById(R.id.spinnermontir);
         spinnermotorkonsumen=(Spinner) findViewById(R.id.spinnermotorkonsumen);
         spinnerjenistransaksi=(Spinner) findViewById(R.id.spinnerjenistransaksi);
 
-
-        getintent();
         ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.JenisTransaksi,android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerjenistransaksi.setAdapter(adapter1);
@@ -186,7 +204,7 @@ public class DetailPenjualanController extends AppCompatActivity {
                     labelservis.setVisibility(View.GONE);
                     recycler_view_detailtransaksijasa.setVisibility(View.GONE);
                     jenistrk="SP";
-                    vtotal.setText("");
+                    showListsparepart();
                 }else if(text.equalsIgnoreCase("Penjualan Jasa")){
                     Toast.makeText(DetailPenjualanController.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
                     spinnersparepart.setVisibility(View.GONE);
@@ -197,7 +215,7 @@ public class DetailPenjualanController extends AppCompatActivity {
                     labelservis.setVisibility(View.VISIBLE);
                     recycler_view_detailtransaksijasa.setVisibility(View.VISIBLE);
                     jenistrk="SV";
-                    vtotal.setText("");
+                    showListjasa();
                 }else {
                     spinnersparepart.setVisibility(View.VISIBLE);
                     labelsparepart.setVisibility(View.VISIBLE);
@@ -207,7 +225,8 @@ public class DetailPenjualanController extends AppCompatActivity {
                     labelservis.setVisibility(View.VISIBLE);
                     recycler_view_detailtransaksijasa.setVisibility(View.VISIBLE);
                     jenistrk="SS";
-                    vtotal.setText("");
+                    showListsparepart();
+                    showListjasa();
                 }
             }
 
@@ -216,6 +235,7 @@ public class DetailPenjualanController extends AppCompatActivity {
             }
         });
 
+        getintent();
         setDropdownmontir();
         spinnerkonsumen.setEnabled(false);
         setDropdownkonsumen();
@@ -305,13 +325,425 @@ public class DetailPenjualanController extends AppCompatActivity {
             }
         });
 
+        patchpenjualansparepart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                patchtransaksi();
+            }
+        });
+
+    }
+
+    public void addtoCart(){
+       // Log.d( "add to cart",selectedIdSparepart);
+        if(jenistrk.equalsIgnoreCase("SP"))
+        {
+            if(vjumlah.getText().toString().isEmpty() || vdiskon.getText().toString().isEmpty())
+            {
+                Toast.makeText(DetailPenjualanController.this, "Tambah Jumlah dan diskon transaksi!", Toast.LENGTH_SHORT).show();
+            }else{
+                detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(vjumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(vjumlah.getText().toString())));
+                adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+                rview.setAdapter(adapter);
+            }
+        }else if(jenistrk.equalsIgnoreCase("SV")){
+            detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
+            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
+            recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
+        }else{
+            detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(vjumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(vjumlah.getText().toString())));
+            detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
+            adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
+            rview.setAdapter(adapter);
+            recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
+        }
+        hitungtotal();
+    }
+
+    public void patchtransaksi(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+        Call<ResponseBody> responseBodyCall= apiTransaksiPenjualan.patchpenjualansparepart(idtransaksi,mDisplayDate.getText().toString(),jenistrk,Double.parseDouble(vtotal.getText().toString()),Integer.parseInt(vdiskon.getText().toString()));
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            //jenistrk.equalsIgnoreCase(getIntent().getStringExtra("jenis"))
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(!getIntent().getStringExtra("jenissingkat").equalsIgnoreCase(jenistrk))
+                {
+                    if(getIntent().getStringExtra("jenissingkat").equalsIgnoreCase("SV") && jenistrk.equalsIgnoreCase("SP"))
+                    {
+                        Log.d( "delete sv ",response.message());
+                        //deletesv
+                        for(int x=0;x<detailJasas.size();x++)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailjasa(detailJasas.get(x).getIdDetailJasa());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if(response.code()==200)
+                                    {
+                                        Log.d( "sucess: ",response.message());
+                                    }else
+                                        Log.d( "gagal: ",response.message());
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }else if(getIntent().getStringExtra("jenissingkat").equalsIgnoreCase("SP") && jenistrk.equalsIgnoreCase("SV"))
+                    {
+                        //deletesp
+                        Log.d( "delete sp ",response.message());
+                        for(int x=0;x<detailssparepart.size();x++)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailsparepart(detailssparepart.get(x).getIdDetailSparepart());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if(response.code()==200)
+                                    {
+                                        Log.d( "sucess: ",response.message());
+                                    }else
+                                        Log.d( "gagal: ",response.message());
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }else if(getIntent().getStringExtra("jenissingkat").equalsIgnoreCase("SS") || jenistrk.equalsIgnoreCase("SP") || jenistrk.equalsIgnoreCase("SS"))
+                    {
+                        if(jenistrk.equalsIgnoreCase("SP"))
+                        {
+                            //deletesv
+                            Log.d( "deletesv ",response.message());
+                            for(int x=0;x<detailJasas.size();x++)
+                            {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder=new Retrofit.
+                                        Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit=builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailjasa(detailJasas.get(x).getIdDetailJasa());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        if(response.code()==200)
+                                        {
+                                            Log.d( "sucess: ",response.message());
+                                        }else
+                                            Log.d( "gagal: ",response.message());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }else if(jenistrk.equalsIgnoreCase("SV")){
+                            //deletesp
+                            Log.d( "deletesp ",response.message());
+                            for(int x=0;x<detailssparepart.size();x++)
+                            {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder=new Retrofit.
+                                        Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit=builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailsparepart(detailssparepart.get(x).getIdDetailSparepart());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        if(response.code()==200)
+                                        {
+                                            Log.d( "sucess: ",response.message());
+                                        }else
+                                            Log.d( "gagal: ",response.message());
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+                if(jenistrk.equalsIgnoreCase("SP"))
+                {
+                    for(int x=0;x<detailssparepart.size();x++)
+                    {
+                        if(detailssparepart.get(x).getIdDetailSparepart()==null)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(idtransaksi,detailssparepart.get(x).getIdJasaMontir(),detailssparepart.get(x).getKodeSparepart(),detailssparepart.get(x).getHargaSatuan(),detailssparepart.get(x).getJumlah(),detailssparepart.get(x).getSubtotalDetailSparepart());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    try {
+                                        JSONObject jsonRes = new JSONObject(response.body().string());
+                                        String iddetailpenjualansparepart =  jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
+                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                }else if(jenistrk.equalsIgnoreCase("SV"))
+                {
+                    for(int x=0;x<detailJasas.size();x++)
+                    {
+                        if(detailJasas.get(x).getIdDetailJasa()==null)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(idtransaksi,detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    try {
+                                        JSONObject jsonRes = new JSONObject(response.body().string());
+                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasa");
+                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+                }else {
+                    //add sparepart dan servis
+                    for(int x=0;x<detailssparepart.size();x++)
+                    {
+                        if(detailssparepart.get(x).getIdDetailSparepart()==null)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(idtransaksi,detailssparepart.get(x).getIdJasaMontir(),detailssparepart.get(x).getKodeSparepart(),detailssparepart.get(x).getHargaSatuan(),detailssparepart.get(x).getJumlah(),detailssparepart.get(x).getSubtotalDetailSparepart());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    try {
+                                        JSONObject jsonRes = new JSONObject(response.body().string());
+                                        String iddetailpenjualansparepart =  jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
+                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    for(int x=0;x<detailJasas.size();x++)
+                    {
+                        if(detailJasas.get(x).getIdDetailJasa()==null)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(idtransaksi,detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    try {
+                                        JSONObject jsonRes = new JSONObject(response.body().string());
+                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasa");
+                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+                }
+                Intent i= new Intent(DetailPenjualanController.this, MenuPenjualan.class);
+                startActivity(i);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void showListsparepart(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+        //Calling APi
+        Call<DetailSparepart_data> detailSparepart_dataCall = apiTransaksiPenjualan.tampildetailsparepartkonsumen(idtransaksi);
+        detailSparepart_dataCall.enqueue(new Callback<DetailSparepart_data>() {
+            @Override
+            public void onResponse(Call<DetailSparepart_data> call, Response<DetailSparepart_data> response) {
+                Log.d( "onResponse: ",response.body().getData().toString());
+                try{
+                    adapter.notifyDataSetChanged();
+                    detailssparepart=response.body().getData();
+                    //Log.d("id Detail Pengadaan: ",details.get(0).getIdDetailPengadaan().toString());
+                    adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+                    rview.setAdapter(adapter);
+                }catch(Exception e){
+                    Toast.makeText(DetailPenjualanController.this, "Belum ada detail!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailSparepart_data> call, Throwable t) {
+                Toast.makeText(DetailPenjualanController.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void showListjasa(){
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder=new Retrofit.
+                Builder().baseUrl(ApiSparepart.JSONURL).
+                addConverterFactory(GsonConverterFactory.create(gson));
+        Retrofit retrofit=builder.build();
+        ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+        //Calling APi
+        Call<DetailJasa_data> detailSparepart_dataCall = apiTransaksiPenjualan.tampildetailjasakonsumen(idtransaksi);
+        detailSparepart_dataCall.enqueue(new Callback<DetailJasa_data>() {
+            @Override
+            public void onResponse(Call<DetailJasa_data> call, Response<DetailJasa_data> response) {
+                Log.d( "onResponse: ",response.body().getData().toString());
+                try{
+                    adapter.notifyDataSetChanged();
+                    detailJasas=response.body().getData();
+                    //Log.d("id Detail Pengadaan: ",details.get(0).getIdDetailPengadaan().toString());
+                    jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
+                    recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
+                }catch(Exception e){
+                    Toast.makeText(DetailPenjualanController.this, "Belum ada detail!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailJasa_data> call, Throwable t) {
+                Toast.makeText(DetailPenjualanController.this, "network error!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getintent(){
-        total=getIntent().getDoubleExtra("subtotal",0);
+        Integer subtotal=0;
+        subtotal=getIntent().getIntExtra("subtotal",0);
+        Log.d( "getintent: ",subtotal.toString());
+        idtransaksi=getIntent().getIntExtra("idtransaksi",0);
         diskon=getIntent().getIntExtra("diskon",0);
         mDisplayDate.setText(getIntent().getStringExtra("tanggal"));
-        vtotal.setText(total.toString());
+        vtotal.setText(subtotal.toString());
         vdiskon.setText(diskon.toString());
     }
 
@@ -400,7 +832,7 @@ public class DetailPenjualanController extends AppCompatActivity {
         listkonsumen.enqueue(new Callback<MotorKonsumen_data>() {
             @Override
             public void onResponse(Call<MotorKonsumen_data> call, Response<MotorKonsumen_data> response) {
-                Log.d("Nilai Response : ",String.valueOf(response.code()));
+
                 if(response.code()==200)
                 {       List<MotorKonsumen> spinnerArrayList = response.body().getData();
                     if(response.body().getData().isEmpty())
@@ -567,13 +999,13 @@ public class DetailPenjualanController extends AppCompatActivity {
         Retrofit retrofit=builder.build();
         ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-        Call<DetailJasa_data> pegawai_dataCall = apiTransaksiPenjualan.tampilservis();
-        pegawai_dataCall.enqueue(new Callback<DetailJasa_data>() {
+        Call<Jasa_data> pegawai_dataCall = apiTransaksiPenjualan.tampilservis();
+        pegawai_dataCall.enqueue(new Callback<Jasa_data>() {
             @Override
-            public void onResponse(Call<DetailJasa_data> call, Response<DetailJasa_data> response) {
+            public void onResponse(Call<Jasa_data> call, Response<Jasa_data> response) {
                 if(response.code()==201)
                 {
-                    List<DetailJasa> spinnerArrayList = response.body().getData();
+                    List<Jasa> spinnerArrayList = response.body().getData();
                     for (int i = 0; i < spinnerArrayList.size(); i++) {
                         String namaservis = spinnerArrayList.get(i).getNamaJasa();
                         String idservis = spinnerArrayList.get(i).getIdJasa().toString();
@@ -593,7 +1025,7 @@ public class DetailPenjualanController extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<DetailJasa_data> call, Throwable t) {
+            public void onFailure(Call<Jasa_data> call, Throwable t) {
 
             }
         });

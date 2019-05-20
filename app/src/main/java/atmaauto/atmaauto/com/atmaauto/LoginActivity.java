@@ -84,13 +84,14 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("TAG", response.toString());
                     if(response.code()==201){
                         Toast.makeText(LoginActivity.this,"Success",Toast.LENGTH_SHORT).show();
+                        String idcabang=response.body().getData().getIdCabang().toString();
                         String idrole=response.body().getData().getIdRole().toString();
                         String username=response.body().getData().getUsername();
                         String idpegawai=response.body().getData().getId().toString();
                         Log.d("id rol: ",idrole);
                         Log.d("id rol: ",username);
                         Log.d("id rol: ",idpegawai);
-                        session.createLoginSessions(idrole,username,idpegawai);
+                        session.createLoginSessions(idrole,username,idpegawai,idcabang);
                         if(response.body().getData().getIdRole()==1)
                         {
                             suksesloginadmin();
@@ -127,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void suksesloginkasir(){
-        Intent intent=new Intent(LoginActivity.this,CashierPanel.class);
+        Intent intent=new Intent(LoginActivity.this,MenuPembayaran.class);
         startActivity(intent);
     }
 }
