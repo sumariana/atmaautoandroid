@@ -17,14 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorPrimaryDark"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <SearchView
                 android:id="@+id/searchbar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:textColor="@android:color/white"
                 android:textSize="10dp" />
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Logout"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"/>
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_pembayaran"

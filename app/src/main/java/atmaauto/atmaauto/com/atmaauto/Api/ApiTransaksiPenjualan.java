@@ -77,9 +77,8 @@ public interface ApiTransaksiPenjualan {
                                                @Field("Subtotal") Double Subtotal,
                                                @Field("Diskon") Integer Diskon);
 
-    @PATCH("api/transaksi_penjualans/pembayaran/{Id_Transaksi}")
-    @FormUrlEncoded
-    Call<ResponseBody> pembayarantransaksi(@Path("Id_Transaksi") Integer Id_Transaksi);
+    @PATCH("api/transaksi_penjualans/pembayaran/{id}")
+    Call<ResponseBody> pembayarantransaksi(@Path("id") Integer id);
 
     @POST("api/transaksi_penjualans/storeSparepart")
     @FormUrlEncoded

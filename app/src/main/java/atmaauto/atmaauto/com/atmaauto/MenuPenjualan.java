@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPengadaan;
@@ -38,6 +41,7 @@ public class MenuPenjualan extends AppCompatActivity {
 
     Button tambah_penjualan;
     Spinner spinnerpenjualan;
+    SearchView search;
     private List<TransaksiPenjualan> mListPenjualan = new ArrayList<>();
     private PenjualanAdapter penjualanAdapter;
     private RecyclerView recyclerView;
@@ -55,6 +59,24 @@ public class MenuPenjualan extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        search=(SearchView) findViewById(R.id.searchbar);
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                penjualanAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
 
         spinnerpenjualan=(Spinner) findViewById(R.id.spinnerpenjualan);
         ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.filterpenjualan,android.R.layout.simple_spinner_item);
@@ -81,6 +103,8 @@ public class MenuPenjualan extends AppCompatActivity {
 
             }
         });
+
+
 
         tambah_penjualan=(Button) findViewById(R.id.tambahpenjualansparepart);
         tambah_penjualan.setOnClickListener(new View.OnClickListener() {

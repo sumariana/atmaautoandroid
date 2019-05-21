@@ -1,12 +1,15 @@
 package atmaauto.atmaauto.com.atmaauto;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -28,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MenuPembayaran extends AppCompatActivity {
     private List<TransaksiPenjualan> mListPenjualan = new ArrayList<>();
+    TextView logout;
     private PenjualanAdapter penjualanAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -43,6 +47,15 @@ public class MenuPembayaran extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         showListfinished();
+
+        logout=(TextView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(MenuPembayaran.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     public void showListfinished() {

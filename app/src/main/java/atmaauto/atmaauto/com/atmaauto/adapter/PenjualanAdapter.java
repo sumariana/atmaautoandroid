@@ -256,6 +256,8 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
     public int getItemCount(){
         return mListfilter.size();
     }
+
+
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -269,7 +271,7 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (obj.getJenisTransaksi().toLowerCase().contains(charString.toLowerCase())) {
+                        if (obj.getJenisTransaksi().toLowerCase().contains(charString.toLowerCase()) || obj.getNamaKonsumen().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(obj);
                         }
                     }

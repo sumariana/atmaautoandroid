@@ -1,5 +1,6 @@
 package atmaauto.atmaauto.com.atmaauto.DetilList;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPenjualan;
+import atmaauto.atmaauto.com.atmaauto.MenuPembayaran;
 import atmaauto.atmaauto.com.atmaauto.R;
 import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.TambahTransaksiSparepart;
@@ -141,7 +143,14 @@ public class DetailStatusPenjualanController extends AppCompatActivity {
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                    if(response.code()==201)
+                    {
+                        Toast.makeText(DetailStatusPenjualanController.this, "Pembayaran Berhasil!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DetailStatusPenjualanController.this, MenuPembayaran.class);
+                        startActivity(intent);
+                        finish();
+                    }else
+                        Toast.makeText(DetailStatusPenjualanController.this, "Pembayaran Gagal!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
