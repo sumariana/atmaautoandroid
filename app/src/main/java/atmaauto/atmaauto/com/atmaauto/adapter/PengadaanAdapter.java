@@ -63,16 +63,16 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
         {
             myViewHolder.status.setText("Ordered");
             myViewHolder.status.setBackgroundColor(Color.parseColor("#f62d30"));
+            myViewHolder.editpengadaan.setVisibility(View.VISIBLE);
+            myViewHolder.deletepengadaan.setVisibility(View.VISIBLE);
         }else if(transaksiPengadaan.getStatusPengadaan()==1){
             myViewHolder.status.setText("Printed");
             myViewHolder.status.setBackgroundColor(Color.parseColor("#fff176"));
+            myViewHolder.editpengadaan.setVisibility(View.GONE);
+            myViewHolder.deletepengadaan.setVisibility(View.GONE);
         }else{
             myViewHolder.status.setText("Verified");
             myViewHolder.status.setBackgroundColor(Color.parseColor("#81c784"));
-        }
-
-        if(transaksiPengadaan.getStatusPengadaan()==2)
-        {
             myViewHolder.editpengadaan.setVisibility(View.GONE);
             myViewHolder.deletepengadaan.setVisibility(View.GONE);
         }
@@ -117,7 +117,15 @@ public class PengadaanAdapter extends RecyclerView.Adapter<PengadaanAdapter.MyVi
                     Toast.makeText(context, "Downloading...", Toast.LENGTH_SHORT).show();
                 }else
                 {
-                    Toast.makeText(context, "procurement already done !", Toast.LENGTH_SHORT).show();
+                    Intent intent= new Intent(context, StatusForm.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("idpengadaan", transaksiPengadaan.getIdPengadaan());
+                    intent.putExtra("tanggal", transaksiPengadaan.getTanggalPengadaan());
+                    intent.putExtra("status", transaksiPengadaan.getStatusPengadaan());
+                    intent.putExtra("namasales", transaksiPengadaan.getNamaSales());
+                    intent.putExtra("idsales", transaksiPengadaan.getIdSupplier());
+                    intent.putExtra("totalharga", transaksiPengadaan.getTotalHarga());
+                    context.startActivity(intent);
                 }
             }
         });

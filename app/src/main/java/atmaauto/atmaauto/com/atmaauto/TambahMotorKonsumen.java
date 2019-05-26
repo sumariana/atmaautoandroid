@@ -21,6 +21,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailKonsumen;
 import atmaauto.atmaauto.com.atmaauto.adapter.MotorKonsumenAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.Motor;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen_response;
@@ -82,6 +83,8 @@ public class TambahMotorKonsumen extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<MotorKonsumen_response> call, Response<MotorKonsumen_response> response) {
                         Toast.makeText(TambahMotorKonsumen.this, "berhasil!", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(TambahMotorKonsumen.this, MenuKonsumen.class);
+//                        startActivity(intent);
                         finish();
                     }
 

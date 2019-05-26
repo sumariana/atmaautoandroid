@@ -43,6 +43,7 @@ public class MenuPenjualan extends AppCompatActivity {
     Spinner spinnerpenjualan;
     SearchView search;
     private List<TransaksiPenjualan> mListPenjualan = new ArrayList<>();
+    private List<TransaksiPenjualan> templist = new ArrayList<>();
     private PenjualanAdapter penjualanAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -138,8 +139,16 @@ public class MenuPenjualan extends AppCompatActivity {
             @Override
             public void onResponse(Call<TransaksiPenjualan_data> call, Response<TransaksiPenjualan_data> response) {
                 try {
+                    mListPenjualan=response.body().getData();
+                    for (int x=0;x<mListPenjualan.size();x++)
+                    {
+                        if(mListPenjualan.get(x).getStatus()!=3)
+                        {
+                            templist.add(new TransaksiPenjualan(mListPenjualan.get(x).getIdTransaksi(),mListPenjualan.get(x).getIdKonsumen(),mListPenjualan.get(x).getTanggalTransaksi(),mListPenjualan.get(x).getNamaKonsumen(),mListPenjualan.get(x).getJenisTransaksi(),mListPenjualan.get(x).getSubtotal(),mListPenjualan.get(x).getDiskon(),mListPenjualan.get(x).getTotal(),mListPenjualan.get(x).getStatus(),mListPenjualan.get(x).getDetailJasa(),mListPenjualan.get(x).getDetailSparepart()));
+                        }
+                    }
                     penjualanAdapter.notifyDataSetChanged();
-                    penjualanAdapter = new PenjualanAdapter(getApplicationContext(), response.body().getData());
+                    penjualanAdapter = new PenjualanAdapter(getApplicationContext(), templist);
                     recyclerView.setAdapter(penjualanAdapter);
                 } catch (Exception e) {
                     Toast.makeText(MenuPenjualan.this, "Belum ada Pengadaan!", Toast.LENGTH_SHORT).show();

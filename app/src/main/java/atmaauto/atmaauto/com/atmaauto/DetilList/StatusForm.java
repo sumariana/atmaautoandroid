@@ -65,6 +65,7 @@ public class StatusForm extends AppCompatActivity {
     }
 
     public void init(){
+        Intent i = getIntent();
         vdate=(TextView) findViewById(R.id.datepicker);
         vsales=(TextView) findViewById(R.id.namasales);
         vstatus=(TextView) findViewById(R.id.status);
@@ -72,7 +73,14 @@ public class StatusForm extends AppCompatActivity {
         verifikasi=(Button) findViewById(R.id.verif);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_status);
-        statusFormAdapter=new StatusFormAdapter(getApplicationContext(),details);
+
+        if(i.getIntExtra("status",0)==1)
+        {
+            statusFormAdapter=new StatusFormAdapter(getApplicationContext(),details,1);
+        }else
+        {
+            statusFormAdapter=new StatusFormAdapter(getApplicationContext(),details,0);
+        }
 
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -129,7 +137,15 @@ public class StatusForm extends AppCompatActivity {
                     statusFormAdapter.notifyDataSetChanged();
                     details=response.body().getData();
                     //Log.d("id Detail Pengadaan: ",details.get(0).getIdDetailPengadaan().toString());
-                    statusFormAdapter = new StatusFormAdapter(getApplicationContext(),details);
+
+                    if(status==2)
+                    {
+                        statusFormAdapter=new StatusFormAdapter(getApplicationContext(),details,1);
+                    }else
+                    {
+                        statusFormAdapter=new StatusFormAdapter(getApplicationContext(),details,0);
+                    }
+
                     recyclerView.setAdapter(statusFormAdapter);
                 }catch(Exception e){
                     Toast.makeText(StatusForm.this, "Belum ada detail!", Toast.LENGTH_SHORT).show();
@@ -158,6 +174,15 @@ public class StatusForm extends AppCompatActivity {
         {
             vstatus.setText("Printed");
             vstatus.setBackgroundColor(Color.parseColor("#fff176"));
+        }
+
+        if(status==2)
+        {
+            vstatus.setText("Verified");
+            vstatus.setBackgroundColor(Color.parseColor("#81c784"));
+            verifikasi.setVisibility(View.GONE);
+        }else{
+            verifikasi.setVisibility(View.VISIBLE);
         }
         vtotalharga.setText(totalharga.toString());
     }

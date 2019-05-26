@@ -15,12 +15,13 @@
             android:layout_height="200dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="@color/colorPrimary">
+            android:background="@color/grey">
             <ImageView
                 android:id="@+id/pic"
                 android:layout_width="150dp"
+                android:padding="5dp"
                 android:layout_height="150dp"
-                android:background="@drawable/buttonback"/>
+                android:src="@drawable/picture"/>
             <Button
                 android:id="@+id/selectimage"
                 android:layout_width="200dp"
@@ -36,60 +37,101 @@
                 android:layout_height="match_parent"
                 android:background="@color/grey"
                 android:orientation="vertical">
-                <EditText
-                    android:id="@+id/kodesparepart"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="5dp"
-                    android:hint="Kode Sparepart"/>
-                <EditText
-                    android:id="@+id/namasparepart"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/kodesparepart"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="5dp"
+                        android:hint="Kode Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Nama Sparepart"/>
-                <EditText
-                    android:id="@+id/tipebarang"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/namasparepart"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Nama Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Tipe Sparepart"/>
-                <EditText
-                    android:id="@+id/merksparepart"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/tipebarang"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Tipe Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Merk Sparepart"/>
-                <EditText
-                    android:id="@+id/hargabelisparepart"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/merksparepart"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Merk Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Harga Beli Sparepart"/>
-                <EditText
-                    android:id="@+id/hargajualsparepart"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/hargabelisparepart"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Harga Beli Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Harga Jual Sparepart"/>
-                <EditText
-                    android:id="@+id/jumlahsparepart"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/hargajualsparepart"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Harga Jual Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Jumlah Stok Sparepart"/>
-                <EditText
-                    android:id="@+id/jumlahmin"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/jumlahsparepart"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Jumlah Stok Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:hint="Jumlah Minimum Sparepart"/>
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/jumlahmin"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Jumlah Minimum Sparepart"/>
+                </android.support.design.widget.TextInputLayout>
+
                 <TextView
                     android:id="@+id/raksparepart"
                     android:layout_marginBottom="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:text="Rak Penempatan"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.design.widget.TextInputLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"

@@ -39,6 +39,20 @@ public class TransaksiPenjualan {
     @Expose
     private DetailSparepart detailSparepart;
 
+    public TransaksiPenjualan(Integer idTransaksi, Integer idKonsumen, String tanggalTransaksi, String namaKonsumen, String jenisTransaksi, Integer subtotal, Integer diskon, Integer total, Integer status, DetailJasa detailJasa, DetailSparepart detailSparepart) {
+        this.idTransaksi = idTransaksi;
+        this.idKonsumen = idKonsumen;
+        this.tanggalTransaksi = tanggalTransaksi;
+        this.namaKonsumen = namaKonsumen;
+        this.jenisTransaksi = jenisTransaksi;
+        this.subtotal = subtotal;
+        this.diskon = diskon;
+        this.total = total;
+        this.status = status;
+        this.detailJasa = detailJasa;
+        this.detailSparepart = detailSparepart;
+    }
+
     public Integer getIdTransaksi() {
         return idTransaksi;
     }

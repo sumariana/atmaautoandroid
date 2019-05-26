@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/listSparepart"
-    android:layout_marginTop="2dp">
+    android:layout_marginTop="4dp">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_height="120dp"
         android:orientation="horizontal"
-        android:background="@drawable/border_katalog">
+        android:background="@drawable/shadowyborder">
         <ImageView
             android:id="@+id/pic"
             android:layout_width="120dp"

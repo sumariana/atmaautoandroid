@@ -1,10 +1,15 @@
 package atmaauto.atmaauto.com.atmaauto;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -12,6 +17,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiKonsumen;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
@@ -28,10 +34,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MenuKonsumen extends AppCompatActivity {
 
+    Button tambahkonsumen;
     private List<Konsumen> mListKonsumen = new ArrayList<>();
     private KonsumenAdapter konsumenAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
+
+    SearchView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +53,34 @@ public class MenuKonsumen extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        tambahkonsumen=(Button) findViewById(R.id.tambah_konsumen);
+        tambahkonsumen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuKonsumen.this,TambahKonsumen.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
+        search=(SearchView) findViewById(R.id.searchbar);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Log.d("onQueryTextSubmit: ",query);
+                //SAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("onQueryTextChange: ","true");
+                String text = newText.toLowerCase(Locale.getDefault());
+                konsumenAdapter.getFilter().filter(text);
+                return true;
+            }
+        });
         showList();
     }
 

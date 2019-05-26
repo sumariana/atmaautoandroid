@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        session = new SessionManager(LoginActivity.this);
+        session = new SessionManager(getApplicationContext());
         inisialisasi();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,13 +122,20 @@ public class LoginActivity extends AppCompatActivity {
     private void suksesloginadmin(){
         Intent intent=new Intent(LoginActivity.this,OwnerPanel.class);
         startActivity(intent);
+
     }
     private void sukseslogincs(){
         Intent intent=new Intent(LoginActivity.this,CSPanel.class);
         startActivity(intent);
+
     }
     private void suksesloginkasir(){
         Intent intent=new Intent(LoginActivity.this,MenuPembayaran.class);
         startActivity(intent);
+    }
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(a);
     }
 }

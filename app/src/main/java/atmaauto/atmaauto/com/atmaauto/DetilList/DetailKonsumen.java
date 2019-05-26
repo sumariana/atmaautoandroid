@@ -32,6 +32,7 @@ import atmaauto.atmaauto.com.atmaauto.models.Konsumen;
 import atmaauto.atmaauto.com.atmaauto.models.Konsumen_data;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen;
 import atmaauto.atmaauto.com.atmaauto.models.MotorKonsumen_data;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,6 +76,41 @@ public class DetailKonsumen extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("id",idkn);
                 startActivity(intent);
+                finish();
+            }
+        });
+
+        editkonsumen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gson gson = new GsonBuilder()
+                        .setLenient()
+                        .create();
+                Retrofit.Builder builder=new Retrofit.
+                        Builder().baseUrl(ApiSparepart.JSONURL).
+                        addConverterFactory(GsonConverterFactory.create(gson));
+                Retrofit retrofit=builder.build();
+                ApiKonsumen apiKonsumen=retrofit.create(ApiKonsumen.class);
+
+                Call<ResponseBody> responseBodyCall = apiKonsumen.editkonsumen(Integer.parseInt(idkn),vnama.getText().toString(),valamat.getText().toString(),vtelepon.getText().toString());
+                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if(response.code()==200)
+                        {
+                            Toast.makeText(DetailKonsumen.this, "Berhasil Edit Konsumen!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DetailKonsumen.this,MenuKonsumen.class);
+                                    startActivity(intent);
+                                    finish();
+                        }else
+                            Toast.makeText(DetailKonsumen.this, "Gagal Edit Konsumen!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(DetailKonsumen.this, "network error!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

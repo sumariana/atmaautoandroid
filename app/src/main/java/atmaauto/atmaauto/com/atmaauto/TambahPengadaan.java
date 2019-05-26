@@ -64,7 +64,7 @@ public class TambahPengadaan extends AppCompatActivity {
 
     Button addtocart,postpengadaan;
     Spinner spinnersales,spinnersparepart;
-    String selectedIdSales,selectedIdSparepart,selectedHargaSparepart;
+    String selectedIdSales,selectedIdSparepart,selectedHargaSparepart,selectednamasparepart;
     private List<String> listNameSales = new ArrayList<String>();
     private List<String> listIdSales = new ArrayList<String>();
     private List<String> listNameSparepart = new ArrayList<String>();
@@ -160,6 +160,7 @@ public class TambahPengadaan extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedIdSparepart = listKodeSparepart.get(position); //Mendapatkan id dari dropdown yang dipilih
                 selectedHargaSparepart = listHargaSparepart.get(position);
+                selectednamasparepart = listNameSparepart.get(position);
                 Log.d("ID Sparepart : ",selectedIdSparepart);
                 Log.d("Harga Sparepart : ",selectedHargaSparepart);
                 //Double total = Double.parseDouble(selectedHargaSparepart)*nilai;
@@ -174,16 +175,22 @@ public class TambahPengadaan extends AppCompatActivity {
     }
 
     public void addtoCart(){
-        details.add(new DetailPengadaan(0,selectedIdSparepart,
-                Double.parseDouble(selectedHargaSparepart),
-                Integer.parseInt(jumlahsparepart.getText().toString()),
-                Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
-        adapter = new SparepartCartAdapter(getApplication(),details);
-        rview.setAdapter(adapter);
 
-        hitungtotal();
+        if(jumlahsparepart.getText().toString().isEmpty())
+        {
+            Toast.makeText(TambahPengadaan.this, "Masukan Jumlah!", Toast.LENGTH_SHORT).show();
+        }else{
+            details.add(new DetailPengadaan(0,selectedIdSparepart,
+                    Double.parseDouble(selectedHargaSparepart),
+                    Integer.parseInt(jumlahsparepart.getText().toString()),
+                    Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString()),selectednamasparepart));
+            adapter = new SparepartCartAdapter(getApplication(),details);
+            rview.setAdapter(adapter);
 
-        jumlahsparepart.setText("");
+            hitungtotal();
+
+            jumlahsparepart.setText("");
+        }
     }
     public void hitungtotal(){
        //totalhargamasih bug saat salah 1 detail dihapus
@@ -264,12 +271,13 @@ public class TambahPengadaan extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                                Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                     final Intent intent= new Intent(TambahPengadaan.this,MenuPengadaan.class);
                     startActivity(intent);
+                    finish();
                 }catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -279,7 +287,7 @@ public class TambahPengadaan extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -302,10 +310,13 @@ public class TambahPengadaan extends AppCompatActivity {
                 {
                     List<Supplier> spinnerArrayList = response.body().getData();
                     for (int i = 0; i < spinnerArrayList.size(); i++) {
-                        String nameSales = spinnerArrayList.get(i).getNamaSales();
-                        String idSales = spinnerArrayList.get(i).getIdSupplier().toString();
-                        listNameSales.add(nameSales);
-                        listIdSales.add(idSales);
+                        if(spinnerArrayList.get(i).getNamaSales()!=null)
+                        {
+                            String nameSales = spinnerArrayList.get(i).getNamaSales();
+                            String idSales = spinnerArrayList.get(i).getIdSupplier().toString();
+                            listNameSales.add(nameSales);
+                            listIdSales.add(idSales);
+                        }
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(TambahPengadaan.this,
                             android.R.layout.simple_spinner_dropdown_item

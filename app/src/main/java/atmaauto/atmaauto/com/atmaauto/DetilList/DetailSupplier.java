@@ -83,6 +83,7 @@ public class DetailSupplier extends AppCompatActivity {
 
     private void SetText(){
         viewidsup.setText(idsup);
+        viewidsup.setEnabled(false);
         viewnamasup.setText(namasup);
         viewalamatsup.setText(alamatsup);
         viewtelpsup.setText(telpsup);
@@ -132,6 +133,7 @@ public class DetailSupplier extends AppCompatActivity {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
                         startActivity(intent);
+                        finish();
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }
@@ -172,6 +174,7 @@ public class DetailSupplier extends AppCompatActivity {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
                         startActivity(intent);
+                        finish();
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }
@@ -212,6 +215,7 @@ public class DetailSupplier extends AppCompatActivity {
                            Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
                            Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
                            startActivity(intent);
+                           finish();
                        }else
                            Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                    }
@@ -253,6 +257,7 @@ public class DetailSupplier extends AppCompatActivity {
                         Toast.makeText(DetailSupplier.this,"berhasil",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(DetailSupplier.this,MenuSupplier.class);
                         startActivity(intent);
+                        finish();
                     }else
                         Toast.makeText(DetailSupplier.this,"gagal",Toast.LENGTH_SHORT).show();
                 }

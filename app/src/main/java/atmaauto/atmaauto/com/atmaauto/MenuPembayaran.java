@@ -20,6 +20,7 @@ import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSupplierSales;
 import atmaauto.atmaauto.com.atmaauto.Api.ApiTransaksiPenjualan;
+import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.adapter.PenjualanAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPenjualan;
 import atmaauto.atmaauto.com.atmaauto.models.TransaksiPenjualan_data;
@@ -36,6 +37,8 @@ public class MenuPembayaran extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
 
+    SessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +49,16 @@ public class MenuPembayaran extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        session =new SessionManager(getApplicationContext());
+
         showListfinished();
 
         logout=(TextView) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MenuPembayaran.this,MainActivity.class);
-                startActivity(i);
+                session.logoutUser();
             }
         });
     }
@@ -89,5 +94,12 @@ public class MenuPembayaran extends AppCompatActivity {
                 Toast.makeText(MenuPembayaran.this, "network error!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

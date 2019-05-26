@@ -3,23 +3,29 @@ package atmaauto.atmaauto.com.atmaauto;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 
 public class CSPanel extends AppCompatActivity {
 
-    Button logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart,history;
+    SessionManager session;
+
+    CardView logout,penjualan,motor,konsumen;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cspanel);
 
-        logout=(Button)findViewById(R.id.logoutOwner);
+        logout=(CardView) findViewById(R.id.logout);
+        penjualan=(CardView) findViewById(R.id.penjualan);
+        motor=(CardView) findViewById(R.id.motor);
+        konsumen=(CardView) findViewById(R.id.konsumen);
 
-        penjualan=(Button) findViewById(R.id.penjualan);
-        motor=(Button)findViewById(R.id.motor);
-        konsumen=(Button)findViewById(R.id.konsumen);
-
+        session = new SessionManager(getApplicationContext());
         ClickLogout();
         penjualan();
         motor();
@@ -29,8 +35,7 @@ public class CSPanel extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(CSPanel.this,MainActivity.class);
-                startActivity(intent);
+                session.logoutUser();
             }
         });
     }
@@ -61,5 +66,12 @@ public class CSPanel extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

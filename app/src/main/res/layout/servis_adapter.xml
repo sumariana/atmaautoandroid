@@ -2,11 +2,13 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_marginTop="5dp">
 
     <LinearLayout
+        android:id="@+id/kotak"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
         android:orientation="horizontal"
         android:background="@drawable/border_mainmenu">
         <LinearLayout
@@ -17,14 +19,14 @@
             <TextView
                 android:id="@+id/namaservis"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="10dp"
                 android:text="Nama Servis"
                 android:textColor="@android:color/white" />
             <TextView
                 android:id="@+id/hargaservis"
                 android:layout_width="250dp"
-                android:layout_height="match_parent"
+                android:layout_height="20dp"
                 android:layout_marginLeft="10dp"
                 android:text="Harga"
                 android:textColor="@android:color/white"

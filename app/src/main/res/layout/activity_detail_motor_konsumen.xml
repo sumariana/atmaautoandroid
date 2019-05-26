@@ -11,21 +11,7 @@
         android:background="@color/grey"
         android:orientation="vertical"
         android:gravity="center">
-        <TextView
-            android:id="@+id/idmotorkonsumen"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="ID Motor Konsumen"/>
-        <TextView
-            android:id="@+id/idkonsumen"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="ID Konsumen"/>
-        <TextView
-            android:id="@+id/idmotor"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="ID Motor"/>
+
         <TextView
             android:layout_marginTop="20dp"
             android:layout_width="300dp"

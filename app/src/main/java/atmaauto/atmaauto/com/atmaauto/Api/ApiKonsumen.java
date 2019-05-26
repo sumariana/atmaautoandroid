@@ -31,11 +31,27 @@ public interface ApiKonsumen {
     @DELETE("api/motor_konsumens/delete/{id}")
     Call<ResponseBody>deletemotorkonsumen(@Path("id") Integer id);
 
+    @DELETE("api/konsumens/delete/{id}")
+    Call<ResponseBody>deletekonsumen(@Path("id") Integer id);
+
+    @PATCH("api/konsumens/update/{id}")
+    @FormUrlEncoded
+    Call<ResponseBody>editkonsumen(@Path("id") Integer id,
+                                   @Field("Nama_Konsumen") String Nama_Konsumen,
+                                   @Field("Telepon_Konsumen") String Telepon_Konsumen,
+                                   @Field("Alamat_Konsumen") String Alamat_Konsumen);
+
     @POST("api/motor_konsumens/store")
     @FormUrlEncoded
     Call<MotorKonsumen_response>tambahMotorKonsumen(@Field("Id_Konsumen") Integer Id_Konsumen,
                                                @Field("Id_Motor") Integer Id_Motor,
                                                @Field("Plat_Kendaraan") String Plat_Kendaraan);
+
+    @POST("api/konsumens/store")
+    @FormUrlEncoded
+    Call<ResponseBody>tambahkonsumen(@Field("Nama_Konsumen") String Nama_Konsumen,
+                                                    @Field("Telepon_Konsumen") String Telepon_Konsumen,
+                                                    @Field("Alamat_Konsumen") String Alamat_Konsumen);
 
     @PATCH("api/motor_konsumens/update/{id}")
     @FormUrlEncoded

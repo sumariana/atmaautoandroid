@@ -116,7 +116,7 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
         //dataintent();
         mDisplayDate = (TextView) findViewById(R.id.datepicker);
 
-        session = new SessionManager(TambahTransaksiSparepart.this);
+        session = new SessionManager(getApplicationContext());
         Log.d( "ID PEGAWAI : ",session.getKeyId());
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,

@@ -6,35 +6,38 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 
 public class OwnerPanel extends AppCompatActivity {
 
-    Button logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart,history;
+    CardView logout,penjualan,pegawai,supplier,pengadaan,cabang,motor,konsumen,servis,sparepart,history;
+    SessionManager session;
+    private long backPressedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_panel);
-        logout=(Button)findViewById(R.id.logoutOwner);
-        pegawai=(Button)findViewById(R.id.pegawai);
-        supplier=(Button)findViewById(R.id.supplier);
+        logout=(CardView)findViewById(R.id.logoutOwner);
+        supplier=(CardView)findViewById(R.id.supplier);
+        pengadaan=(CardView)findViewById(R.id.pengadaan);
+        motor=(CardView)findViewById(R.id.motor);
+        konsumen=(CardView)findViewById(R.id.konsumen);
+        servis=(CardView)findViewById(R.id.servis);
+        sparepart=(CardView)findViewById(R.id.sparepart);
+        history=(CardView) findViewById(R.id.histori);
 
-        pengadaan=(Button)findViewById(R.id.pengadaan);
-        cabang=(Button)findViewById(R.id.cabang);
-        motor=(Button)findViewById(R.id.motor);
-        konsumen=(Button)findViewById(R.id.konsumen);
-        servis=(Button)findViewById(R.id.servis);
-        sparepart=(Button)findViewById(R.id.sparepart);
-        history=(Button) findViewById(R.id.histori);
+        session = new SessionManager(getApplicationContext());
         init();
         history();
         ClickLogout();
 
         pengadaan();
-        cabang();
-        pegawai();
         supplier();
         motor();
         konsumen();
@@ -66,8 +69,7 @@ public class OwnerPanel extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MainActivity.class);
-                startActivity(intent);
+                session.logoutUser();
             }
         });
     }
@@ -76,15 +78,6 @@ public class OwnerPanel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(OwnerPanel.this,MenuHistory.class);
-                startActivity(intent);
-            }
-        });
-    }
-    private void pegawai(){
-        pegawai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MenuPegawai.class);
                 startActivity(intent);
             }
         });
@@ -143,13 +136,12 @@ public class OwnerPanel extends AppCompatActivity {
             }
         });
     }
-    private void cabang(){
-        cabang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(OwnerPanel.this,MenuCabang.class);
-                startActivity(intent);
-            }
-        });
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

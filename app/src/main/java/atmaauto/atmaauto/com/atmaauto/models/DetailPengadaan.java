@@ -28,15 +28,15 @@ public class DetailPengadaan {
     @Expose
     private Double subtotalPengadaan;
 
-    public DetailPengadaan(Integer idDetailPengadaan, Integer idPengadaan, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
-        super();
-        this.idDetailPengadaan = idDetailPengadaan;
-        this.idPengadaan = idPengadaan;
-        this.kodeSparepart = kodeSparepart;
-        this.hargaSatuan = hargaSatuan;
-        this.jumlah = jumlah;
-        this.subtotalPengadaan = subtotalPengadaan;
-    }
+//    public DetailPengadaan(Integer idDetailPengadaan, Integer idPengadaan, String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
+//        super();
+//        this.idDetailPengadaan = idDetailPengadaan;
+//        this.idPengadaan = idPengadaan;
+//        this.kodeSparepart = kodeSparepart;
+//        this.hargaSatuan = hargaSatuan;
+//        this.jumlah = jumlah;
+//        this.subtotalPengadaan = subtotalPengadaan;
+//    }
 
     public String getNamaSparepart() {
         return namaSparepart;
@@ -46,17 +46,18 @@ public class DetailPengadaan {
         this.namaSparepart = namaSparepart;
     }
 
-    public DetailPengadaan(String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
-        super();
-        this.kodeSparepart = kodeSparepart;
-        this.hargaSatuan = hargaSatuan;
-        this.jumlah = jumlah;
-        this.subtotalPengadaan = subtotalPengadaan;
-    }
+//    public DetailPengadaan(String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
+//        super();
+//        this.kodeSparepart = kodeSparepart;
+//        this.hargaSatuan = hargaSatuan;
+//        this.jumlah = jumlah;
+//        this.subtotalPengadaan = subtotalPengadaan;
+//    }
 
-    public DetailPengadaan(Integer idDetailPengadaan,String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan) {
+    public DetailPengadaan(Integer idDetailPengadaan,String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan,String namaSparepart) {
         super();
         this.idDetailPengadaan=idDetailPengadaan;
+        this.namaSparepart=namaSparepart;
         this.kodeSparepart = kodeSparepart;
         this.hargaSatuan = hargaSatuan;
         this.jumlah = jumlah;

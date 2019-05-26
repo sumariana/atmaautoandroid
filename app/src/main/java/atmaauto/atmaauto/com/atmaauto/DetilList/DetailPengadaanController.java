@@ -70,11 +70,12 @@ public class DetailPengadaanController extends AppCompatActivity {
     private SparepartCartAdapter sparepartCartAdapter;
 
     Spinner spinnersparepart;
-    String selectedIdSparepart,selectedHargaSparepart;
+    String selectedIdSparepart,selectedHargaSparepart,selectednamasparepart;
     private List<String> listNameSparepart = new ArrayList<String>();
     private List<String> listKodeSparepart = new ArrayList<String>();
     private List<String> listHargaSparepart = new ArrayList<String>();
     private List<DetailPengadaan> details = new ArrayList<DetailPengadaan>();
+    private List<DetailPengadaan> detailsdb = new ArrayList<DetailPengadaan>();
 
 
 
@@ -137,6 +138,7 @@ public class DetailPengadaanController extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedIdSparepart = listKodeSparepart.get(position); //Mendapatkan id dari dropdown yang dipilih
                 selectedHargaSparepart = listHargaSparepart.get(position);
+                selectednamasparepart = listNameSparepart.get(position);
                 Log.d("ID Sparepart : ",selectedIdSparepart);
                 Log.d("Harga Sparepart : ",selectedHargaSparepart);
                 //Double total = Double.parseDouble(selectedHargaSparepart)*nilai;
@@ -163,18 +165,21 @@ public class DetailPengadaanController extends AppCompatActivity {
     };
 
     public void addtoCart(){
-        Log.d( "jumlah sparepart: ",jumlahsparepart.getText().toString());
-        details.add(new DetailPengadaan(0,selectedIdSparepart,
-                Double.parseDouble(selectedHargaSparepart),
-                Integer.parseInt(jumlahsparepart.getText().toString()),
-                Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString())));
-        sparepartCartAdapter.notifyDataSetChanged();
-        //sparepartCartAdapter = new SparepartCartAdapter(getApplication(),details);
-        recyclerView.setAdapter(sparepartCartAdapter);
+        if(jumlahsparepart.getText().toString().isEmpty())
+        {
+            Toast.makeText(DetailPengadaanController.this, "Masukan jumlah !", Toast.LENGTH_SHORT).show();
+        }else{
+            details.add(new DetailPengadaan(0,selectedIdSparepart,
+                    Double.parseDouble(selectedHargaSparepart),
+                    Integer.parseInt(jumlahsparepart.getText().toString()),
+                    Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString()),selectednamasparepart));
+            sparepartCartAdapter.notifyDataSetChanged();
+            //sparepartCartAdapter = new SparepartCartAdapter(getApplication(),details);
+            recyclerView.setAdapter(sparepartCartAdapter);
+            hitungtotal();
+            jumlahsparepart.setText("");
+        }
 
-        hitungtotal();
-
-        jumlahsparepart.setText("");
     }
 
     public void patchpengadaan(){
@@ -195,11 +200,38 @@ public class DetailPengadaanController extends AppCompatActivity {
                     JSONObject jsonRes = new JSONObject(response.body().string());
                     String idPengadaanres =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
 
+                    //hapus detail pengadaan didatabase
+                    for (int x=0;x<detailsdb.size();x++)
+                    {
+                        Gson gson = new GsonBuilder()
+                            .setLenient()
+                            .create();
+                    Retrofit.Builder builder=new Retrofit.
+                            Builder().baseUrl(ApiSparepart.JSONURL).
+                            addConverterFactory(GsonConverterFactory.create(gson));
+                    Retrofit retrofit=builder.build();
+                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletedetailpengadaan(detailsdb.get(x).getIdDetailPengadaan());
+                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(DetailPengadaanController.this, "can't connect!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    }
+
+                    //lalu menambah detail baru ke db
                     for(int x=0;x<details.size();x++)
                     {
-                        Log.d( "idDetail : ",details.get(x).getIdDetailPengadaan().toString());
-                        if(details.get(x).getIdDetailPengadaan()==0)
-                        {
+//                        Log.d( "idDetail : ",details.get(x).getIdDetailPengadaan().toString());
+//                        if(details.get(x).getIdDetailPengadaan()==0)
+//                        {
                             Gson gson = new GsonBuilder()
                                     .setLenient()
                                     .create();
@@ -222,7 +254,7 @@ public class DetailPengadaanController extends AppCompatActivity {
                                     Toast.makeText(DetailPengadaanController.this, "error!", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                        }
+//                        }
                     }
                 }catch (JSONException e) {
                     e.printStackTrace();
@@ -349,9 +381,14 @@ public class DetailPengadaanController extends AppCompatActivity {
             public void onResponse(Call<DetailPengadaan_data> call, Response<DetailPengadaan_data> response) {
                 Log.d( "onResponse: ",response.body().getData().toString());
                 try{
+
                     sparepartCartAdapter.notifyDataSetChanged();
                     details=response.body().getData();
-                    //Log.d("id Detail Pengadaan: ",details.get(0).getIdDetailPengadaan().toString());
+                    detailsdb=response.body().getData();
+                    for(int x=0;x<details.size();x++)
+                    {
+                        Log.d("id Detail Pengadaan: ",details.get(x).getIdDetailPengadaan().toString());
+                    }
                     sparepartCartAdapter = new SparepartCartAdapter(getApplicationContext(),details);
                     recyclerView.setAdapter(sparepartCartAdapter);
                 }catch(Exception e){

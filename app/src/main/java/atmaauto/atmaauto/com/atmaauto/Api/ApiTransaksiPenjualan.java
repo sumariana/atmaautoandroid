@@ -1,6 +1,7 @@
 package atmaauto.atmaauto.com.atmaauto.Api;
 
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 
 import atmaauto.atmaauto.com.atmaauto.models.DetailJasa_data;
 import atmaauto.atmaauto.com.atmaauto.models.DetailSparepart_data;
@@ -51,6 +52,10 @@ public interface ApiTransaksiPenjualan {
 
     @GET("api/transaksi_penjualans/transaksikeluar")
     Call<TransaksiPenjualan_data> transaksikeluar();
+
+    @GET("api/transaksi_penjualans/cekStatus/{hp}/{plat}")
+    Call<TransaksiPenjualan_data>tampilstatuskonsumen(@Path("hp") String hp,
+                                                      @Path("plat") String plat);
 
     @DELETE("api/transaksi_penjualans/delete/{id}")
     Call<ResponseBody> deletetransaksi(@Path("id") Integer id);

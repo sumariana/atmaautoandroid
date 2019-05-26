@@ -43,9 +43,18 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
     private List<TransaksiPenjualan> mList;
     private List<TransaksiPenjualan> mListfilter;
 
+    public int x;
+
     SessionManager session;
 
     public PenjualanAdapter (Context context,List<TransaksiPenjualan>mList){
+        this.context=context;
+        this.mList=mList;
+        this.mListfilter=mList;
+    }
+
+    public PenjualanAdapter (Context context,List<TransaksiPenjualan>mList,final int x){
+        this.x=x;
         this.context=context;
         this.mList=mList;
         this.mListfilter=mList;
@@ -87,6 +96,14 @@ public class PenjualanAdapter extends RecyclerView.Adapter<PenjualanAdapter.MyVi
             myViewHolder.deletetransaksi.setVisibility(View.GONE);
         }
 
+        if(x==1)
+        {
+            myViewHolder.edittransaksi.setVisibility(View.GONE);
+            myViewHolder.deletetransaksi.setVisibility(View.GONE);
+        }else if(transaksiPenjualan.getStatus()==1 || transaksiPenjualan.getStatus()==2){
+            myViewHolder.edittransaksi.setVisibility(View.VISIBLE);
+            myViewHolder.deletetransaksi.setVisibility(View.VISIBLE);
+        }
         myViewHolder.statuspenjualan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

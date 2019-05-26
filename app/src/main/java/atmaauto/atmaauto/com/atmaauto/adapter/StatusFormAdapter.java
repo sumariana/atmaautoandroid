@@ -32,9 +32,11 @@ public class StatusFormAdapter extends RecyclerView.Adapter<StatusFormAdapter.My
 
         private Context context;
         private List<DetailPengadaan> mList;
+        public int x=0;
         private List<DetailPengadaan> mListfilter;
 
-        public StatusFormAdapter(Context context,List<DetailPengadaan> mList){
+        public StatusFormAdapter(Context context,List<DetailPengadaan> mList,int x){
+            this.x=x;
         this.context=context;
         this.mList=mList;
         this.mListfilter=mList;
@@ -77,38 +79,50 @@ public class StatusFormAdapter extends RecyclerView.Adapter<StatusFormAdapter.My
     public void onBindViewHolder(@NonNull final StatusFormAdapter.MyViewHolder myViewHolder, final int i) {
         final DetailPengadaan detailPengadaan = mListfilter.get(i);
         myViewHolder.namastatus.setText(detailPengadaan.getKodeSparepart());
-        myViewHolder.jumlahstatus.setText(detailPengadaan.getJumlah().toString());
-        myViewHolder.update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Gson gson = new GsonBuilder()
-                        .setLenient()
-                        .create();
-                Retrofit.Builder builder=new Retrofit.
-                        Builder().baseUrl(ApiSparepart.JSONURL).
-                        addConverterFactory(GsonConverterFactory.create(gson));
-                Retrofit retrofit=builder.build();
-                ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-                Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.updatejumlahpengadaan(detailPengadaan.getIdDetailPengadaan(),Integer.parseInt(myViewHolder.jumlahstatus.getText().toString()));
-                responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.code()==200)
-                        {
-                            Toast.makeText(context, "berhasil Update!", Toast.LENGTH_SHORT).show();
-                        }else
-                            Toast.makeText(context, "gagal Update!", Toast.LENGTH_SHORT).show();
-                    }
+        if(x==1)
+        {
+            myViewHolder.update.setVisibility(View.GONE);
+            myViewHolder.jumlahstatus.setEnabled(false);
+            myViewHolder.jumlahstatus.setText(detailPengadaan.getJumlah().toString());
+        }else
+        {
+            myViewHolder.jumlahstatus.setEnabled(true);
+            myViewHolder.jumlahstatus.setText(detailPengadaan.getJumlah().toString());
+            myViewHolder.update.setVisibility(View.VISIBLE);
+            myViewHolder.update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(context, "Network Error!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+                    Gson gson = new GsonBuilder()
+                            .setLenient()
+                            .create();
+                    Retrofit.Builder builder=new Retrofit.
+                            Builder().baseUrl(ApiSparepart.JSONURL).
+                            addConverterFactory(GsonConverterFactory.create(gson));
+                    Retrofit retrofit=builder.build();
+                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+
+                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.updatejumlahpengadaan(detailPengadaan.getIdDetailPengadaan(),Integer.parseInt(myViewHolder.jumlahstatus.getText().toString()));
+                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if(response.code()==200)
+                            {
+                                Toast.makeText(context, "berhasil Update!", Toast.LENGTH_SHORT).show();
+                            }else
+                                Toast.makeText(context, "gagal Update!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(context, "Network Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
     }
 
     @Override

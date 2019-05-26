@@ -3,6 +3,8 @@ package atmaauto.atmaauto.com.atmaauto;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import atmaauto.atmaauto.com.atmaauto.Api.ApiSparepart;
+import atmaauto.atmaauto.com.atmaauto.DetilList.DetailStatusPenjualanController;
+import atmaauto.atmaauto.com.atmaauto.SessionManager.SessionManager;
 import atmaauto.atmaauto.com.atmaauto.adapter.SparepartAdapter;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart;
 import atmaauto.atmaauto.com.atmaauto.models.Sparepart_data;
@@ -37,7 +41,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,DialogStatus.DialogStatusListener{
 
     //baru pindah ke document
 
@@ -46,7 +50,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private SparepartAdapter sparepartAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    TextView login;
+    TextView login,cekstatus;
+
+    SessionManager session;
+    private long backPressedTime;
 
     private Spinner sorting;
 
@@ -57,20 +64,56 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         login=(TextView) findViewById(R.id.loginMain);
         ClickLogin();
 
+        cekstatus=(TextView) findViewById(R.id.cekstatuskendaraan);
+        cekstatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_sparepart);
         sparepartAdapter=new SparepartAdapter(getApplication(),mListSparepart);
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //showList();
 
+        session = new SessionManager(getApplicationContext());
+        if(session.isLoggedIn())
+        {
+            if(session.getIdRole().equalsIgnoreCase("1"))
+            {
+                Intent intent = new Intent(getApplicationContext(), OwnerPanel.class);
+                startActivity(intent);
+            }else if(session.getIdRole().equalsIgnoreCase("2")){
+                Intent intent = new Intent(getApplicationContext(), CSPanel.class);
+                startActivity(intent);
+            }else if(session.getIdRole().equalsIgnoreCase("3")){
+                Intent intent = new Intent(getApplicationContext(), MenuPembayaran.class);
+                startActivity(intent);
+            }
+        }
         sorting = (Spinner) findViewById(R.id.sorting);
         ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.Sorting,android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sorting.setAdapter(adapter1);
         sorting.setOnItemSelectedListener(this);
     }
+
+    @Override
+    public void applyTexts(String plat, String nomer) {
+        Intent intent = new Intent(getApplicationContext(), StatusKendaraanKonsumen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("plat",plat);
+        intent.putExtra("nomer",nomer);
+        startActivity(intent);
+    }
+
+    public void openDialog(){
+        DialogStatus dialogStatus = new DialogStatus();
+        dialogStatus.show(getSupportFragmentManager(),"DialogStatus");
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
@@ -78,31 +121,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if(text.equalsIgnoreCase("Harga Termurah"))
         {
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
             showListtermurah();
         }else if(text.equalsIgnoreCase("Harga Termahal")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtermahal();
         }else if(text.equalsIgnoreCase("Jumlah Terbanyak")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListterbanyak();
         }else if(text.equalsIgnoreCase("Jumlah Paling Sedikit")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtersedikit();
         }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Terbanyak")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtermurahterbanyak();
         }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Paling Sedikit")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtermurahtersedikit();
         }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Terbanyak")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtermahalterbanyak();
         }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Paling Sedikit")){
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showListtermahaltersedikit();
         }else {
-            Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+
             showList();
         }
     }
@@ -118,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 createNotificationChannel();
                 Intent intent=new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -414,5 +457,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Toast.makeText(MainActivity.this, "network error!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 }

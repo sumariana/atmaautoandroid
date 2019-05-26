@@ -91,7 +91,6 @@ public class DetailMotorKonsumen extends AppCompatActivity {
                 if(response.code()!=500)
                 {
                     Toast.makeText(DetailMotorKonsumen.this, "berhasil update!", Toast.LENGTH_SHORT).show();
-                    motorKonsumenAdapter.notifyDataSetChanged();
                     finish();
                 }else {
                     Toast.makeText(DetailMotorKonsumen.this, "error!", Toast.LENGTH_SHORT).show();
@@ -100,16 +99,13 @@ public class DetailMotorKonsumen extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Toast.makeText(DetailMotorKonsumen.this, "error!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void inisialisasi(){
         spinnermotor=(Spinner) findViewById(R.id.spinnertipe);
-        vidmkn=(TextView) findViewById(R.id.idmotorkonsumen);
-        vidkn=(TextView) findViewById(R.id.idkonsumen);
-        vidm=(TextView) findViewById(R.id.idmotor);
         vplat=(TextView) findViewById(R.id.platmotor);
         patchmotorkonsumen=(Button) findViewById(R.id.btnupdatemotor);
     }
@@ -123,9 +119,6 @@ public class DetailMotorKonsumen extends AppCompatActivity {
         plat = i.getStringExtra("plat");
     }
     private void setText(){
-        vidmkn.setText(idmkn);
-        vidkn.setText(idkn);
-        vidm.setText(idm);
         vplat.setText(plat);
     }
 

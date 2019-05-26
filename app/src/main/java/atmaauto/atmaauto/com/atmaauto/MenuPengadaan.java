@@ -84,6 +84,7 @@ public class MenuPengadaan extends AppCompatActivity {
     private void pengadaan(){
                 Intent intent=new Intent(MenuPengadaan.this,TambahPengadaan.class);
                 startActivity(intent);
+                finish();
 
     }
 

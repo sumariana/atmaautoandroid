@@ -121,6 +121,7 @@ public class MenuSupplier extends AppCompatActivity {
     public void tambahSupplier(){
         Intent intent = new Intent(MenuSupplier.this,TambahSupplier.class);
         startActivity(intent);
+        finish();
     }
 
 

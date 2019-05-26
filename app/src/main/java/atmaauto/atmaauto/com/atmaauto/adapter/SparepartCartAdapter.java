@@ -94,8 +94,8 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
         myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(detailPengadaan.getIdDetailPengadaan()==0)
-                {
+//                if(detailPengadaan.getIdDetailPengadaan()==0)
+//                {
                     Double harga = detailPengadaan.getSubtotalPengadaan();
                     Intent intent = new Intent("custom-message");
                     intent.putExtra("harga",harga);
@@ -104,33 +104,33 @@ public class SparepartCartAdapter extends RecyclerView.Adapter<SparepartCartAdap
                     mListfilter.remove(i);
                     notifyItemRemoved(i);
                     notifyItemRangeChanged(i,getItemCount());
-                }else {
-                    Gson gson = new GsonBuilder()
-                            .setLenient()
-                            .create();
-                    Retrofit.Builder builder=new Retrofit.
-                            Builder().baseUrl(ApiSparepart.JSONURL).
-                            addConverterFactory(GsonConverterFactory.create(gson));
-                    Retrofit retrofit=builder.build();
-                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
-
-                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletedetailpengadaan(detailPengadaan.getIdDetailPengadaan());
-                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                                Toast.makeText(context, "berhasil!", Toast.LENGTH_SHORT).show();
-                            mListfilter.remove(i);
-                            notifyItemRemoved(i);
-                            notifyItemRangeChanged(i,getItemCount());
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(context, "network error!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+//                }else {
+//                    Gson gson = new GsonBuilder()
+//                            .setLenient()
+//                            .create();
+//                    Retrofit.Builder builder=new Retrofit.
+//                            Builder().baseUrl(ApiSparepart.JSONURL).
+//                            addConverterFactory(GsonConverterFactory.create(gson));
+//                    Retrofit retrofit=builder.build();
+//                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+//
+//                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletedetailpengadaan(detailPengadaan.getIdDetailPengadaan());
+//                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
+//                        @Override
+//                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//
+//                            Toast.makeText(context, "berhasil!", Toast.LENGTH_SHORT).show();
+//                            mListfilter.remove(i);
+//                            notifyItemRemoved(i);
+//                            notifyItemRangeChanged(i,getItemCount());
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                            Toast.makeText(context, "can't connect!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
 
 
             }

@@ -47,66 +47,66 @@ public class JasaCartAdapter extends RecyclerView.Adapter<JasaCartAdapter.MyView
                 .inflate(R.layout.servis_adapter, viewGroup, false);
         return new JasaCartAdapter.MyViewHolder(itemView);
     }
-    @Override
-    public void onBindViewHolder(@NonNull JasaCartAdapter.MyViewHolder myViewHolder, final int i) {
-        final DetailJasa detailJasa = mListfilter.get(i);
-        myViewHolder.namaservis.setText(detailJasa.getNamaJasa());
-        myViewHolder.hargaservis.setText("Harga  : "+detailJasa.getSubtotalDetailJasa());
-        if(x==1)
-        {
-            myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(detailJasa.getIdDetailJasa()==null)
-                    {
-                        Double harga = detailJasa.getSubtotalDetailJasa();
-                        Intent intent = new Intent("custom-message-jasa");
-                        intent.putExtra("harga",harga);
-                        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        mListfilter.remove(i);
-                        notifyItemRemoved(i);
-                        notifyItemRangeChanged(i,getItemCount());
-                    }else{
-                        Gson gson = new GsonBuilder()
-                                .setLenient()
-                                .create();
-                        Retrofit.Builder builder=new Retrofit.
-                                Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
-                                addConverterFactory(GsonConverterFactory.create(gson));
-                        Retrofit retrofit=builder.build();
-                        ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+        @Override
+        public void onBindViewHolder(@NonNull JasaCartAdapter.MyViewHolder myViewHolder, final int i) {
+            final DetailJasa detailJasa = mListfilter.get(i);
+            myViewHolder.namaservis.setText(detailJasa.getNamaJasa());
+            myViewHolder.hargaservis.setText("Harga  : "+detailJasa.getSubtotalDetailJasa());
+            if(x==1)
+            {
+                myViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(detailJasa.getIdDetailJasa()==null)
+                        {
+                            Double harga = detailJasa.getSubtotalDetailJasa();
+                            Intent intent = new Intent("custom-message-jasa");
+                            intent.putExtra("harga",harga);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            mListfilter.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i,getItemCount());
+                        }else{
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiTransaksiPenjualan.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-                        Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailjasa(detailJasa.getIdDetailJasa());
-                        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if(response.code()==200)
-                                {
-                                    Double harga = detailJasa.getSubtotalDetailJasa();
-                                    Intent intent = new Intent("custom-message-jasa");
-                                    intent.putExtra("harga",harga);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                    mListfilter.remove(i);
-                                    notifyItemRemoved(i);
-                                    notifyItemRangeChanged(i,getItemCount());
-                                    Log.d( "sucess: ",response.message());
-                                }else
-                                    Log.d( "gagal: ",response.message());
-                            }
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.deletedetailjasa(detailJasa.getIdDetailJasa());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if(response.code()==200)
+                                    {
+                                        Double harga = detailJasa.getSubtotalDetailJasa();
+                                        Intent intent = new Intent("custom-message-jasa");
+                                        intent.putExtra("harga",harga);
+                                        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                        mListfilter.remove(i);
+                                        notifyItemRemoved(i);
+                                        notifyItemRangeChanged(i,getItemCount());
+                                        Log.d( "sucess: ",response.message());
+                                    }else
+                                        Log.d( "gagal: ",response.message());
+                                }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
-                }
-            });
-        }else if(x==0)
-        {
-            myViewHolder.delete.setVisibility(View.GONE);
+                });
+            }else if(x==0)
+            {
+                myViewHolder.delete.setVisibility(View.GONE);
+            }
         }
-    }
     @Override
     public int getItemCount() {
         return mListfilter.size();

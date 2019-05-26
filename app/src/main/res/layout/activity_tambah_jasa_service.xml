@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TambahJasaService">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+
+        >
+        <RelativeLayout
+            android:id="@+id/layertop"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="Jasa Service"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+        <!--bagian konsumen-->
+
+        <RelativeLayout
+            android:layout_below="@+id/layertop"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAMA SERVICE"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="HARGA SERVICE"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="60dp"
+                />
+
+            <EditText
+                android:id="@+id/namaservis"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"/>
+            <EditText
+                android:id="@+id/hargaservis"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="45dp"/>
+        </RelativeLayout>
+
+        <!--bagian control        -->
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/colorPrimaryDark">
+            <Button
+                android:id="@+id/btntambahservice"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Tambah"
+                android:textStyle="bold"
+                android:background="@drawable/buttonback"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

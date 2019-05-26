@@ -144,7 +144,7 @@ public class DetailPenjualanController extends AppCompatActivity {
             }
         };
 
-        session = new SessionManager(DetailPenjualanController.this);
+        session = new SessionManager(getApplicationContext());
         Log.d( "ID PEGAWAI : ",session.getKeyId());
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,

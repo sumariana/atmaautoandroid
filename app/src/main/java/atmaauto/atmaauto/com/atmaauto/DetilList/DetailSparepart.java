@@ -204,14 +204,14 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
     }
 
     public void updatesparepart(){
-        if(nama.getText().toString()=="" ||
-                merk.getText().toString()=="" ||
-                hargabeli.getText().toString()=="" ||
-                hargajual.getText().toString()=="" ||
-                jumlah.getText().toString()=="" ||
-                jmlmin.getText().toString()=="" ||
-                nomor.getText().toString()=="" ||
-                tipebarang.getText().toString()==""
+        if(nama.getText().toString().isEmpty() ||
+                merk.getText().toString().isEmpty() ||
+                hargabeli.getText().toString().isEmpty()||
+                hargajual.getText().toString().isEmpty()||
+                jumlah.getText().toString().isEmpty()||
+                jmlmin.getText().toString().isEmpty()||
+                nomor.getText().toString().isEmpty()||
+                tipebarang.getText().toString().isEmpty()
                 )
         {
             Toast.makeText(DetailSparepart.this,"Field can't be empty",Toast.LENGTH_SHORT).show();
@@ -264,7 +264,7 @@ public class DetailSparepart extends AppCompatActivity implements AdapterView.On
         tipebarang.setText(tipesp);
         rakv.setText(raksp);
 
-        Picasso.get().load("http://10.53.4.85:8000/images/"+gambar).into(pic);
+        Picasso.get().load("http://10.53.11.59:8000/images/"+gambar).into(pic);
     }
 
     @Override

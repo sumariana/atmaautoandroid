@@ -109,7 +109,7 @@ public class MenuHistory extends AppCompatActivity implements AdapterView.OnItem
                 try {
                     penjualanAdapter.notifyDataSetChanged();
                     penjualanAdapter = new PenjualanAdapter(getApplicationContext(), response.body().getData());
-                    recyclerView.setAdapter(penjualanAdapter);
+                    rview.setAdapter(penjualanAdapter);
                 } catch (Exception e) {
                     Toast.makeText(MenuHistory.this, "Belum ada Pengadaan!", Toast.LENGTH_SHORT).show();
                 }

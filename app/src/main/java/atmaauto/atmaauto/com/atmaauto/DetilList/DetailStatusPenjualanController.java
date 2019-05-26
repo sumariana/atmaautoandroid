@@ -62,7 +62,7 @@ public class DetailStatusPenjualanController extends AppCompatActivity {
         setContentView(R.layout.activity_detail_status_penjualan_controller);
 
         init();
-        session = new SessionManager(DetailStatusPenjualanController.this);
+        session = new SessionManager(getApplicationContext());
 
         vtanggal.setText(getIntent().getStringExtra("tanggal"));
         vkode.setText(getIntent().getStringExtra("kodetransaksi"));

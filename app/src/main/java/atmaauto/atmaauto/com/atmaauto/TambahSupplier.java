@@ -79,6 +79,7 @@ public class TambahSupplier extends AppCompatActivity {
 //                tmpl.showList();
                         Intent intent = new Intent(TambahSupplier.this,MenuSupplier.class);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override
