@@ -169,7 +169,7 @@ public class DetailPengadaanController extends AppCompatActivity {
         {
             Toast.makeText(DetailPengadaanController.this, "Masukan jumlah !", Toast.LENGTH_SHORT).show();
         }else{
-            details.add(new DetailPengadaan(0,selectedIdSparepart,
+            details.add(new DetailPengadaan(selectedIdSparepart,
                     Double.parseDouble(selectedHargaSparepart),
                     Integer.parseInt(jumlahsparepart.getText().toString()),
                     Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString()),selectednamasparepart));
@@ -198,40 +198,35 @@ public class DetailPengadaanController extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 try {
                     JSONObject jsonRes = new JSONObject(response.body().string());
-                    String idPengadaanres =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
+                    //String idPengadaanres =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
 
-                    //hapus detail pengadaan didatabase
-                    for (int x=0;x<detailsdb.size();x++)
+                    if(detailsdb!=null)
                     {
+                        //hapus detail pengadaan didatabase
                         Gson gson = new GsonBuilder()
-                            .setLenient()
-                            .create();
-                    Retrofit.Builder builder=new Retrofit.
-                            Builder().baseUrl(ApiSparepart.JSONURL).
-                            addConverterFactory(GsonConverterFactory.create(gson));
-                    Retrofit retrofit=builder.build();
-                    ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+                                .setLenient()
+                                .create();
+                        Retrofit.Builder builder=new Retrofit.
+                                Builder().baseUrl(ApiSparepart.JSONURL).
+                                addConverterFactory(GsonConverterFactory.create(gson));
+                        Retrofit retrofit=builder.build();
+                        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-                    Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletedetailpengadaan(detailsdb.get(x).getIdDetailPengadaan());
-                    responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.deletealldetail(idpengadaan);
+                        responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            }
 
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Toast.makeText(DetailPengadaanController.this, "can't connect!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(DetailPengadaanController.this, "can't connect!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-
                     //lalu menambah detail baru ke db
                     for(int x=0;x<details.size();x++)
                     {
-//                        Log.d( "idDetail : ",details.get(x).getIdDetailPengadaan().toString());
-//                        if(details.get(x).getIdDetailPengadaan()==0)
-//                        {
                             Gson gson = new GsonBuilder()
                                     .setLenient()
                                     .create();
@@ -241,12 +236,11 @@ public class DetailPengadaanController extends AppCompatActivity {
                             Retrofit retrofit=builder.build();
                             ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.adddetailpengadaan(Integer.parseInt(idPengadaanres),details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
-                            Log.d( "id pengadaan: ",idPengadaanres);
-                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                            Call<ResponseBody> responseBodyCall1 = apiTransaksiPengadaan.adddetailpengadaan(idpengadaan,details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
+                            responseBodyCall1.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    Toast.makeText(DetailPengadaanController.this, "berhasil update detail!", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
@@ -254,15 +248,16 @@ public class DetailPengadaanController extends AppCompatActivity {
                                     Toast.makeText(DetailPengadaanController.this, "error!", Toast.LENGTH_SHORT).show();
                                 }
                             });
-//                        }
                     }
+                    Toast.makeText(DetailPengadaanController.this, "berhasil update detail!", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(DetailPengadaanController.this, MenuPengadaan.class);
+                    startActivity(intent);
+                    finish();
                 }catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Intent intent=new Intent(DetailPengadaanController.this, MenuPengadaan.class);
-                startActivity(intent);
             }
 
             @Override
@@ -385,9 +380,10 @@ public class DetailPengadaanController extends AppCompatActivity {
                     sparepartCartAdapter.notifyDataSetChanged();
                     details=response.body().getData();
                     detailsdb=response.body().getData();
-                    for(int x=0;x<details.size();x++)
+                    for(int x=0;x<detailsdb.size();x++)
                     {
-                        Log.d("id Detail Pengadaan: ",details.get(x).getIdDetailPengadaan().toString());
+                        Log.d("id Detail Pengadaan: ",detailsdb.get(x).getIdDetailPengadaan().toString());
+                        Log.d("nama Detail Pengadaan: ",detailsdb.get(x).getNamaSparepart().toString());
                     }
                     sparepartCartAdapter = new SparepartCartAdapter(getApplicationContext(),details);
                     recyclerView.setAdapter(sparepartCartAdapter);

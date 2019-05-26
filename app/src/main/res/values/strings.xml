@@ -47,4 +47,23 @@
         <item>Harga Termahal dan Jumlah Terbanyak</item>
         <item>Harga Termahal dan Jumlah Paling Sedikit</item>
     </string-array>
+
+    <string-array name="filter">
+        <item>Reset</item>
+        <item>Harga</item>
+        <item>Jumlah</item>
+        <item>Harga dan Jumlah</item>
+    </string-array>
+    <string-array name="sort">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+    <string-array name="doublesort">
+        <item>Ascending-Ascending</item>
+        <item>Ascending-Descending</item>
+        <item>Descending-Ascending</item>
+        <item>Descending-Descending</item>
+    </string-array>
+
+
 </resources>

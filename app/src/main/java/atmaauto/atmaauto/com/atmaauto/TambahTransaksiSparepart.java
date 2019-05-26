@@ -370,187 +370,185 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
 
 
     public void postpenjualansparepart(){
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Retrofit.Builder builder=new Retrofit.
-                Builder().baseUrl(ApiSparepart.JSONURL).
-                addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit=builder.build();
-        ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
-//        Log.d("idkonsumen: ",selectedidkonsumen);
-//        Log.d("date: ",mDisplayDate.getText().toString());
-//        Log.d("total: ",total.getText().toString());
-//        Log.d("diskon: ",diskon.getText().toString());
-//        Log.d("idmotorkonsumen: ",selectedidmotorkonsumen);
-//        Log.d("session: ",session.getKeyId());
-        Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.addPenjualansparepart(Integer.parseInt(selectedidkonsumen),mDisplayDate.getText().toString(),jenistrk,Double.parseDouble(total.getText().toString()),Integer.parseInt(diskon.getText().toString()),Integer.parseInt(selectedidmontir),Integer.parseInt(selectedidmotorkonsumen),Integer.parseInt(session.getKeyId()));
+        if (!diskon.getText().toString().isEmpty()) {
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+            Retrofit.Builder builder=new Retrofit.
+                    Builder().baseUrl(ApiSparepart.JSONURL).
+                    addConverterFactory(GsonConverterFactory.create(gson));
+            Retrofit retrofit=builder.build();
+            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.addPenjualansparepart(Integer.parseInt(selectedidkonsumen),mDisplayDate.getText().toString(),jenistrk,Double.parseDouble(total.getText().toString()),Integer.parseInt(diskon.getText().toString()),Integer.parseInt(selectedidmontir),Integer.parseInt(selectedidmotorkonsumen),Integer.parseInt(session.getKeyId()));
 
-        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                try {
-                    JSONObject jsonRes = new JSONObject(response.body().string());
-                    String idTransaksi =  jsonRes.getJSONObject("data").getString("Id_Transaksi");
-                    Log.d("id_transaksi : ",idTransaksi);
+                    try {
+                        JSONObject jsonRes = new JSONObject(response.body().string());
+                        String idTransaksi =  jsonRes.getJSONObject("data").getString("Id_Transaksi");
+                        Log.d("id_transaksi : ",idTransaksi);
 
-                    if(jenistrk.equalsIgnoreCase("SP"))
-                    {
-                        for(int x=0;x<detailssparepart.size();x++)
+                        if(jenistrk.equalsIgnoreCase("SP"))
                         {
-                            Gson gson = new GsonBuilder()
-                                    .setLenient()
-                                    .create();
-                            Retrofit.Builder builder=new Retrofit.
-                                    Builder().baseUrl(ApiSparepart.JSONURL).
-                                    addConverterFactory(GsonConverterFactory.create(gson));
-                            Retrofit retrofit=builder.build();
-                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+                            for(int x=0;x<detailssparepart.size();x++)
+                            {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder=new Retrofit.
+                                        Builder().baseUrl(ApiSparepart.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit=builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(Integer.parseInt(idTransaksi),detailssparepart.get(x).getIdJasaMontir(),detailssparepart.get(x).getKodeSparepart(),detailssparepart.get(x).getHargaSatuan(),detailssparepart.get(x).getJumlah(),detailssparepart.get(x).getSubtotalDetailSparepart());
-                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    try {
-                                        JSONObject jsonRes = new JSONObject(response.body().string());
-                                        String iddetailpenjualansparepart =  jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
-                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(Integer.parseInt(idTransaksi),detailssparepart.get(x).getIdJasaMontir(),detailssparepart.get(x).getKodeSparepart(),detailssparepart.get(x).getHargaSatuan(),detailssparepart.get(x).getJumlah(),detailssparepart.get(x).getSubtotalDetailSparepart());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        try {
+                                            JSONObject jsonRes = new JSONObject(response.body().string());
+                                            String iddetailpenjualansparepart =  jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
+                                            Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                                }
-                            });
-                        }
-                    }else if(jenistrk.equalsIgnoreCase("SV"))
-                    {
-                        for(int x=0;x<detailJasas.size();x++)
+                                    }
+                                });
+                            }
+                        }else if(jenistrk.equalsIgnoreCase("SV"))
                         {
-                            Gson gson = new GsonBuilder()
-                                    .setLenient()
-                                    .create();
-                            Retrofit.Builder builder=new Retrofit.
-                                    Builder().baseUrl(ApiSparepart.JSONURL).
-                                    addConverterFactory(GsonConverterFactory.create(gson));
-                            Retrofit retrofit=builder.build();
-                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+                            for(int x=0;x<detailJasas.size();x++)
+                            {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder=new Retrofit.
+                                        Builder().baseUrl(ApiSparepart.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit=builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+//
+//                                Log.d("onResponse: ",idTransaksi);
+//                                Log.d("onResponse: ",detailJasas.get(x).getIdJasa().toString());
+//                                Log.d("onResponse: ",detailJasas.get(x).getIdJasaMontir().toString());
+//                                Log.d("onResponse: ",detailJasas.get(x).getSubtotalDetailJasa().toString());
 
-                            Log.d("onResponse: ",idTransaksi);
-                            Log.d("onResponse: ",detailJasas.get(x).getIdJasa().toString());
-                            Log.d("onResponse: ",detailJasas.get(x).getIdJasaMontir().toString());
-                            Log.d("onResponse: ",detailJasas.get(x).getSubtotalDetailJasa().toString());
 
-
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
-                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    try {
-                                        JSONObject jsonRes = new JSONObject(response.body().string());
-                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasa");
-                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        try {
+                                            JSONObject jsonRes = new JSONObject(response.body().string());
+                                            String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasa");
+                                            Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                                }
-                            });
-                        }
-                    }else {
-                        for (int x = 0; x < detailssparepart.size(); x++) {
-                            Gson gson = new GsonBuilder()
-                                    .setLenient()
-                                    .create();
-                            Retrofit.Builder builder = new Retrofit.
-                                    Builder().baseUrl(ApiSparepart.JSONURL).
-                                    addConverterFactory(GsonConverterFactory.create(gson));
-                            Retrofit retrofit = builder.build();
-                            ApiTransaksiPenjualan apiTransaksiPenjualan = retrofit.create(ApiTransaksiPenjualan.class);
-
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(Integer.parseInt(idTransaksi), detailssparepart.get(x).getIdJasaMontir(), detailssparepart.get(x).getKodeSparepart(), detailssparepart.get(x).getHargaSatuan(), detailssparepart.get(x).getJumlah(), detailssparepart.get(x).getSubtotalDetailSparepart());
-                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    try {
-                                        JSONObject jsonRes = new JSONObject(response.body().string());
-                                        String iddetailpenjualansparepart = jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
-                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
                                     }
-                                }
+                                });
+                            }
+                        }else {
+                            for (int x = 0; x < detailssparepart.size(); x++) {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder = new Retrofit.
+                                        Builder().baseUrl(ApiSparepart.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit = builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan = retrofit.create(ApiTransaksiPenjualan.class);
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                }
-                            });
-                        }
-
-                        for(int x=0;x<detailJasas.size();x++)
-                        {
-                            Gson gson = new GsonBuilder()
-                                    .setLenient()
-                                    .create();
-                            Retrofit.Builder builder=new Retrofit.
-                                    Builder().baseUrl(ApiSparepart.JSONURL).
-                                    addConverterFactory(GsonConverterFactory.create(gson));
-                            Retrofit retrofit=builder.build();
-                            ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
-
-                            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
-                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    try {
-                                        JSONObject jsonRes = new JSONObject(response.body().string());
-                                        String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasas");
-                                        Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualansparepart(Integer.parseInt(idTransaksi), detailssparepart.get(x).getIdJasaMontir(), detailssparepart.get(x).getKodeSparepart(), detailssparepart.get(x).getHargaSatuan(), detailssparepart.get(x).getJumlah(), detailssparepart.get(x).getSubtotalDetailSparepart());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        try {
+                                            JSONObject jsonRes = new JSONObject(response.body().string());
+                                            String iddetailpenjualansparepart = jsonRes.getJSONObject("data").getString("Id_Detail_Sparepart");
+                                            Log.d("Id_Detail_Penjualan : ", iddetailpenjualansparepart);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+
+                            for(int x=0;x<detailJasas.size();x++)
+                            {
+                                Gson gson = new GsonBuilder()
+                                        .setLenient()
+                                        .create();
+                                Retrofit.Builder builder=new Retrofit.
+                                        Builder().baseUrl(ApiSparepart.JSONURL).
+                                        addConverterFactory(GsonConverterFactory.create(gson));
+                                Retrofit retrofit=builder.build();
+                                ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
+
+                                Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.adddetailpenjualanjasa(Integer.parseInt(idTransaksi),detailJasas.get(x).getIdJasa(),detailJasas.get(x).getSubtotalDetailJasa());
+                                responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        try {
+                                            JSONObject jsonRes = new JSONObject(response.body().string());
+                                            String iddetailpenjualanjasa =  jsonRes.getJSONObject("data").getString("Id_Detail_Jasas");
+                                            Log.d("Id_Detail_Penjualan : ", iddetailpenjualanjasa);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+
                         }
-
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }catch (IOException e) {
-                    e.printStackTrace();
+                    Intent i= new Intent(TambahTransaksiSparepart.this, MenuPenjualan.class);
+                    startActivity(i);
+                    finish();
                 }
-                Intent i= new Intent(TambahTransaksiSparepart.this, MenuPenjualan.class);
-                startActivity(i);
-                finish();
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else {
+            Toast.makeText(TambahTransaksiSparepart.this, "Diskon tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -615,35 +613,34 @@ public class TambahTransaksiSparepart extends AppCompatActivity {
     };
 
     public void addtoCart(){
-        //Log.d( "add to cart",selectedIdSparepart);
-        if(jenistrk.equalsIgnoreCase("SP"))
+        if(jumlah.getText().toString().isEmpty())
         {
-            if(jumlah.getText().toString().isEmpty())
+            Toast.makeText(TambahTransaksiSparepart.this, "Tambah Jumlah Sparepart!", Toast.LENGTH_SHORT).show();
+        }else{
+            if(jenistrk.equalsIgnoreCase("SP"))
             {
-                Toast.makeText(TambahTransaksiSparepart.this, "Tambah Jumlah Bos!", Toast.LENGTH_SHORT).show();
-            }else{
                 detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(jumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlah.getText().toString())));
                 adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
                 nilai=Integer.parseInt(selectedHargaSparepart)*Integer.parseInt(jumlah.getText().toString());
                 totalharga=totalharga+nilai;
                 total.setText(totalharga.toString());
                 rview.setAdapter(adapter);
-            }
-        }else if(jenistrk.equalsIgnoreCase("SV")){
-            detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
-            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
-            recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
-        }else{
-            detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(jumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlah.getText().toString())));
-            detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
-            adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
-            jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
-            rview.setAdapter(adapter);
-            recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
+            }else if(jenistrk.equalsIgnoreCase("SV")){
+                detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
+                jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
+                recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
+            }else{
+                detailssparepart.add(new DetailSparepart(null,selectedIdSparepart,Double.parseDouble(selectedHargaSparepart),Integer.parseInt(jumlah.getText().toString()),Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlah.getText().toString())));
+                detailJasas.add(new DetailJasa(Integer.parseInt(selectedidservis),selectednamaservis,Integer.parseInt(selectedidmontir),Double.parseDouble(selectedhargaservis)));
+                adapter = new PenjualanSparepartAdapter(getApplicationContext(),detailssparepart,1);
+                jasaCartAdapter = new JasaCartAdapter(getApplicationContext(),detailJasas,1);
+                rview.setAdapter(adapter);
+                recycler_view_detailtransaksijasa.setAdapter(jasaCartAdapter);
 
-            Toast.makeText(TambahTransaksiSparepart.this, "Transaksi SS!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TambahTransaksiSparepart.this, "Transaksi SS!", Toast.LENGTH_SHORT).show();
+            }
+            hitungtotal();
         }
-        hitungtotal();
     }
 
 

@@ -54,9 +54,8 @@ public class DetailPengadaan {
 //        this.subtotalPengadaan = subtotalPengadaan;
 //    }
 
-    public DetailPengadaan(Integer idDetailPengadaan,String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan,String namaSparepart) {
+    public DetailPengadaan(String kodeSparepart, Double hargaSatuan, Integer jumlah, Double subtotalPengadaan,String namaSparepart) {
         super();
-        this.idDetailPengadaan=idDetailPengadaan;
         this.namaSparepart=namaSparepart;
         this.kodeSparepart = kodeSparepart;
         this.hargaSatuan = hargaSatuan;

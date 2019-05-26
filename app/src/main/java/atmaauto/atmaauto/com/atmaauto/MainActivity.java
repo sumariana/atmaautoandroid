@@ -41,12 +41,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener,DialogStatus.DialogStatusListener{
+public class MainActivity extends AppCompatActivity implements DialogStatus.DialogStatusListener{
 
     //baru pindah ke document
 
     private List<Sparepart> mListSparepart = new ArrayList<>();
-    private Sparepart sparepart;
     private SparepartAdapter sparepartAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -55,7 +54,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     SessionManager session;
     private long backPressedTime;
 
-    private Spinner sorting;
+    private Spinner filter,sort;
+    private String textfilter,textsort;
+    Button okfilter;
+    Integer x,y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        okfilter=(Button) findViewById(R.id.okfilter);
 
         session = new SessionManager(getApplicationContext());
         if(session.isLoggedIn())
@@ -93,11 +96,124 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(intent);
             }
         }
-        sorting = (Spinner) findViewById(R.id.sorting);
-        ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.Sorting,android.R.layout.simple_spinner_item);
+
+        //spinner pertama
+        filter = (Spinner) findViewById(R.id.filter);
+        ArrayAdapter<CharSequence> adapter1= ArrayAdapter.createFromResource(this,R.array.filter,android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sorting.setAdapter(adapter1);
-        sorting.setOnItemSelectedListener(this);
+        filter.setAdapter(adapter1);
+        //spinner kedua
+        sort=(Spinner) findViewById(R.id.sort);
+
+        final ArrayAdapter<CharSequence> adapter2= ArrayAdapter.createFromResource(this,R.array.sort,android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final ArrayAdapter<CharSequence> adapter3= ArrayAdapter.createFromResource(this,R.array.doublesort,android.R.layout.simple_spinner_item);
+        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        filter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textfilter = parent.getItemAtPosition(position).toString();
+                if(textfilter.equalsIgnoreCase("Reset"))
+                {
+                    sort.setAdapter(null);
+                    x=0;
+                    showList();
+                }else if(textfilter.equalsIgnoreCase("Harga")){
+                    sort.setAdapter(adapter2);
+                    x=1;
+                }else if(textfilter.equalsIgnoreCase("Jumlah")){
+                    sort.setAdapter(adapter2);
+                    x=2;
+                } else{
+                    sort.setAdapter(adapter3);
+                    x=3;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                textsort = parent.getItemAtPosition(position).toString();
+                 if(textsort.equalsIgnoreCase("Ascending")){
+                    y=1;
+                }else if(textsort.equalsIgnoreCase("Descending")){
+                    y=2;
+                }else if(textsort.equalsIgnoreCase("Ascending-Descending")){
+                    y=3;
+                }else if(textsort.equalsIgnoreCase("Descending-Ascending")){
+                    y=4;
+                }else if(textsort.equalsIgnoreCase("Ascending-Ascending")){
+                    y=5;
+                }
+                else if(textsort.equalsIgnoreCase("Descending-Descending")){
+                    y=6;
+                }else
+                    y=0;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        okfilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(x==1 && y==1)
+                {
+                    //hargatermurah
+                    Toast.makeText(MainActivity.this, "harga termurah ", Toast.LENGTH_SHORT).show();
+                    showListtermurah();
+                }else if(x==1 && y==2)
+                {
+                    //hargatermahal
+                    Toast.makeText(MainActivity.this, "harga termahal ", Toast.LENGTH_SHORT).show();
+                    showListtermahal();
+                }else if(x==2 && y==1)
+                {
+                    //jumlahtersedikit
+                    Toast.makeText(MainActivity.this, "jumlah tersedikit ", Toast.LENGTH_SHORT).show();
+                    showListtersedikit();
+                }else if(x==2 && y==2)
+                {
+                    //jumlahterbanyak
+                    Toast.makeText(MainActivity.this, "jumlah terbanyak ", Toast.LENGTH_SHORT).show();
+                    showListterbanyak();
+                }else if(x==3 && y==3)
+                {
+                    //hargamurahjumlahterbanyak
+                    Toast.makeText(MainActivity.this, "harga termurah - Jumlah terbanyak ", Toast.LENGTH_SHORT).show();
+                    showListtermurahterbanyak();
+                }else if(x==3 && y==4)
+                {
+                    //hargatermahaljumlahtersedikit
+                    Toast.makeText(MainActivity.this, "harga termahal - Jumlah tersedikit ", Toast.LENGTH_SHORT).show();
+                    showListtermahaltersedikit();
+                }else if(x==3 && y==5)
+                {
+                    //hargatermurahjumlahtersedikit
+                    Toast.makeText(MainActivity.this, "harga termurah - Jumlah tersedikit ", Toast.LENGTH_SHORT).show();
+                    showListtermurahtersedikit();
+
+                }else if(x==3 && y==6){
+                    //hargatermahaljumlahterbanyak
+                    Toast.makeText(MainActivity.this, "harga termahal - Jumlah terbanyak ", Toast.LENGTH_SHORT).show();
+                    showListtermahalterbanyak();
+                }else if(x==0 && y==0)
+                    showList();
+            }
+        });
+
     }
 
     @Override
@@ -114,45 +230,45 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dialogStatus.show(getSupportFragmentManager(),"DialogStatus");
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        //Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
-
-        if(text.equalsIgnoreCase("Harga Termurah"))
-        {
-            showListtermurah();
-        }else if(text.equalsIgnoreCase("Harga Termahal")){
-
-            showListtermahal();
-        }else if(text.equalsIgnoreCase("Jumlah Terbanyak")){
-
-            showListterbanyak();
-        }else if(text.equalsIgnoreCase("Jumlah Paling Sedikit")){
-
-            showListtersedikit();
-        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Terbanyak")){
-
-            showListtermurahterbanyak();
-        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Paling Sedikit")){
-
-            showListtermurahtersedikit();
-        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Terbanyak")){
-
-            showListtermahalterbanyak();
-        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Paling Sedikit")){
-
-            showListtermahaltersedikit();
-        }else {
-
-            showList();
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//        String text = parent.getItemAtPosition(position).toString();
+//        //Toast.makeText(MainActivity.this, "Clicked! "+text, Toast.LENGTH_SHORT).show();
+//
+//        if(text.equalsIgnoreCase("Harga Termurah"))
+//        {
+//            showListtermurah();
+//        }else if(text.equalsIgnoreCase("Harga Termahal")){
+//
+//            showListtermahal();
+//        }else if(text.equalsIgnoreCase("Jumlah Terbanyak")){
+//
+//            showListterbanyak();
+//        }else if(text.equalsIgnoreCase("Jumlah Paling Sedikit")){
+//
+//            showListtersedikit();
+//        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Terbanyak")){
+//
+//            showListtermurahterbanyak();
+//        }else if(text.equalsIgnoreCase("Harga Termurah dan Jumlah Paling Sedikit")){
+//
+//            showListtermurahtersedikit();
+//        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Terbanyak")){
+//
+//            showListtermahalterbanyak();
+//        }else if(text.equalsIgnoreCase("Harga Termahal dan Jumlah Paling Sedikit")){
+//
+//            showListtermahaltersedikit();
+//        }else {
+//
+//            showList();
+//        }
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
     private void ClickLogin(){
         login.setOnClickListener(new View.OnClickListener() {
             @Override

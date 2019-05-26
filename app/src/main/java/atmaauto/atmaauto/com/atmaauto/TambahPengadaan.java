@@ -180,7 +180,7 @@ public class TambahPengadaan extends AppCompatActivity {
         {
             Toast.makeText(TambahPengadaan.this, "Masukan Jumlah!", Toast.LENGTH_SHORT).show();
         }else{
-            details.add(new DetailPengadaan(0,selectedIdSparepart,
+            details.add(new DetailPengadaan(selectedIdSparepart,
                     Double.parseDouble(selectedHargaSparepart),
                     Integer.parseInt(jumlahsparepart.getText().toString()),
                     Double.parseDouble(selectedHargaSparepart)*Double.parseDouble(jumlahsparepart.getText().toString()),selectednamasparepart));
@@ -225,71 +225,74 @@ public class TambahPengadaan extends AppCompatActivity {
     };
 
     public void postpengadaan(){
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Retrofit.Builder builder=new Retrofit.
-                Builder().baseUrl(ApiSparepart.JSONURL).
-                addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit=builder.build();
-        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+        if (!details.isEmpty()) {
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+            Retrofit.Builder builder=new Retrofit.
+                    Builder().baseUrl(ApiSparepart.JSONURL).
+                    addConverterFactory(GsonConverterFactory.create(gson));
+            Retrofit retrofit=builder.build();
+            ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.addpengadaan(Integer.parseInt(selectedIdSales),mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()),0);
-        Log.d( "tanggal: ",mDisplayDate.getText().toString());
-        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    JSONObject jsonRes = new JSONObject(response.body().string());
-                    String idPengadaan =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
+            Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.addpengadaan(Integer.parseInt(selectedIdSales),mDisplayDate.getText().toString(),Double.parseDouble(vtotalharga.getText().toString()),0);
+            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    try {
+                        JSONObject jsonRes = new JSONObject(response.body().string());
+                        String idPengadaan =  jsonRes.getJSONObject("data").getString("Id_Pengadaan");
 
-                    for(int x=0;x<details.size();x++)
-                    {
-                        Gson gson = new GsonBuilder()
-                                .setLenient()
-                                .create();
-                        Retrofit.Builder builder=new Retrofit.
-                                Builder().baseUrl(ApiSparepart.JSONURL).
-                                addConverterFactory(GsonConverterFactory.create(gson));
-                        Retrofit retrofit=builder.build();
-                        ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
+                        for(int x=0;x<details.size();x++)
+                        {
+                            Gson gson = new GsonBuilder()
+                                    .setLenient()
+                                    .create();
+                            Retrofit.Builder builder=new Retrofit.
+                                    Builder().baseUrl(ApiSparepart.JSONURL).
+                                    addConverterFactory(GsonConverterFactory.create(gson));
+                            Retrofit retrofit=builder.build();
+                            ApiTransaksiPengadaan apiTransaksiPengadaan=retrofit.create(ApiTransaksiPengadaan.class);
 
-                        Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.adddetailpengadaan(Integer.parseInt(idPengadaan),details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
-                        responseBodyCall.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                try {
-                                    JSONObject jsonRes = new JSONObject(response.body().string());
-                                    String iddetailprocurement =  jsonRes.getJSONObject("data").getString("Id_Detail_Pengadaan");
-                                    Log.d("Id_Detail_Pengadaan : ", iddetailprocurement);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                            Call<ResponseBody> responseBodyCall = apiTransaksiPengadaan.adddetailpengadaan(Integer.parseInt(idPengadaan),details.get(x).getKodeSparepart(),details.get(x).getHargaSatuan(),details.get(x).getJumlah(),details.get(x).getSubtotalPengadaan());
+                            responseBodyCall.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+    //                                try {
+    ////                                    JSONObject jsonRes = new JSONObject(response.body().string());
+    ////                                    String iddetailprocurement =  jsonRes.getJSONObject("data").getString("Id_Detail_Pengadaan");
+    ////                                    Log.d("Id_Detail_Pengadaan : ", iddetailprocurement);
+    //                                } catch (JSONException e) {
+    //                                    e.printStackTrace();
+    //                                } catch (IOException e) {
+    //                                    e.printStackTrace();
+    //                                }
                                 }
-                            }
 
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        Intent intent= new Intent(TambahPengadaan.this,MenuPengadaan.class);
+                        startActivity(intent);
+                        finish();
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    final Intent intent= new Intent(TambahPengadaan.this,MenuPengadaan.class);
-                    startActivity(intent);
-                    finish();
-                }catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(TambahPengadaan.this, "can't connect !", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(TambahPengadaan.this, "Masukan Detail Sparepart !", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void setDropdownsales(){

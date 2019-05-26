@@ -53,6 +53,9 @@ public interface ApiTransaksiPengadaan {
     @DELETE("api/detail_pengadaans/delete/{id}")
     Call<ResponseBody>deletedetailpengadaan(@Path("id") Integer id);
 
+    @DELETE("api/transaksi_pengadaans/deletealldetails/{id}")
+    Call<ResponseBody>deletealldetail(@Path("id") Integer id);
+
     @DELETE("api/transaksi_pengadaans/delete/{id}")
     Call<ResponseBody>deletetransaksipengadaan(@Path("id") Integer id);
 
