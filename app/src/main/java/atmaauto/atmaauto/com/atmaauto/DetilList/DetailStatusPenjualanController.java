@@ -139,7 +139,7 @@ public class DetailStatusPenjualanController extends AppCompatActivity {
             Retrofit retrofit=builder.build();
             ApiTransaksiPenjualan apiTransaksiPenjualan=retrofit.create(ApiTransaksiPenjualan.class);
 
-            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.pembayarantransaksi(getIntent().getIntExtra("idtransaksi",0));
+            Call<ResponseBody> responseBodyCall = apiTransaksiPenjualan.pembayarantransaksi(getIntent().getIntExtra("idtransaksi",0),Integer.parseInt(session.getKeyId()));
             responseBodyCall.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements DialogStatus.Dial
     private Spinner filter,sort;
     private String textfilter,textsort;
     Button okfilter;
-    Integer x,y;
+    Integer x=0,y=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

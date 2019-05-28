@@ -83,7 +83,8 @@ public interface ApiTransaksiPenjualan {
                                                @Field("Diskon") Integer Diskon);
 
     @PATCH("api/transaksi_penjualans/pembayaran/{id}")
-    Call<ResponseBody> pembayarantransaksi(@Path("id") Integer id);
+    Call<ResponseBody> pembayarantransaksi(@Path("id") Integer id,
+                                           @Field("Id_Pegawai") Integer Id_Pegawai);
 
     @POST("api/transaksi_penjualans/storeSparepart")
     @FormUrlEncoded
